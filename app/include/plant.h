@@ -3,21 +3,21 @@
 
 #include <string>
 #include <chrono>
+#include <memory>
+#include <QDebug>
 #include "plant_profile.h"
 
 class Plant {
     std::chrono::system_clock::time_point sowing_date;
-    PlantProfile* profile;
+    std::shared_ptr<PlantProfile> profile;
 public:
-    Plant(const std::chrono::system_clock::time_point& sowing_date, PlantProfile* profile) :
+    Plant(const std::chrono::system_clock::time_point& sowing_date, std::shared_ptr<PlantProfile> profile) :
         sowing_date(sowing_date), profile(profile) {}
 
-    ~Plant() {
-        delete profile;
-    }
     bool savePlantToFile(const std::string&);
-    PlantProfile getPlantProfile();
-    void addPlantProfile();
+    std::shared_ptr<PlantProfile> getPlantProfile();
+   // void addPlantProfile(std::shared_ptr<PlantProfile>);
+    friend QDebug operator<<(QDebug qdebug, const Plant &pl);
 };
 
 #endif // PLANT_H

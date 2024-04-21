@@ -1,7 +1,27 @@
-#include "mainwindow.h"
+#include "greenhouse.h"
+#include <iostream>
+#include <QApplication>
+#include <QSettings>
+#include <QCommandLineParser>
+#include <QtDebug>
+#include <QDir>
+
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+    GreenhouseCreate ghc;
+    std::shared_ptr<Greenhouse> greenhouse = ghc.createGreenhouseFromCode();
+    qDebug() << *greenhouse;
+    return 0;
+}
+
+
+/*
+
 #include "circlemotionprovider.h"
 #include "clock.h"
 #include "rocket.h"
+#include "mainwindow.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -64,3 +84,5 @@ int main(int argc, char *argv[])
     // Go!
     return app.exec();
 }
+
+*/

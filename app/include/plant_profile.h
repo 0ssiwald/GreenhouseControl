@@ -3,38 +3,35 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
-class FertelizerComponents {
-    float amount;
-    std::string type;
-};
 
 class Fertilizer {
     std::string name;
     std::string type;
-    std::vector<FertelizerComponents*> components;
 public:
     Fertilizer(const std::string& name, const std::string& type)
         : name(name), type(type) {}
 };
 
+struct FertilizerWithAmount {
+    std::shared_ptr<Fertilizer> fertilizer;
+    int amount;
 
-class ConditionsWeekly {
+    FertilizerWithAmount(std::shared_ptr<Fertilizer> fertilizer, int amount)
+        : fertilizer(fertilizer), amount(amount) {}
+};
+
+class Condition {
     int number_of_week;
     float humidity;
     float temperature;
     int lamp_distance;
-    std::vector<Fertilizer*> fertilizers;
+    std::vector<FertilizerWithAmount> fertilizers;
 public:
-
-    ConditionsWeekly(int number_of_week, float humidity, float temperature, int lamp_distance) :
-        number_of_week(number_of_week), humidity(humidity), temperature(temperature), lamp_distance(lamp_distance) {}
-
-    ~ConditionsWeekly() {
-        for (auto fertilizer : fertilizers) {
-            delete fertilizer;
-        }
-    }
+    Condition(int number_of_week, float humidity, float temperature, int lamp_distance)
+        : number_of_week(number_of_week), humidity(humidity), temperature(temperature), lamp_distance(lamp_distance) {}
+    void addFertilizer(std::shared_ptr<Fertilizer>, int);
 };
 
 class WateringProfile {
@@ -55,9 +52,8 @@ class PlantProfile: public WateringProfile {
     float expected_thc_content;
     float expected_cbd_content;
     std::string soil_type;
-
+    std::vector<std::shared_ptr<Condition>> conditions_weekly;
 public:
-    std::vector<ConditionsWeekly*> conditions_weekly;
     //call by reference can improve the overall performance and memory usage e.g. const std::string&
     PlantProfile(const std::string& strain_name, int length_vegitation_period, int length_flowering_period,
                  float expected_thc_content, float expected_cbd_content, const std::string& soil_type,
@@ -67,14 +63,9 @@ public:
         length_flowering_period(length_flowering_period), expected_thc_content(expected_thc_content),
         expected_cbd_content(expected_cbd_content), soil_type(soil_type) {}
 
-    ~PlantProfile() {
-        for (auto condition : conditions_weekly) {
-            delete condition;
-        }
-    }
-
     bool savePlantProfileToFile(const std::string& file_name);
     std::string displayPlantProfile();
+    void addWeeklyCondition(std::shared_ptr<Condition>);
 };
 
 #endif // PLANT_PROFILE_H

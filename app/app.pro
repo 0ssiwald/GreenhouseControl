@@ -43,6 +43,7 @@ SOURCES += \
 HEADERS += \
     include/circlemotionprovider.h \
     include/clock.h \
+    include/date_time.h \
     include/greenhouse.h \
     include/log.h \
     include/mainwindow.h \
