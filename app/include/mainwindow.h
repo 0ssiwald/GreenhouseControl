@@ -18,17 +18,18 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    QLabel *rocketLabel; // This one loads the image  via Qt
-    QPixmap *rocketImg; // Storing same image again, as base for rotation
+   // QLabel *rocketLabel; // This one loads the image  via Qt
+   // QPixmap *rocketImg; // Storing same image again, as base for rotation
 
-public slots:
-    void moveRocket(float x, float y, float angleRad);
+//public slots:
+ //   void moveRocket(float x, float y, float angleRad);
 
-signals:
-    void start();
-    void stop();
+//signals:
+//    void start();
+//    void stop();
 
-private slots:
-    void on_startStopButton_clicked();
+//private slots:
+ //   void on_startStopButton_clicked();
+ //   void on_centralwidget_customContextMenuRequested(const QPoint &pos);
 };
 

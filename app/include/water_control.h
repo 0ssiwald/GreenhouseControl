@@ -2,6 +2,7 @@
 #define WATER_CONTROL_H
 
 #include <vector>
+#include <memory>
 #include "sensor.h"
 #include "log.h"
 #include "greenhouse.h"
@@ -14,7 +15,7 @@ public:
 
 class WaterControl {
     int time_between_moisture_control_in_s;
-    std::vector<WaterValve*> water_valves;
+    std::vector<std::shared_ptr<WaterValve>> water_valves;
     FlowSensor *flow_sensor;
     SensorControl *sensors;
     SystemLog log;

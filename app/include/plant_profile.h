@@ -41,8 +41,8 @@ protected:
 public:
     WateringProfile(int threshold = 30, int duration = 30)
         : watering_threshold(threshold), watering_duration_in_s(duration) {}
-    int getWateringThreshold();
-    int getWateringDuration();
+    int getWateringThreshold() const;
+    int getWateringDuration() const;
 };
 
 class PlantProfile: public WateringProfile {
@@ -64,7 +64,7 @@ public:
         expected_cbd_content(expected_cbd_content), soil_type(soil_type) {}
 
     bool savePlantProfileToFile(const std::string& file_name);
-    std::string displayPlantProfile();
+    std::string displayPlantProfile() const;
     void addWeeklyCondition(std::shared_ptr<Condition>);
 };
 

@@ -1,5 +1,5 @@
 #include "greenhouse.h"
-#include <iostream>
+#include "mainwindow.h"
 #include <QApplication>
 #include <QSettings>
 #include <QCommandLineParser>
@@ -12,7 +12,12 @@ int main(int argc, char *argv[])
     GreenhouseCreate ghc;
     std::shared_ptr<Greenhouse> greenhouse = ghc.createGreenhouseFromCode();
     qDebug() << *greenhouse;
-    return 0;
+
+    // Init GUI
+    MainWindow window;
+    window.show();
+
+    return app.exec();
 }
 
 
