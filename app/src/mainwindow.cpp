@@ -1,10 +1,22 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
+
+MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse(gh)
 {
     ui->setupUi(this);
+
+    // Populate the QGridLayout with PlantGroupWidget instances
+    for (int row = 0; row < greenhouse->number_of_group_rows; ++row) {
+        for (int col = 0; col < greenhouse->number_of_group_columns; ++col) {
+            QLabel* groupLabel = new QLabel(this);
+            groupLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
+            groupLabel->setAlignment(Qt::AlignCenter);
+            groupLabel->setText(QString("Group (%1, %2)").arg(row).arg(col));
+            ui->gridLayout->addWidget(groupLabel, row, col);
+        }
+    }
 }
 
 MainWindow::~MainWindow()
@@ -66,4 +78,6 @@ void MainWindow::on_startStopButton_clicked()
 }
 
 */
+
+
 

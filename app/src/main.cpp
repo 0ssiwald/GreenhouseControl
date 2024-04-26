@@ -1,5 +1,8 @@
 #include "greenhouse.h"
 #include "mainwindow.h"
+#include "sensor.h"
+#include "mock_sensor.h"
+
 #include <QApplication>
 #include <QSettings>
 #include <QCommandLineParser>
@@ -13,8 +16,16 @@ int main(int argc, char *argv[])
     std::shared_ptr<Greenhouse> greenhouse = ghc.createGreenhouseFromCode();
     qDebug() << *greenhouse;
 
+    // Create a mock environment
+    MockEnvironment mockEnv(25.0, 60.0, 40.0);
+    SensorControl sensorControl;
+    // Add mock sensors to the SensorControl
+    sensorControl.addMockSensors(mockEnv);
+    qDebug() << "Temperature: " << sensorControl.measureTemperature() << "°C";
+    qDebug() << "Humidity: " << sensorControl.measureHumidity() << "%";
+
     // Init GUI
-    MainWindow window;
+    MainWindow window(greenhouse);
     window.show();
 
     return app.exec();

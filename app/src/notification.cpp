@@ -4,10 +4,10 @@ void NotificationControl::addNotification(NotificationTypes type, std::chrono::s
     std::shared_ptr<NotificationHandler> handler;
 
     switch (type) {
-    case LampDistanceNotification:
+    case NotificationTypes::LampDistanceNotification:
         handler = std::shared_ptr<LampDistanceNotificationHandler>();
         break;
-    case LampIntensityNotification:
+    case NotificationTypes::LampIntensityNotification:
         handler = std::shared_ptr<LampIntensityNotificationHandler>();
         break;
     default:

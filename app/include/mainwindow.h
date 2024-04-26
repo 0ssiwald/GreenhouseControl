@@ -2,6 +2,8 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <memory>
+#include "greenhouse.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -12,11 +14,16 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(std::shared_ptr<Greenhouse> gh, QWidget *parent = nullptr);
     ~MainWindow();
+
+private slots:
+    void on_startStopButton_3_clicked();
 
 private:
     Ui::MainWindow *ui;
+    // ????
+    std::shared_ptr<Greenhouse> greenhouse;
 
    // QLabel *rocketLabel; // This one loads the image  via Qt
    // QPixmap *rocketImg; // Storing same image again, as base for rotation

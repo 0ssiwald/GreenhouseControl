@@ -7,7 +7,7 @@
 #include "log.h"
 #include "greenhouse.h"
 
-enum NotificationTypes {
+enum class NotificationTypes {
     LampDistanceNotification,
     LampIntensityNotification,
     FertilizerNotification,

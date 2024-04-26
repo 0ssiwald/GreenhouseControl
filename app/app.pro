@@ -47,6 +47,7 @@ HEADERS += \
     include/greenhouse.h \
     include/log.h \
     include/mainwindow.h \
+    include/mock_sensor.h \
     include/note.h \
     include/notification.h \
     include/plant.h \
