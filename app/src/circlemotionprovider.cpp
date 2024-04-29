@@ -93,3 +93,6 @@ void CircleMotionProvider::update(int deltaTMSec)
 }
 
 } // end namespace logic
+
+
+

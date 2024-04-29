@@ -5,18 +5,14 @@
 #include <chrono>
 
 class SystemLog {
-    std::string log_file_name;
+    std::string log_file_name_;
 public:
     SystemLog(const std::string& log_file_name = "log.csv")
-        : log_file_name(log_file_name) {}
+        : log_file_name_(log_file_name) {}
     void displayLog();
     bool loadLogFromFile();
     void saveMessageToLog(const std::string& text, std::chrono::system_clock::time_point timeStamp);
 
 };
-
-
-
-
 
 #endif // LOG_H

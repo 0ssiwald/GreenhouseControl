@@ -4,12 +4,15 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <QObject>
+#include "mainwindow.h"
 
 #include "log.h"
 
 class MockEnvironment;
 
 class Sensor {
+    float sensor_value;
 public:
     // virtual destuctor to enshure that derived classes get destroyed
     virtual ~Sensor() = default;
@@ -58,21 +61,25 @@ class FlowSensor: public Sensor {
 };
 
 
-class SensorControl {
-    int measurements_per_minute_;
+class SensorControl: public QObject {
+    Q_OBJECT
+    int seconds_per_measurement_;
+    MainWindow &window_;
     std::vector<std::shared_ptr<Sensor>> soil_sensors_;
     std::shared_ptr<Sensor> temperature_sensor_;
     std::shared_ptr<Sensor> humidity_sensor_;
     std::shared_ptr<SystemLog> system_log_;
 public:
-    SensorControl(int measurements_per_minute = 1)
-        : measurements_per_minute_(measurements_per_minute) {}
-    float measureTemperature();
-    float measureHumidity();
-    float measureSoilMoistures();
-    void setLog();
+    explicit SensorControl(MainWindow &w,int seconds_per_measurement = 1)
+        : QObject(nullptr), seconds_per_measurement_(seconds_per_measurement), window_(w) {}
+    //void setLog();
     void addSoilSensor(std::shared_ptr<Sensor>);
     void addMockSensors(MockEnvironment&);
+    int getSecondsperMeasurement() const {return seconds_per_measurement_;};
+public slots:
+    void measureTemperature();
+    void measureHumidity();
+    //void measureSoilMoistures();
 };
 
 

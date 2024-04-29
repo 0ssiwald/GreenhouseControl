@@ -1,5 +1,6 @@
 #include "sensor.h"
 #include "mock_sensor.h"
+#include <QtDebug>
 
 void SensorControl::addSoilSensor(std::shared_ptr<Sensor> sensor) {
     soil_sensors_.push_back(sensor);
@@ -12,9 +13,28 @@ void SensorControl::addMockSensors(MockEnvironment& mockEnv) {
     humidity_sensor_ = std::make_shared<MockHumiditySensor>(mockEnv);
 }
 
-float SensorControl::measureTemperature() {
-    return temperature_sensor_->getMeasurement();
+void SensorControl::measureTemperature() {
+    float temperature = temperature_sensor_->getMeasurement();
+    // Bestimmt nicht gut so dass measure temperature mit dem Ui so zusammen ist
+    window_.getUi()->temperatureLabel->setText(QString("Temperatur: %1 °C").arg(QString::number(temperature, 'f', 1))); // 'f', 1 -> eine Nachkommastelle
+    //qDebug() << "Temperature: " << temperature << "°C";
 }
-float SensorControl::measureHumidity() {
-    return humidity_sensor_->getMeasurement();
+
+void SensorControl::measureHumidity() {
+    float humidity = humidity_sensor_->getMeasurement();
+    // Bestimmt nicht gut so dass measure temperature mit dem Ui so zusammen ist
+    window_.getUi()->humidityLabel->setText(QString("Luftfeuchtigkeit: %1%").arg(QString::number(humidity, 'f', 1))); // 'f', 1 -> eine Nachkommastelle
+    //qDebug() << "Humidity: " << humidity_sensor_->getMeasurement() << "%";
 }
+
+/*
+float SensorControl::measureSoilMoistures() {
+    // Implementation goes here
+    return 0.5;
+}
+
+void SensorControl::setLog() {
+    // Implementation goes here
+}
+
+*/

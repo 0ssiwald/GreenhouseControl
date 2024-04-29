@@ -12,9 +12,9 @@ class Clock : public QObject
     Q_OBJECT
 
 public:
-    explicit Clock(int framerate = 50);
-    int getFramerate() const;
-    void setFramerate(int);
+    explicit Clock(int secounds_per_tick = 5);
+    int getSecondsPerTick() const;
+    void setSecondsPerTick(int);
 
 signals:
     void update(int delta_t_msec);
