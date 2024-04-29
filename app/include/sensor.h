@@ -5,7 +5,6 @@
 #include <string>
 #include <memory>
 #include <QObject>
-
 #include "log.h"
 
 class MockEnvironment;
@@ -77,9 +76,11 @@ public slots:
     void measureTemperature();
     void measureHumidity();
     //void measureSoilMoistures();
+
 signals:
     void temperatureMeasured(float temperature);
     void humidityMeasured(float humidity);
+
 };
 
 

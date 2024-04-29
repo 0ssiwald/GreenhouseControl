@@ -16,6 +16,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(std::shared_ptr<Greenhouse> gh, QWidget *parent = nullptr);
     ~MainWindow();
+    Ui::MainWindow* getUi() const { return ui; }
 
     void updateTemperatureLabel(float);
     void updateHumidityLabel(float);

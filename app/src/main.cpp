@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     // Create a mock environment
     MockEnvironment mockEnv(25.0, 60.0, 40.0);
     int seconds_per_measurement = 2;
+
     SensorControl sensorControl(seconds_per_measurement);
     // Add mock sensors to the SensorControl
     sensorControl.addMockSensors(mockEnv);
