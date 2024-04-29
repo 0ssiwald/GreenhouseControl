@@ -2,12 +2,14 @@
 #include "mainwindow.h"
 #include "sensor.h"
 #include "mock_sensor.h"
+#include "clock.h"
 
 #include <QApplication>
 #include <QSettings>
 #include <QCommandLineParser>
 #include <QtDebug>
 #include <QDir>
+#include <QObject>
 
 int main(int argc, char *argv[])
 {
@@ -16,17 +18,27 @@ int main(int argc, char *argv[])
     std::shared_ptr<Greenhouse> greenhouse = ghc.createGreenhouseFromCode();
     qDebug() << *greenhouse;
 
-    // Create a mock environment
-    MockEnvironment mockEnv(25.0, 60.0, 40.0);
-    SensorControl sensorControl;
-    // Add mock sensors to the SensorControl
-    sensorControl.addMockSensors(mockEnv);
-    qDebug() << "Temperature: " << sensorControl.measureTemperature() << "°C";
-    qDebug() << "Humidity: " << sensorControl.measureHumidity() << "%";
-
     // Init GUI
     MainWindow window(greenhouse);
     window.show();
+
+    // Create a mock environment
+    MockEnvironment mockEnv(25.0, 60.0, 40.0);
+    int seconds_per_measurement = 2;
+    SensorControl sensorControl(seconds_per_measurement);
+    // Add mock sensors to the SensorControl
+    sensorControl.addMockSensors(mockEnv);
+
+    // Init Physics
+    physics::Clock clock(sensorControl.getSecondsperMeasurement());
+    QObject::connect(&clock, &physics::Clock::update, &sensorControl, &SensorControl::measureTemperature);
+    // Connect the signal from the SensorControl class to the updateTemperatureLabel slot in the MainWindow class
+    QObject::connect(&sensorControl, &SensorControl::temperatureMeasured, &window, &MainWindow::updateTemperatureLabel);
+    // Same for humidity
+    QObject::connect(&clock, &physics::Clock::update, &sensorControl, &SensorControl::measureHumidity);
+    QObject::connect(&sensorControl, &SensorControl::humidityMeasured, &window, &MainWindow::updateHumidityLabel);
+
+    clock.start();
 
     return app.exec();
 }

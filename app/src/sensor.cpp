@@ -1,5 +1,6 @@
 #include "sensor.h"
 #include "mock_sensor.h"
+#include <QtDebug>
 
 void SensorControl::addSoilSensor(std::shared_ptr<Sensor> sensor) {
     soil_sensors_.push_back(sensor);
@@ -12,9 +13,26 @@ void SensorControl::addMockSensors(MockEnvironment& mockEnv) {
     humidity_sensor_ = std::make_shared<MockHumiditySensor>(mockEnv);
 }
 
-float SensorControl::measureTemperature() {
-    return temperature_sensor_->getMeasurement();
+void SensorControl::measureTemperature() {
+    float temperature = temperature_sensor_->getMeasurement();
+    emit temperatureMeasured(temperature);
+    //qDebug() << "Temperature: " << temperature << "°C";
 }
-float SensorControl::measureHumidity() {
-    return humidity_sensor_->getMeasurement();
+
+void SensorControl::measureHumidity() {
+    float humidity = humidity_sensor_->getMeasurement();
+    emit humidityMeasured(humidity);
+    //qDebug() << "Humidity: " << humidity_sensor_->getMeasurement() << "%";
 }
+
+/*
+float SensorControl::measureSoilMoistures() {
+    // Implementation goes here
+    return 0.5;
+}
+
+void SensorControl::setLog() {
+    // Implementation goes here
+}
+
+*/

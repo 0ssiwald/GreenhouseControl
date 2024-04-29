@@ -24,7 +24,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::updateTemperatureLabel(float temperature) {
+    ui->temperatureLabel->setText(QString("Temperatur: %1 °C").arg(QString::number(temperature, 'f', 1)));
+}
 
+void MainWindow::updateHumidityLabel(float humidity) {
+    ui->humidityLabel->setText(QString("Luftfeuchtigkeit: %1%").arg(QString::number(humidity, 'f', 1))); // 'f', 1 -> eine Nachkommastelle
+}
 
 /*
 
@@ -78,6 +84,5 @@ void MainWindow::on_startStopButton_clicked()
 }
 
 */
-
 
 

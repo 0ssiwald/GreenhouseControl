@@ -4,33 +4,33 @@
 
 namespace physics {
 
-Clock::Clock(int framerate) : QObject(nullptr)
+Clock::Clock(int seconds_per_tick) : QObject(nullptr)
 {
-    setFramerate(framerate);
+    setSecondsPerTick(seconds_per_tick);
     QObject::connect(&timer, &QTimer::timeout, this, &Clock::tick);
 }
 
-int Clock::getFramerate() const
+int Clock::getSecondsPerTick() const
 {
-    return 1000 / timer.interval();
+    return timer.interval() / 1000;
 }
 
-void Clock::setFramerate(int perSecondsGoal)
+void Clock::setSecondsPerTick(int seconds_per_tick)
 {
-    timer.setInterval(1000 / perSecondsGoal);
+    timer.setInterval(1000 * seconds_per_tick);
 }
 
 void Clock::start()
 {
     timer.start();
     lastStartTime = QTime::currentTime();
-    qDebug() << "Starting simulation clock with" << getFramerate() << "fps";
+    qDebug() << "Starting clock with" << getSecondsPerTick() << "seconds per tick";
 }
 
 void Clock::stop()
 {
     timer.stop();
-    qDebug() << "Stopping simulation clock";
+    qDebug() << "Stopping  clock";
 }
 
 void Clock::tick()

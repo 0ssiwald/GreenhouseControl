@@ -23,6 +23,7 @@ class MockEnvironment {
 public:
     MockEnvironment(float tmp,float humid, float soil)
         : temperature_(tmp), humidity_(humid), soil_moisture_(soil) {}
+
     float generateNewTemperature() {
         temperature_ += getRandomChange();
         return temperature_;
