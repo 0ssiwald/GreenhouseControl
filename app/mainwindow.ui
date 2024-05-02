@@ -145,7 +145,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="startStopButton_3">
+      <widget class="QPushButton" name="systemLogButton">
        <property name="text">
         <string>Systemlog</string>
        </property>

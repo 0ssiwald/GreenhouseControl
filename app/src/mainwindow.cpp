@@ -1,9 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
-MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse(gh)
+MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog> log, QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse(gh), system_log_(log)
 {
     ui->setupUi(this);
 
@@ -31,6 +30,14 @@ void MainWindow::updateTemperatureLabel(float temperature) {
 void MainWindow::updateHumidityLabel(float humidity) {
     ui->humidityLabel->setText(QString("Luftfeuchtigkeit: %1%").arg(QString::number(humidity, 'f', 1))); // 'f', 1 -> eine Nachkommastelle
 }
+
+void MainWindow::on_systemLogButton_clicked()
+{
+    // Create and show a new LogWindow (nullptr -> no parent to open as a new window)
+    LogWindow* logWindow = new LogWindow(system_log_, nullptr);
+    logWindow->show();
+}
+
 
 /*
 
@@ -84,5 +91,10 @@ void MainWindow::on_startStopButton_clicked()
 }
 
 */
+
+
+
+
+
 
 

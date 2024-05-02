@@ -1,6 +1,9 @@
 #include "sensor.h"
 #include "mock_sensor.h"
 #include <QtDebug>
+#include <chrono>
+#include <sstream>
+#include <iomanip>  // Needed for std::fixed and std::setprecision
 
 void SensorControl::addSoilSensor(std::shared_ptr<Sensor> sensor) {
     soil_sensors_.push_back(sensor);
@@ -15,12 +18,23 @@ void SensorControl::addMockSensors(MockEnvironment& mockEnv) {
 
 void SensorControl::measureTemperature() {
     float temperature = temperature_sensor_->getMeasurement();
+    // Create a String for the SystemLog
+    std::ostringstream logMessageStream;
+    logMessageStream << "Temperature: " << std::fixed << std::setprecision(1) << temperature << " °C";
+    std::string logMessage = logMessageStream.str();
+    system_log_->saveMessageToLog(logMessage, std::chrono::system_clock::now());
+    //Emit a signal for the UI
     emit temperatureMeasured(temperature);
-    //qDebug() << "Temperature: " << temperature << "°C";
 }
 
 void SensorControl::measureHumidity() {
     float humidity = humidity_sensor_->getMeasurement();
+    // Create a String for the SystemLog
+    std::ostringstream logMessageStream;
+    logMessageStream << "Luftfeuchtigkeit: " << std::fixed << std::setprecision(1) << humidity << "%";
+    std::string logMessage = logMessageStream.str();
+    system_log_->saveMessageToLog(logMessage, std::chrono::system_clock::now());
+
     emit humidityMeasured(humidity);
     //qDebug() << "Humidity: " << humidity_sensor_->getMeasurement() << "%";
 }

@@ -71,6 +71,7 @@ public:
     //void setLog();
     void addSoilSensor(std::shared_ptr<Sensor>);
     void addMockSensors(MockEnvironment&);
+    void addSystemLog(std::shared_ptr<SystemLog> system_log) {system_log_ = system_log;};
     int getSecondsperMeasurement() const {return seconds_per_measurement_;};
 public slots:
     void measureTemperature();

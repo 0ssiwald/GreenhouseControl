@@ -1,8 +1,8 @@
 #include "greenhouse.h"
 #include "mainwindow.h"
-#include "sensor.h"
 #include "mock_sensor.h"
 #include "clock.h"
+#include "log.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -14,12 +14,18 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    // Create Greenhouse
     GreenhouseCreate ghc;
     std::shared_ptr<Greenhouse> greenhouse = ghc.createGreenhouseFromCode();
     qDebug() << *greenhouse;
 
+    //Create Log
+    std::shared_ptr<SystemLog> log = std::make_shared<SystemLog>("../../../../app/data/log.csv");
+    log->loadLogMessagesFromFile();
+
     // Init GUI
-    MainWindow window(greenhouse);
+    // Besser nicht dem Constructor übergeben sondern mit set Functions?????????
+    MainWindow window(greenhouse, log);
     window.show();
 
     // Create a mock environment
@@ -27,6 +33,7 @@ int main(int argc, char *argv[])
     int seconds_per_measurement = 2;
 
     SensorControl sensorControl(seconds_per_measurement);
+    sensorControl.addSystemLog(log);
     // Add mock sensors to the SensorControl
     sensorControl.addMockSensors(mockEnv);
 

@@ -183,3 +183,5 @@ $RECYCLE.BIN/
 /build/
 /app/build/
 */build/
+*.csv
+*.bak

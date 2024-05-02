@@ -35,10 +35,10 @@ std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
     plant_profile_2->addWeeklyCondition(condition_week_2);
     plant_profile_2->addWeeklyCondition(condition_week_3);
 
-    std::shared_ptr<Plant> plant_1 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("2024-04-21T12:34:56"), plant_profile_1));
-    std::shared_ptr<Plant> plant_2 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("2024-04-21T12:34:41"), plant_profile_1));
-    std::shared_ptr<Plant> plant_3 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("2024-02-22T12:33:56"), plant_profile_2));
-    std::shared_ptr<Plant> plant_4 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("2024-02-22T12:12:51"), plant_profile_2));
+    std::shared_ptr<Plant> plant_1 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("21.04.2023 12:34:56"), plant_profile_1));
+    std::shared_ptr<Plant> plant_2 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("21.04.2023 12:34:56"), plant_profile_1));
+    std::shared_ptr<Plant> plant_3 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("21.04.2023 12:34:56"), plant_profile_2));
+    std::shared_ptr<Plant> plant_4 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("21.04.2023 12:34:56"), plant_profile_2));
 
 
     std::shared_ptr<PlantGroup> plant_group_1 = std::shared_ptr<PlantGroup>(new PlantGroup());

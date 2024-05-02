@@ -8,7 +8,7 @@
 
 // for easy conversion of strings to time_points
 struct DateTimeConverter {
-    static std::chrono::system_clock::time_point stringToTimePoint(const std::string& dateTimeStr, const std::string& format = "%Y-%m-%dT%H:%M:%S%z") {
+    static std::chrono::system_clock::time_point stringToTimePoint(const std::string& dateTimeStr, const std::string& format = "%d.%m.%Y %H:%M:%S") {
         std::tm tm = {};
         std::istringstream ss(dateTimeStr);
         ss >> std::get_time(&tm, format.c_str());
@@ -23,7 +23,7 @@ struct DateTimeConverter {
         return timePoint;
     }
 
-    static std::string timePointToString(const std::chrono::system_clock::time_point& timePoint, const std::string& format = "%Y-%m-%dT%H:%M:%S%z") {
+    static std::string timePointToString(const std::chrono::system_clock::time_point& timePoint, const std::string& format = "%d.%m.%Y %H:%M:%S") {
         std::time_t time_val = std::chrono::system_clock::to_time_t(timePoint);
         std::tm* tm = std::localtime(&time_val);
         char buffer[64];
