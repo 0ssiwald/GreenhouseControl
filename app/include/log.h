@@ -25,7 +25,6 @@ public:
     void loadLogMessagesFromFile();
     std::vector<std::shared_ptr<LogMessage>> getLogMessages() {return log_messages_;};
     void saveMessageToLog(const std::string&, const std::chrono::system_clock::time_point);
-
 };
 
 

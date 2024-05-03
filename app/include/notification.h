@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 #include "log.h"
-#include "greenhouse.h"
+#include "greenhouse/greenhouse.h"
 
 enum class NotificationTypes {
     LampDistanceNotification,

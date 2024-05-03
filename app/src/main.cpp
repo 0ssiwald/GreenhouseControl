@@ -1,8 +1,9 @@
-#include "greenhouse.h"
-#include "mainwindow.h"
-#include "mock_sensor.h"
+#include "greenhouse/greenhouse.h"
+#include "ui/mainwindow.h"
+#include "control/mock_enviroment.h"
 #include "clock.h"
 #include "log.h"
+#include "control/sensor_control.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -35,7 +36,7 @@ int main(int argc, char *argv[])
     SensorControl sensorControl(seconds_per_measurement);
     sensorControl.addSystemLog(log);
     // Add mock sensors to the SensorControl
-    sensorControl.addMockSensors(mockEnv);
+    sensorControl.addSensors(mockEnv);
 
     // Init Physics
     physics::Clock clock(sensorControl.getSecondsperMeasurement());

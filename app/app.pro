@@ -25,38 +25,43 @@ INCLUDEPATH += $$PWD/include
 SOURCES += \
     src/circlemotionprovider.cpp \
     src/clock.cpp \
-    src/greenhouse.cpp \
+    src/control/mock_enviroment.cpp \
+    src/control/sensor.cpp \
+    src/control/sensor_control.cpp \
+    src/control/water_control.cpp \
+    src/greenhouse/greenhouse.cpp \
+    src/greenhouse/plant.cpp \
+    src/greenhouse/plant_group.cpp \
+    src/greenhouse/plant_profile.cpp \
     src/log.cpp \
     src/main.cpp \
-    src/mainwindow.cpp \
     src/note.cpp \
     src/notification.cpp \
-    src/plant.cpp \
-    src/plant_group.cpp \
-    src/plant_profile.cpp \
     src/rocket.cpp \
-    src/sensor.cpp \
+    src/ui/log_window.cpp \
+    src/ui/mainwindow.cpp \
     src/warning.cpp \
-    src/water_control.cpp
 
 # The header files (e.g. *.h)
 HEADERS += \
     include/circlemotionprovider.h \
     include/clock.h \
+    include/control/mock_enviroment.h \
+    include/control/sensor.h \
+    include/control/sensor_control.h \
+    include/control/water_control.h \
     include/date_time.h \
-    include/greenhouse.h \
+    include/greenhouse/greenhouse.h \
+    include/greenhouse/plant.h \
+    include/greenhouse/plant_group.h \
+    include/greenhouse/plant_profile.h \
     include/log.h \
-    include/mainwindow.h \
-    include/mock_sensor.h \
     include/note.h \
     include/notification.h \
-    include/plant.h \
-    include/plant_group.h \
-    include/plant_profile.h \
     include/rocket.h \
-    include/sensor.h \
+    include/ui/log_window.h \
+    include/ui/mainwindow.h \
     include/warning.h \
-    include/water_control.h
 
 # The GUI definition files (so-called forms)
 FORMS += \
