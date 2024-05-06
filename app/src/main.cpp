@@ -21,11 +21,11 @@ int main(int argc, char *argv[])
     qDebug() << *greenhouse;
 
     //Create Log
-    std::shared_ptr<SystemLog> log = std::make_shared<SystemLog>("../../../../app/data/log.csv");
-    log->loadLogMessagesFromFile();
+    std::shared_ptr<SystemLog> log = std::make_shared<SystemLog>();
+    log->initLogging();
+    //log->loadLogMessagesFromFile();
 
     // Init GUI
-    // Besser nicht dem Constructor übergeben sondern mit set Functions?????????
     MainWindow window(greenhouse, log);
     window.show();
 

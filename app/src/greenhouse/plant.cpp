@@ -1,7 +1,9 @@
 #include "greenhouse/plant.h"
-#include "date_time.h"
+#include <QDateTime>
+//#include "date_time.h"
 
 QDebug operator<<(QDebug qdebug, const Plant &pl) {
-    qdebug << "Sowing Date: " << DateTimeConverter::timePointToString(pl.sowing_date) << Qt::endl;
+    // Specify the desired format for the output string
+    qdebug << "Sowing Date: " << pl.sowing_date.toString("dd.MM.yyyy HH:mm:ss") << Qt::endl;
     return qdebug;
 }

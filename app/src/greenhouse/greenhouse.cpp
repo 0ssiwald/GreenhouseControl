@@ -1,5 +1,6 @@
 #include "greenhouse/greenhouse.h"
-#include "date_time.h"
+#include <QDateTime>
+//#include "date_time.h"
 
 void Greenhouse::addPlantGroup(std::shared_ptr<PlantGroup> pg) {
     // Temporary way to add plant groups just to rows
@@ -35,10 +36,12 @@ std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
     plant_profile_2->addWeeklyCondition(condition_week_2);
     plant_profile_2->addWeeklyCondition(condition_week_3);
 
-    std::shared_ptr<Plant> plant_1 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("21.04.2023 12:34:56"), plant_profile_1));
-    std::shared_ptr<Plant> plant_2 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("21.04.2023 12:34:56"), plant_profile_1));
-    std::shared_ptr<Plant> plant_3 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("21.04.2023 12:34:56"), plant_profile_2));
-    std::shared_ptr<Plant> plant_4 = std::shared_ptr<Plant>(new Plant(DateTimeConverter::stringToTimePoint("21.04.2023 12:34:56"), plant_profile_2));
+    // The format of the date and time string
+    QString format = "dd.MM.yyyy HH:mm:ss";
+    std::shared_ptr<Plant> plant_1 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("21.04.2023 12:34:56", format), plant_profile_1));
+    std::shared_ptr<Plant> plant_2 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("22.04.2023 13:34:56", format), plant_profile_1));
+    std::shared_ptr<Plant> plant_3 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("23.04.2023 14:34:56", format), plant_profile_2));
+    std::shared_ptr<Plant> plant_4 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("24.04.2023 15:34:56", format), plant_profile_2));
 
 
     std::shared_ptr<PlantGroup> plant_group_1 = std::shared_ptr<PlantGroup>(new PlantGroup());

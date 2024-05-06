@@ -2,16 +2,17 @@
 #define PLANT_H
 
 #include <string>
-#include <chrono>
+//#include <chrono>
 #include <memory>
 #include <QDebug>
+#include <QDateTime>
 #include "plant_profile.h"
 
 class Plant {
-    std::chrono::system_clock::time_point sowing_date;
+    QDateTime  sowing_date;
     std::shared_ptr<PlantProfile> profile;
 public:
-    Plant(const std::chrono::system_clock::time_point& sowing_date, std::shared_ptr<PlantProfile> profile) :
+    Plant(const QDateTime&  sowing_date, std::shared_ptr<PlantProfile> profile) :
         sowing_date(sowing_date), profile(profile) {}
 
     bool savePlantToFile(const std::string&);

@@ -1,71 +1,55 @@
 #include "log.h"
-#include "date_time.h"
-#include <memory>
-#include <fstream>
-#include <QtDebug>
 
+// Define and initialize static data members
+QString SystemLog::log_folder_name_ = "logs";
+QString SystemLog::log_file_name_;
 
-void SystemLog::saveMessageToLog(const std::string& text, const std::chrono::system_clock::time_point timeStamp) {
-    // Add message to vector
-    std::shared_ptr<LogMessage> log_message = std::make_shared<LogMessage>(text, timeStamp);
-    log_messages_.push_back(log_message);
-
-    // Convert timeStamp to a string
-    std::string timeStr = DateTimeConverter::timePointToString(timeStamp);
-    // Open log file
-    std::ofstream logfile(log_file_name_, std::ios::app);
-    if (logfile.is_open()) {
-        // Write to log file
-        logfile << timeStr << ", " << text << std::endl;
-        logfile.close();
-    } else {
-        throw std::runtime_error("Unable to open log file for saving messages.");
+void SystemLog::initLogging() {
+    // create folder for logfiles if not exists
+    if(!QDir(log_folder_name_).exists()) {
+        QDir().mkdir(log_folder_name_);
     }
+
+    // Create Log File Name form the date
+    log_file_name_ = QString("%1/log_%2.txt").arg(log_folder_name_, QDateTime::currentDateTime().toString("yyyy_MM_dd"));
+    //Install the costom message handler to write the logs to a file instead of stderr
+    qInstallMessageHandler(myMessageHandler);
 }
 
-void SystemLog::loadLogMessagesFromFile() {
-    // Clear the current log messages
-    log_messages_.clear();
 
-    // Try to open the log file for reading
-    std::ifstream logfile(log_file_name_);
 
-    if (!logfile.is_open()) {
-        // If the file doesn't exist, create it by opening it in write mode
-        std::ofstream newFile(log_file_name_);
-        if (!newFile.is_open()) {
-            throw std::runtime_error("Unable to create log file.");
-        }
-        // Once the file is created, close it
-        newFile.close();
-        // Reopen the file for reading
-        logfile.open(log_file_name_);
-        if (!logfile.is_open()) {
-            throw std::runtime_error("Unable to open log file for reading.");
-        }
+void SystemLog::myMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message) {
+    (void)context; // Suppress unused parameter warning
+
+    QFile logFile(log_file_name_);
+    if (!logFile.open(QIODevice::Append | QIODevice::Text))
+        return;
+
+    QTextStream out(&logFile);
+    QString logType;
+
+    switch (type) {
+    case QtDebugMsg:
+        logType = "DEBUG";
+        break;
+    case QtInfoMsg:
+        logType = "INFO";
+        break;
+    case QtWarningMsg:
+        logType = "WARNING";
+        break;
+    case QtCriticalMsg:
+        logType = "CRITICAL";
+        break;
+    case QtFatalMsg:
+        logType = "FATAL";
+        break;
     }
 
-    std::string line;
-    // Read each line from the log file
-    while (std::getline(logfile, line)) {
-        // Use a stringstream to parse the line
-        std::stringstream ss(line);
+    // Get the current date and time as a string
+    QString dateTimeString = QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm:ss");
 
-        // Parse the timestamp and message text
-        std::string timeStr, messageText;
-        if (std::getline(ss, timeStr, ',') && std::getline(ss, messageText)) {
-            // Trim whitespace from the beginning and end of messageText
-            messageText = messageText.substr(messageText.find_first_not_of(" "), messageText.find_last_not_of(" ") + 1);
-
-            // Convert the timestamp string back to a time_point
-            std::chrono::system_clock::time_point timeStamp = DateTimeConverter::stringToTimePoint(timeStr);
-
-            // Create a LogMessage object and add it to the log_messages_ vector
-            std::shared_ptr<LogMessage> logMessage = std::make_shared<LogMessage>(messageText, timeStamp);
-            log_messages_.push_back(logMessage);
-        }
-    }
-
-    // Close the log file
-    logfile.close();
+    out << dateTimeString << " [" << logType << "] : " << message << Qt::endl;
+    logFile.close();
 }
+
