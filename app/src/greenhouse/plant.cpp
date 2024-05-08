@@ -7,3 +7,9 @@ QDebug operator<<(QDebug qdebug, const Plant &pl) {
     qdebug << "Sowing Date: " << pl.sowing_date.toString("dd.MM.yyyy HH:mm:ss") << Qt::endl;
     return qdebug;
 }
+
+
+void Plant::setGridPosition(int row_number, int column_number) {
+    plant_grid_row_number_ = row_number;
+    plant_grid_column_number_ = column_number;
+}

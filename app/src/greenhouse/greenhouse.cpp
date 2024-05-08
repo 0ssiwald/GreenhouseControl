@@ -2,13 +2,28 @@
 #include <QDateTime>
 //#include "date_time.h"
 
-void Greenhouse::addPlantGroup(std::shared_ptr<PlantGroup> pg) {
-    // Temporary way to add plant groups just to rows
-    number_of_group_columns = 1;
-    number_of_group_rows += 1;
-
-    plant_groups.push_back(pg);
+void Greenhouse::addPlantGroupToGrid(std::shared_ptr<PlantGroup> pg, int row_position, int column_position) {
+    // Check viability of row and column numbers
+    if (row_position > number_of_group_rows_ || column_position > number_of_group_columns_) {
+        qDebug() << "row problem";
+        throw("Plant Group cant be added"); // Throw needs catch?????????????????????
+        return;
+    }
+    for(auto &it: plant_groups_) {
+        if(it->getGridRowNumber() == row_position && it->getGridColumnNumber() == column_position) {
+            qDebug() << "column problem";
+            throw("Plant Group cant be added"); // Throw needs catch?????????????????????
+            return;
+        }
+    }
+    pg->setGridPosition(row_position, column_position);
+    plant_groups_.push_back(pg);
     return;
+}
+
+void Greenhouse::setGroupGridSize(int row_size, int column_size) {
+    number_of_group_rows_ = row_size;
+    number_of_group_columns_ = column_size;
 }
 
 std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
@@ -44,16 +59,16 @@ std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
     std::shared_ptr<Plant> plant_4 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("24.04.2023 15:34:56", format), plant_profile_2));
 
 
-    std::shared_ptr<PlantGroup> plant_group_1 = std::shared_ptr<PlantGroup>(new PlantGroup());
-    plant_group_1->addPlant(plant_1);
-    plant_group_1->addPlant(plant_2);
-    std::shared_ptr<PlantGroup> plant_group_2 = std::shared_ptr<PlantGroup>(new PlantGroup());
-    plant_group_2->addPlant(plant_3);
-    plant_group_2->addPlant(plant_4);
+    std::shared_ptr<PlantGroup> plant_group_1 = std::make_shared<PlantGroup>(2, 1);
+    plant_group_1->addPlantToGrid(plant_1, 0, 0);
+    plant_group_1->addPlantToGrid(plant_2, 0, 1);
+    std::shared_ptr<PlantGroup> plant_group_2 = std::make_shared<PlantGroup>(0, 1);
+    plant_group_2->addPlantToGrid(plant_3, 0, 0);
+    plant_group_2->addPlantToGrid(plant_4, 0, 1);
 
-    greenhouse = std::shared_ptr<Greenhouse>(new Greenhouse());
-    greenhouse->addPlantGroup(plant_group_1);
-    greenhouse->addPlantGroup(plant_group_2);
+    greenhouse = std::make_shared<Greenhouse>(1,2);
+    greenhouse->addPlantGroupToGrid(plant_group_1, 0, 0);
+    greenhouse->addPlantGroupToGrid(plant_group_2, 1, 0);
 
     return greenhouse;
 }
@@ -61,11 +76,11 @@ std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
 
 QDebug operator<<(QDebug qdebug, const Greenhouse &gh) {
     qdebug << "Greenhouse: " << Qt::endl;
-    qdebug << "number_of_group_rows: " << gh.number_of_group_rows << Qt::endl;
-    qdebug << "number_of_group_columns: " << gh.number_of_group_columns << Qt::endl;
-    qdebug << "there are " << gh.plant_groups.size() << " plant_groups" << Qt::endl << Qt::endl;
+    qdebug << "size_of_group_gird_rows: " << gh.number_of_group_rows_ << Qt::endl;
+    qdebug << "size_of_group_gird_columns: " << gh.number_of_group_columns_ << Qt::endl;
+    qdebug << "there are " << gh.plant_groups_.size() << " plant_groups" << Qt::endl << Qt::endl;
     int i = 1;
-    for(auto& it: gh.plant_groups) {
+    for(auto& it: gh.plant_groups_) {
         qdebug << "Plant Group " << i << Qt::endl;
         qdebug << *it << Qt::endl;
         i++;

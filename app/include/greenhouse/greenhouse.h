@@ -9,26 +9,25 @@
 
 
 class Greenhouse {
+    // Specify the grid size for the plant group grid in the greenhouse
+    int number_of_group_rows_;
+    int number_of_group_columns_;
 
+    std::vector<std::shared_ptr<PlantGroup>> plant_groups_;
 public:
-    int number_of_group_rows;
-    int number_of_group_columns;
-    std::vector<std::shared_ptr<PlantGroup>> plant_groups;
-    Greenhouse(int rows = 0, int columns = 0)
-        : number_of_group_rows(rows), number_of_group_columns(columns) {}
-/*
-    ~Greenhouse() {
-        for (auto plant_group : plant_groups) {
-            delete plant_group;
-        }
-    }
-*/
-    PlantGroup createPlantGroup();
+    Greenhouse(int row_size = 0, int column_size = 0)
+        : number_of_group_rows_(row_size), number_of_group_columns_(column_size) {}
+
+    int getNumberOfRows() {return number_of_group_rows_;};
+    int getNumberOfColumns() {return number_of_group_columns_;};
+    void setGroupGridSize(int, int);
     bool saveGreehouse();
+    void addPlantGroupToGrid(std::shared_ptr<PlantGroup>, int, int);
+    std::vector<std::shared_ptr<PlantGroup>> getPlantGroups() {return plant_groups_;};
     friend QDebug operator<<(QDebug, const Greenhouse &);
-    std::string displayGreenhouse();
-    void addPlantGroup(std::shared_ptr<PlantGroup>);
 };
+
+
 
 // Class to create Greenhouse form File
 // At the moment just created in code

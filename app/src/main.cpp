@@ -30,22 +30,23 @@ int main(int argc, char *argv[])
     window.show();
 
     // Create a mock environment
-    MockEnvironment mockEnv(25.0, 60.0, 40.0);
+    std::shared_ptr<MockEnvironment> mockEnv = std::make_shared<MockEnvironment>();
+    // Create sensor Control
     int seconds_per_measurement = 2;
-
-    SensorControl sensorControl(seconds_per_measurement);
-    sensorControl.addSystemLog(log);
-    // Add mock sensors to the SensorControl
-    sensorControl.addSensors(mockEnv);
+    SensorControl sensorControl(mockEnv, greenhouse, seconds_per_measurement);
+    sensorControl.addSoilSensorsToPlants();
 
     // Init Physics
     physics::Clock clock(sensorControl.getSecondsperMeasurement());
+    // Measure temperature every clock cycle
     QObject::connect(&clock, &physics::Clock::update, &sensorControl, &SensorControl::measureTemperature);
     // Connect the signal from the SensorControl class to the updateTemperatureLabel slot in the MainWindow class
     QObject::connect(&sensorControl, &SensorControl::temperatureMeasured, &window, &MainWindow::updateTemperatureLabel);
     // Same for humidity
-    QObject::connect(&clock, &physics::Clock::update, &sensorControl, &SensorControl::measureHumidity);
+    QObject::connect(&clock, &physics::Clock::update, &sensorControl, &SensorControl::measureHumidity);  
     QObject::connect(&sensorControl, &SensorControl::humidityMeasured, &window, &MainWindow::updateHumidityLabel);
+    // Same for soil moisture
+    QObject::connect(&clock, &physics::Clock::update, &sensorControl, &SensorControl::measureSoilMoistures);
 
     clock.start();
 

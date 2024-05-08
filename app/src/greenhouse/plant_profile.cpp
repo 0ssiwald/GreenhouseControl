@@ -10,3 +10,6 @@ void PlantProfile::addWeeklyCondition(std::shared_ptr<Condition> condition) {
     conditions_weekly.push_back(condition);
     return;
 }
+
+
+

@@ -3,21 +3,51 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog> log, QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse(gh), system_log_(log)
-{
+    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse(gh), system_log_(log) {
     ui->setupUi(this);
 
-    // Populate the QGridLayout with PlantGroupWidget instances
-    for (int row = 0; row < greenhouse->number_of_group_rows; ++row) {
-        for (int col = 0; col < greenhouse->number_of_group_columns; ++col) {
-            QLabel* groupLabel = new QLabel(this);
-            groupLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
-            groupLabel->setAlignment(Qt::AlignCenter);
-            groupLabel->setText(QString("Group (%1, %2)").arg(row).arg(col));
-            ui->gridLayout->addWidget(groupLabel, row, col);
+    // Populate the QGridLayout
+    for(int group_row = 0; group_row <= greenhouse->getNumberOfRows(); ++group_row) {
+        for(int group_col = 0; group_col <= greenhouse->getNumberOfColumns(); ++group_col) {
+            // First an empty group is created and if a real group is found it gets overwritten
+             QGroupBox* groupBox = new QGroupBox("Empty group", this);
+            for(auto &it: greenhouse->getPlantGroups()) {
+                if(it->getGridRowNumber() == group_row && it->getGridColumnNumber() == group_col) {
+
+                    groupBox->setTitle(QString("Group (%1, %2)").arg(group_row).arg(group_col));
+                    // Create a container QWidget to hold the QGridLayout
+                    QWidget *container = new QWidget();
+                    // Create a QGridLayout
+                    QGridLayout *gridLayoutPlants = new QGridLayout(container);
+                    // Set the grid layout as the layout for the container widget
+                    container->setLayout(gridLayoutPlants);
+                     // Set the container as the layout of the group box
+                    groupBox->setLayout(new QVBoxLayout);
+                    groupBox->layout()->addWidget(container);
+
+                    for(int plant_row = 0; plant_row <= it->getNumberOfPlantRows(); ++plant_row) {
+                        for(int plant_column = 0; plant_column <= it->getNumberOfPlantColumns(); ++plant_column) {
+
+                            QLabel* plantLabel = new QLabel();
+                            for(auto &it2: it->getPlants()) {
+                                if(it2->getGridRowNumber() == plant_row && it2->getGridColumnNumber() == plant_column) {
+                                    plantLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
+                                    plantLabel->setAlignment(Qt::AlignCenter);
+                                    plantLabel->setText(QString("Plant (%1, %2)").arg(plant_row).arg(plant_column));
+                                    break;
+                                }
+                            }
+                            gridLayoutPlants->addWidget(plantLabel, plant_row, plant_column);
+                        }
+                    }
+
+                }
+            }
+            ui->gridLayout->addWidget(groupBox, group_row, group_col);
         }
     }
 }
+
 
 MainWindow::~MainWindow()
 {
