@@ -1,7 +1,6 @@
 #ifndef PLANT_GROUP_H
 #define PLANT_GROUP_H
 
-#include <string>
 #include <vector>
 #include <memory>
 #include <QDebug>
@@ -30,8 +29,7 @@ public:
     void setGridPosition(int , int);
     void addPlantToGrid(std::shared_ptr<Plant>, int, int);
     void removePlant(std::shared_ptr<Plant>);
-    bool savePlantGroupToFile(const std::string&);
-    std::shared_ptr<Plant> getPlant(int plant_nr);
+    //bool savePlantGroupToFile(const std::string&);
     friend QDebug operator<<(QDebug, const PlantGroup &);
 };
 

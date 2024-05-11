@@ -38,8 +38,11 @@ SOURCES += \
     src/note.cpp \
     src/notification.cpp \
     src/rocket.cpp \
+    src/ui/group_dialog.cpp \
     src/ui/log_window.cpp \
     src/ui/mainwindow.cpp \
+    src/ui/plant_group_box.cpp \
+    src/ui/plant_label.cpp \
     src/warning.cpp \
 
 # The header files (e.g. *.h)
@@ -59,12 +62,16 @@ HEADERS += \
     include/note.h \
     include/notification.h \
     include/rocket.h \
+    include/ui/group_dialog.h \
     include/ui/log_window.h \
     include/ui/mainwindow.h \
+    include/ui/plant_group_box.h \
+    include/ui/plant_label.h \
     include/warning.h \
 
 # The GUI definition files (so-called forms)
 FORMS += \
+    group_window.ui \
     mainwindow.ui
 
 # Resources to integrate (e.g. images)

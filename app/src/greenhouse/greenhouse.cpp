@@ -41,12 +41,12 @@ std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
     condition_week_3->addFertilizer(fertilizer_2, 3);
     condition_week_3->addFertilizer(fertilizer_3, 5);
 
-    std::shared_ptr<PlantProfile> plant_profile_1 = std::shared_ptr<PlantProfile>(new PlantProfile("Purple Haze", 3, 8, 3.0, 22.0, "Coco", 10,  20));
+    std::shared_ptr<PlantProfile> plant_profile_1 = std::shared_ptr<PlantProfile>(new PlantProfile("Purple Haze", 3, 8, 22.0, 3.0, "Coco", 10,  20));
     plant_profile_1->addWeeklyCondition(condition_week_1);
     plant_profile_1->addWeeklyCondition(condition_week_2);
     plant_profile_1->addWeeklyCondition(condition_week_3);
 
-    std::shared_ptr<PlantProfile> plant_profile_2 = std::shared_ptr<PlantProfile>(new PlantProfile("Auto Sour Diesel", 3, 7, 2.0, 18.0, "Soil", 10,  20));
+    std::shared_ptr<PlantProfile> plant_profile_2 = std::shared_ptr<PlantProfile>(new PlantProfile("Auto Sour Diesel", 3, 7, 23.0, 5.0, "Soil", 10,  20));
     plant_profile_2->addWeeklyCondition(condition_week_1);
     plant_profile_2->addWeeklyCondition(condition_week_2);
     plant_profile_2->addWeeklyCondition(condition_week_3);
@@ -61,14 +61,14 @@ std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
 
     std::shared_ptr<PlantGroup> plant_group_1 = std::make_shared<PlantGroup>(2, 1);
     plant_group_1->addPlantToGrid(plant_1, 0, 0);
-    plant_group_1->addPlantToGrid(plant_2, 0, 1);
+    plant_group_1->addPlantToGrid(plant_2, 2, 1);
     std::shared_ptr<PlantGroup> plant_group_2 = std::make_shared<PlantGroup>(0, 1);
     plant_group_2->addPlantToGrid(plant_3, 0, 0);
     plant_group_2->addPlantToGrid(plant_4, 0, 1);
 
     greenhouse = std::make_shared<Greenhouse>(1,2);
     greenhouse->addPlantGroupToGrid(plant_group_1, 0, 0);
-    greenhouse->addPlantGroupToGrid(plant_group_2, 1, 0);
+    greenhouse->addPlantGroupToGrid(plant_group_2, 1, 2);
 
     return greenhouse;
 }

@@ -1,6 +1,11 @@
 #include "ui/log_window.h"
 //include "date_time.h"
 
+LogWindow::~LogWindow() {
+    delete fileListWidget;
+    delete logTextEdit;
+}
+
 LogWindow::LogWindow(std::shared_ptr<SystemLog> systemLog, QWidget* parent)
     : QWidget(parent), systemLog_(std::move(systemLog)) {
     setWindowTitle("System Log");
@@ -53,7 +58,8 @@ void LogWindow::onFileSelected(QListWidgetItem* item) {
     QFile file(filePath);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
-        logTextEdit->setPlainText(in.readAll()); // Display the content in the text edit
+        // Display the content in the text edit
+        logTextEdit->setPlainText(in.readAll());
         file.close();
     } else {
         QMessageBox::warning(this, "Error", "Unable to open file: " + fileName);

@@ -1,39 +1,33 @@
 #include "ui/mainwindow.h"
+#include "ui/plant_group_box.h"
 #include "ui/log_window.h"
-#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog> log, QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse(gh), system_log_(log) {
+    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse_(gh), systemLog_(log) {
     ui->setupUi(this);
 
     // Populate the QGridLayout
-    for(int group_row = 0; group_row <= greenhouse->getNumberOfRows(); ++group_row) {
-        for(int group_col = 0; group_col <= greenhouse->getNumberOfColumns(); ++group_col) {
-            // First an empty group is created and if a real group is found it gets overwritten
-             QGroupBox* groupBox = new QGroupBox("Empty group", this);
-            for(auto &it: greenhouse->getPlantGroups()) {
+    int group_number = 1;
+    for(int group_row = 0; group_row <= greenhouse_->getNumberOfRows(); ++group_row) {
+        for(int group_col = 0; group_col <= greenhouse_->getNumberOfColumns(); ++group_col) {
+            // First an empty groupBox is created and if a real group is found it gets overwritten
+            PlantGroupBox* groupBox = new PlantGroupBox(this);
+            for(auto &it: greenhouse_->getPlantGroups()) {
                 if(it->getGridRowNumber() == group_row && it->getGridColumnNumber() == group_col) {
-
-                    groupBox->setTitle(QString("Group (%1, %2)").arg(group_row).arg(group_col));
-                    // Create a container QWidget to hold the QGridLayout
-                    QWidget *container = new QWidget();
-                    // Create a QGridLayout
-                    QGridLayout *gridLayoutPlants = new QGridLayout(container);
-                    // Set the grid layout as the layout for the container widget
-                    container->setLayout(gridLayoutPlants);
-                     // Set the container as the layout of the group box
-                    groupBox->setLayout(new QVBoxLayout);
-                    groupBox->layout()->addWidget(container);
-
+                    groupBox->setPlantGroup(it);
+                    groupBox->setGroupNumber(group_number);
+                    // Configure the Layout of the group Box
+                    QGridLayout *gridLayoutPlants = groupBox->setPlantGroupLayout(group_number++);
                     for(int plant_row = 0; plant_row <= it->getNumberOfPlantRows(); ++plant_row) {
                         for(int plant_column = 0; plant_column <= it->getNumberOfPlantColumns(); ++plant_column) {
-
-                            QLabel* plantLabel = new QLabel();
+                            PlantLabel* plantLabel = new PlantLabel();
                             for(auto &it2: it->getPlants()) {
                                 if(it2->getGridRowNumber() == plant_row && it2->getGridColumnNumber() == plant_column) {
-                                    plantLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
-                                    plantLabel->setAlignment(Qt::AlignCenter);
-                                    plantLabel->setText(QString("Plant (%1, %2)").arg(plant_row).arg(plant_column));
+                                    // Adding the sensor to the corrisponding label
+                                    plantLabel->setMoistureSensor(it2->getSoilMoistureSensor());
+                                    plantLabel->setPlantLabelLayout();
+                                    // Add label to vector for updating moisture reading in UI
+                                    plantLabels_.push_back(plantLabel);
                                     break;
                                 }
                             }
@@ -49,8 +43,7 @@ MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog
 }
 
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
 
@@ -62,10 +55,19 @@ void MainWindow::updateHumidityLabel(float humidity) {
     ui->humidityLabel->setText(QString("Luftfeuchtigkeit: %1%").arg(QString::number(humidity, 'f', 1))); // 'f', 1 -> eine Nachkommastelle
 }
 
-void MainWindow::on_systemLogButton_clicked()
-{
+void MainWindow::updatePlantLabels() {
+    for(auto &it: plantLabels_) {
+        // Test if the Moisture Sensor is a nullptr
+        if(it->getMoistureSensor()) {
+            float soil_moisture = it->getMoistureSensor()->getMeasurementValue();
+            it->setText(QString("RH: %1%").arg(QString::number(soil_moisture, 'f', 1)));
+        }
+    }
+}
+
+void MainWindow::on_systemLogButton_clicked() {
     // Create and show a new LogWindow (nullptr -> no parent to open as a new window)
-    LogWindow* logWindow = new LogWindow(system_log_, nullptr);
+    LogWindow* logWindow = new LogWindow(systemLog_, nullptr);
     logWindow->show();
 }
 

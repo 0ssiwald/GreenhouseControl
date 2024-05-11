@@ -7,6 +7,7 @@
 #include "ui_mainwindow.h" // because Ui::MainWindow class is an incomplete type at the point where you're trying to access its members.
 #include "greenhouse/greenhouse.h"
 #include "log.h"
+#include "plant_label.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -22,15 +23,17 @@ public:
 
     void updateTemperatureLabel(float);
     void updateHumidityLabel(float);
+    void updatePlantLabels();
 
 private slots:
     void on_systemLogButton_clicked();
 
 private:
     Ui::MainWindow *ui;
-    std::shared_ptr<Greenhouse> greenhouse;
-    std::shared_ptr<SystemLog> system_log_;
-    QPushButton* systemLogButton;
+    std::shared_ptr<Greenhouse> greenhouse_;
+    std::shared_ptr<SystemLog> systemLog_;
+    QPushButton* systemLogButton_;
+    std::vector<PlantLabel*> plantLabels_;
 
 
    // QLabel *rocketLabel; // This one loads the image  via Qt

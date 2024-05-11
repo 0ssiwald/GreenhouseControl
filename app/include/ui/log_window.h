@@ -11,11 +11,11 @@
 #include <QMessageBox>
 #include <QString>
 
-class LogWindow : public QWidget {
+class LogWindow: public QWidget {
     Q_OBJECT
-
 public:
     explicit LogWindow(std::shared_ptr<SystemLog> systemLog, QWidget* parent = nullptr);
+    ~LogWindow();
 
 private:
     QListWidget* fileListWidget;

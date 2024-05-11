@@ -25,16 +25,16 @@ int main(int argc, char *argv[])
     log->initLogging();
     //log->loadLogMessagesFromFile();
 
-    // Init GUI
-    MainWindow window(greenhouse, log);
-    window.show();
-
     // Create a mock environment
     std::shared_ptr<MockEnvironment> mockEnv = std::make_shared<MockEnvironment>();
     // Create sensor Control
     int seconds_per_measurement = 2;
     SensorControl sensorControl(mockEnv, greenhouse, seconds_per_measurement);
     sensorControl.addSoilSensorsToPlants();
+
+    // Init GUI
+    MainWindow window(greenhouse, log);
+    window.show();
 
     // Init Physics
     physics::Clock clock(sensorControl.getSecondsperMeasurement());
@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
     QObject::connect(&sensorControl, &SensorControl::humidityMeasured, &window, &MainWindow::updateHumidityLabel);
     // Same for soil moisture
     QObject::connect(&clock, &physics::Clock::update, &sensorControl, &SensorControl::measureSoilMoistures);
+    QObject::connect(&sensorControl, &SensorControl::soilMoisturesMeasured, &window, &MainWindow::updatePlantLabels);
 
     clock.start();
 
