@@ -1,11 +1,11 @@
 #ifndef GREENHOUSE_H
 #define GREENHOUSE_H
 
-#include <string>
 #include <vector>
 #include <memory>
 #include <QtDebug>
 #include "plant_group.h"
+#include "note.h"
 
 
 class Greenhouse {

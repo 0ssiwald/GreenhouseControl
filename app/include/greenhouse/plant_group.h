@@ -24,10 +24,13 @@ public:
     int getGridColumnNumber() {return group_grid_column_number_;}
     int getNumberOfPlantRows() {return number_of_plant_rows_;}
     int getNumberOfPlantColumns() {return number_of_plant_columns_;}
+    std::vector<std::shared_ptr<Note>> getNotes() {return notes_;}
     std::vector<std::shared_ptr<Plant>> getPlants() {return plants_;}
     void setPlantGridSize(int, int);
     void setGridPosition(int , int);
     void addPlantToGrid(std::shared_ptr<Plant>, int, int);
+    void addNote(std::shared_ptr<Note>);
+    void removeNote(unsigned int);
     void removePlant(std::shared_ptr<Plant>);
     //bool savePlantGroupToFile(const std::string&);
     friend QDebug operator<<(QDebug, const PlantGroup &);

@@ -1,4 +1,5 @@
 #include "ui/group_dialog.h"
+#include <QDateTime>
 //#include "greenhouse/plant_profile.h"
 
 GroupDialog::GroupDialog(std::shared_ptr<PlantGroup> plantGroup, int group_number, QWidget* parent)
@@ -18,7 +19,8 @@ GroupDialog::GroupDialog(std::shared_ptr<PlantGroup> plantGroup, int group_numbe
         // Calling setDisplayGroupValues with the first item in the list
         setDisplayGroupValues(firstItem);
     }
-
+    // Build the Notes of the Group
+    setNoteList();
 
     // Connect the item clicked signal to a slot function
     connect(ui->plantListWidget, &QListWidget::itemClicked, this, &GroupDialog::setDisplayGroupValues);
@@ -93,7 +95,100 @@ void GroupDialog::setWeekList(int plant_number = 0) {
     }
 }
 
+// Displays the Note List
+void GroupDialog::setNoteList() {
+    ui->notesListWidget->clear();
+    unsigned long note_number = 0;
+    for(;note_number < plantGroup_->getNotes().size(); note_number++) {
+        QString date_string = QString("%1:\n").arg(plantGroup_->getNotes()[note_number]->getDate().toString("dd.MM.yyyy HH:mm:ss"));
+        QString message_string = plantGroup_->getNotes()[note_number]->getMessage();
+        QString note_string = date_string + message_string;
+        // Create a custom widget to hold the note content and the delete button
+        QWidget* noteWidget = new QWidget();
+        QHBoxLayout* layout = new QHBoxLayout();
+        QLabel* noteLabel = new QLabel(note_string);
+        QPushButton* deleteButton = new QPushButton("X");
+        deleteButton->setProperty("noteIndex", int(note_number)); // Store the note index as a property of the button
+        connect(deleteButton, &QPushButton::clicked, this, &GroupDialog::deleteNote);
+        // Set the focus policy of the delete button
+        deleteButton->setFocusPolicy(Qt::NoFocus);
+        // Set the size policy of the delete button to be fixed
+        deleteButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        // Adjust the size of the delete button
+        deleteButton->setFixedSize(24, 24);
+        layout->addWidget(noteLabel);
+        // Add a stretchable space to push the delete button to the right
+        layout->addStretch();
+        layout->addWidget(deleteButton);
+        noteWidget->setLayout(layout);
+        // Create a QListWidgetItem and set the custom widget as its item widget
+        QListWidgetItem* item = new QListWidgetItem();
+        item->setSizeHint(noteWidget->sizeHint());
+        ui->notesListWidget->addItem(item);
+        ui->notesListWidget->setItemWidget(item, noteWidget);
+    }
+}
+
 
 GroupDialog::~GroupDialog() {
     delete ui;
 }
+
+void GroupDialog::deleteNote() {
+    // Get the sender of the signal, which is the delete button clicked
+    QPushButton* deleteButton = qobject_cast<QPushButton*>(sender());
+
+    if (deleteButton) {
+        // Get the note index stored as a property of the delete button
+        unsigned int noteIndex = deleteButton->property("noteIndex").toInt();
+        // Ensure the note index is valid
+        if (noteIndex < plantGroup_->getNotes().size()) {
+            // Remove the note from the vector
+            plantGroup_->removeNote(noteIndex);
+            // Update the note list
+            setNoteList();
+        }
+    }
+}
+
+void GroupDialog::on_addNoteButton_clicked() {
+    in_writing_note_context_ = !in_writing_note_context_;
+
+    if(in_writing_note_context_) {
+        ui->notesListWidget->hide();
+        ui->noteEdit->clear();
+        ui->noteEdit->show();
+        ui->addNoteButton->setText("Notiz speichern");
+    } else {
+        QString text = ui->noteEdit->toPlainText();
+        // save only the text to a new note if it is not empty
+        if(!text.isEmpty()) {
+            // If it is a edited message the note text should only be altered
+            if(is_edit_) {
+                QListWidgetItem *item = ui->notesListWidget->currentItem();
+                int index = ui->notesListWidget->row(item);
+                plantGroup_->getNotes()[index]->setMessage(text);
+
+            } else {
+                std::shared_ptr<Note> new_note = std::make_shared<Note>(QDateTime::currentDateTime(), text);
+                plantGroup_->addNote(new_note);
+            }
+            setNoteList();
+        }
+        ui->addNoteButton->setText("Notiz hinzufügen");
+        ui->noteEdit->hide();
+        ui->notesListWidget->show();
+        // gets set to the default value
+        is_edit_ = false;
+    }
+}
+
+
+void GroupDialog::on_notesListWidget_itemDoubleClicked(QListWidgetItem *item) {
+    is_edit_ = true;
+    on_addNoteButton_clicked();
+    // Get the index of the clicked item
+    int index = ui->notesListWidget->row(item);
+    ui->noteEdit->setText(plantGroup_->getNotes()[index]->getMessage());
+}
+

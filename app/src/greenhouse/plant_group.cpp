@@ -23,6 +23,10 @@ void PlantGroup::addPlantToGrid(std::shared_ptr<Plant> plant, int row_number, in
     plants_.push_back(plant);
 }
 
+void PlantGroup::addNote(std::shared_ptr<Note> note) {
+    notes_.push_back(note);
+}
+
 void PlantGroup::setGridPosition(int row_number, int column_number) {
     group_grid_row_number_ = row_number;
     group_grid_column_number_ = column_number;
@@ -34,6 +38,11 @@ void PlantGroup::setPlantGridSize(int row_size, int column_size) {
     number_of_plant_columns_ = column_size;
 }
 
+void PlantGroup::removeNote(unsigned int index) {
+    if (index < notes_.size()) {
+        notes_.erase(notes_.begin() + index);
+    }
+}
 
 QDebug operator<<(QDebug qdebug, const PlantGroup &pg) {
     qdebug << "size_of_plant_grid_rows: " << pg.number_of_plant_rows_ << Qt::endl;

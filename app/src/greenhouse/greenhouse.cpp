@@ -1,6 +1,5 @@
 #include "greenhouse/greenhouse.h"
 #include <QDateTime>
-//#include "date_time.h"
 
 void Greenhouse::addPlantGroupToGrid(std::shared_ptr<PlantGroup> pg, int row_position, int column_position) {
     // Check viability of row and column numbers
@@ -58,13 +57,21 @@ std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
     std::shared_ptr<Plant> plant_3 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("23.04.2023 14:34:56", format), plant_profile_2));
     std::shared_ptr<Plant> plant_4 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("24.04.2023 15:34:56", format), plant_profile_2));
 
+    std::shared_ptr<Note> note1 = std::make_shared<Note>(QDateTime::fromString("21.04.2023 13:35:56", format), "Test test 1");
+    std::shared_ptr<Note> note2 = std::make_shared<Note>(QDateTime::fromString("22.04.2023 15:35:56", format), "Test test 2");
+    std::shared_ptr<Note> note3 = std::make_shared<Note>(QDateTime::fromString("23.04.2023 14:35:56", format), "Test test 3");
+    std::shared_ptr<Note> note4 = std::make_shared<Note>(QDateTime::fromString("24.04.2023 16:35:56", format), "Test test 4");
 
     std::shared_ptr<PlantGroup> plant_group_1 = std::make_shared<PlantGroup>(2, 1);
     plant_group_1->addPlantToGrid(plant_1, 0, 0);
     plant_group_1->addPlantToGrid(plant_2, 2, 1);
+    plant_group_1->addNote(note1);
+    plant_group_1->addNote(note2);
     std::shared_ptr<PlantGroup> plant_group_2 = std::make_shared<PlantGroup>(0, 1);
     plant_group_2->addPlantToGrid(plant_3, 0, 0);
     plant_group_2->addPlantToGrid(plant_4, 0, 1);
+    plant_group_2->addNote(note3);
+    plant_group_2->addNote(note4);
 
     greenhouse = std::make_shared<Greenhouse>(1,2);
     greenhouse->addPlantGroupToGrid(plant_group_1, 0, 0);
