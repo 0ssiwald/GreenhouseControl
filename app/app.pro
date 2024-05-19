@@ -37,6 +37,7 @@ SOURCES += \
     src/main.cpp \
     src/note.cpp \
     src/notification.cpp \
+    src/notification_control.cpp \
     src/rocket.cpp \
     src/ui/group_dialog.cpp \
     src/ui/log_window.cpp \
@@ -61,6 +62,7 @@ HEADERS += \
     include/log.h \
     include/note.h \
     include/notification.h \
+    include/notification_control.h \
     include/rocket.h \
     include/ui/group_dialog.h \
     include/ui/log_window.h \

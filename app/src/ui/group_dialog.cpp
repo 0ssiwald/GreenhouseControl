@@ -1,6 +1,5 @@
 #include "ui/group_dialog.h"
 #include <QDateTime>
-//#include "greenhouse/plant_profile.h"
 
 GroupDialog::GroupDialog(std::shared_ptr<PlantGroup> plantGroup, int group_number, QWidget* parent)
     : QDialog(parent), ui(new Ui::GroupDialog), plantGroup_(plantGroup), group_number_(group_number) {
@@ -65,15 +64,7 @@ void GroupDialog::setConditionWeeklyValues(QListWidgetItem* item) {
         ui->temperatureLabel->setText(temperature);
         QString lamp_distance = QString("%1 cm").arg(QString::number(conditions_weekly->getLampDistance()));
         ui->lampLabel->setText(lamp_distance);
-        QString fertilizer_string_combined;
-        for(auto &it: conditions_weekly->getFertilizers()) {
-            QString fertilizer_name = QString(it.getFertilizer()->getName());
-            QString fertilizer_amount = QString("%1 ml").arg(QString::number(it.getAmount()));
-            QString fertilizer_type = QString("(%1)").arg(it.getFertilizer()->getType());
-            QString fertilizer_string = QString("%1 %2 %3 \n").arg(fertilizer_name, fertilizer_amount, fertilizer_type);
-            fertilizer_string_combined += fertilizer_string;
-        }
-        ui->fertilizerLabel->setText(fertilizer_string_combined);
+        ui->fertilizerLabel->setText(conditions_weekly->getFertilazersAsString());
     }
 }
 
@@ -98,16 +89,18 @@ void GroupDialog::setWeekList(int plant_number = 0) {
 // Displays the Note List
 void GroupDialog::setNoteList() {
     ui->notesListWidget->clear();
-    unsigned long note_number = 0;
-    for(;note_number < plantGroup_->getNotes().size(); note_number++) {
+    for(size_t note_number = 0; note_number < plantGroup_->getNotes().size(); note_number++) {
         QString date_string = QString("%1:\n").arg(plantGroup_->getNotes()[note_number]->getDate().toString("dd.MM.yyyy HH:mm:ss"));
         QString message_string = plantGroup_->getNotes()[note_number]->getMessage();
         QString note_string = date_string + message_string;
         // Create a custom widget to hold the note content and the delete button
-        QWidget* noteWidget = new QWidget();
-        QHBoxLayout* layout = new QHBoxLayout();
-        QLabel* noteLabel = new QLabel(note_string);
-        QPushButton* deleteButton = new QPushButton("X");
+        // other widgets like ui->notesListWidget set as parents to handle freeing the memory
+        QWidget* noteWidget = new QWidget(ui->notesListWidget);
+        QHBoxLayout* layout = new QHBoxLayout(noteWidget);
+        QLabel* noteLabel = new QLabel(note_string, noteWidget);
+        // Set maximum width for the QLabel to handle line breaks
+        noteLabel->setWordWrap(true);
+        QPushButton* deleteButton = new QPushButton("X", noteWidget);
         deleteButton->setProperty("noteIndex", int(note_number)); // Store the note index as a property of the button
         connect(deleteButton, &QPushButton::clicked, this, &GroupDialog::deleteNote);
         // Set the focus policy of the delete button
@@ -122,7 +115,7 @@ void GroupDialog::setNoteList() {
         layout->addWidget(deleteButton);
         noteWidget->setLayout(layout);
         // Create a QListWidgetItem and set the custom widget as its item widget
-        QListWidgetItem* item = new QListWidgetItem();
+        QListWidgetItem* item = new QListWidgetItem(ui->notesListWidget);
         item->setSizeHint(noteWidget->sizeHint());
         ui->notesListWidget->addItem(item);
         ui->notesListWidget->setItemWidget(item, noteWidget);

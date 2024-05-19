@@ -5,7 +5,8 @@
 #include <memory>
 #include <QtDebug>
 #include "plant_group.h"
-#include "note.h"
+#include "notification.h"
+
 
 
 class Greenhouse {

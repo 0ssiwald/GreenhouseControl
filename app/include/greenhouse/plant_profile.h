@@ -1,10 +1,10 @@
 #ifndef PLANT_PROFILE_H
 #define PLANT_PROFILE_H
 
-#include <string>
 #include <vector>
 #include <memory>
 #include <QString>
+#include "notification.h"
 
 
 class Fertilizer {
@@ -25,24 +25,26 @@ struct FertilizerWithAmount {
         : fertilizer_(fertilizer), amount_in_ml_(amount) {}
     int getAmount() {return amount_in_ml_;}
     std::shared_ptr<Fertilizer> getFertilizer() {return fertilizer_;}
-
 };
 
 class Condition {
-    int number_of_week_;
     float humidity_;
     float temperature_;
     int lamp_distance_in_cm_;
     std::vector<FertilizerWithAmount> fertilizers_;
+    std::vector<NotificationTypes> notifications_;
 public:
-    Condition(int number_of_week, float humidity, float temperature, int lamp_distance)
-        : number_of_week_(number_of_week), humidity_(humidity), temperature_(temperature), lamp_distance_in_cm_(lamp_distance) {}
+    Condition(float humidity, float temperature, int lamp_distance)
+        : humidity_(humidity), temperature_(temperature), lamp_distance_in_cm_(lamp_distance) {}
+    void setNotifications(std::vector<NotificationTypes> notifications) {notifications_ = notifications;}
+    void removeNotification(NotificationTypes);
     void addFertilizer(std::shared_ptr<Fertilizer>, int);
-    int getNumberOfWeek() {return number_of_week_;}
+    std::vector<NotificationTypes> getNotificationTypes() {return notifications_;}
     float getHumidity() {return humidity_;}
     float getTemperature() {return temperature_;}
     int getLampDistance() {return lamp_distance_in_cm_;}
     std::vector<FertilizerWithAmount> getFertilizers() {return fertilizers_;}
+    QString getFertilazersAsString();
 };
 
 class WateringProfile {

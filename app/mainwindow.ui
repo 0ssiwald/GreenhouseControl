@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1384</width>
-    <height>826</height>
+    <width>1394</width>
+    <height>796</height>
    </rect>
   </property>
   <property name="font">
@@ -23,146 +23,13 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>1381</width>
-      <height>87</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="temperatureLabel">
-       <property name="font">
-        <font>
-         <pointsize>20</pointsize>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Temperatur: </string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="humidityLabel">
-       <property name="font">
-        <font>
-         <pointsize>20</pointsize>
-         <bold>false</bold>
-         <kerning>true</kerning>
-        </font>
-       </property>
-       <property name="text">
-        <string>Luftfeuchtigkeit: </string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="notificationLabel">
-       <property name="font">
-        <font>
-         <pointsize>20</pointsize>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Meldungen </string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>690</y>
-      <width>1371</width>
-      <height>80</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QPushButton" name="createGroupButton">
-       <property name="text">
-        <string>Pflanzengruppe erstellen</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="createProfileButton">
-       <property name="text">
-        <string>Pflanzenprofil anlegen</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="systemLogButton">
-       <property name="text">
-        <string>Systemlog</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>60</y>
-      <width>1381</width>
-      <height>31</height>
+      <x>10</x>
+      <y>70</y>
+      <width>1371</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="font">
@@ -178,7 +45,7 @@
      <enum>QFrame::Plain</enum>
     </property>
     <property name="lineWidth">
-     <number>3</number>
+     <number>4</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -187,10 +54,10 @@
    <widget class="Line" name="line_2">
     <property name="geometry">
      <rect>
-      <x>-10</x>
+      <x>10</x>
       <y>670</y>
-      <width>1401</width>
-      <height>31</height>
+      <width>1371</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="font">
@@ -206,7 +73,7 @@
      <enum>QFrame::Plain</enum>
     </property>
     <property name="lineWidth">
-     <number>3</number>
+     <number>4</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -215,10 +82,10 @@
    <widget class="Line" name="line_3">
     <property name="geometry">
      <rect>
-      <x>840</x>
-      <y>0</y>
-      <width>41</width>
-      <height>681</height>
+      <x>950</x>
+      <y>80</y>
+      <width>20</width>
+      <height>601</height>
      </rect>
     </property>
     <property name="font">
@@ -234,23 +101,10 @@
      <enum>QFrame::Plain</enum>
     </property>
     <property name="lineWidth">
-     <number>3</number>
+     <number>4</number>
     </property>
     <property name="orientation">
      <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox">
-    <property name="geometry">
-     <rect>
-      <x>1240</x>
-      <y>130</y>
-      <width>93</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>CheckBox</string>
     </property>
    </widget>
    <widget class="QWidget" name="gridLayoutWidget">
@@ -258,8 +112,8 @@
      <rect>
       <x>20</x>
       <y>90</y>
-      <width>811</width>
-      <height>561</height>
+      <width>931</width>
+      <height>581</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -268,13 +122,198 @@
      </property>
     </layout>
    </widget>
+   <widget class="QListWidget" name="notificationListWidget">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>80</y>
+      <width>421</width>
+      <height>601</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="Line" name="line_4">
+    <property name="geometry">
+     <rect>
+      <x>1370</x>
+      <y>80</y>
+      <width>20</width>
+      <height>601</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>4</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="notificationLabel">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>10</y>
+      <width>455</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Meldungen </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="humidityLabel">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>10</y>
+      <width>686</width>
+      <height>85</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+      <bold>false</bold>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="text">
+     <string>Luftfeuchtigkeit: </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="temperatureLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>400</width>
+      <height>85</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Temperatur: </string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="createGroupButton">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>700</y>
+      <width>261</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pflanzengruppe erstellen</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="createProfileButton">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>700</y>
+      <width>261</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pflanzenprofil anlegen</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="systemLogButton">
+    <property name="geometry">
+     <rect>
+      <x>1100</x>
+      <y>700</y>
+      <width>171</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Systemlog</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="Line" name="line_5">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>80</y>
+      <width>20</width>
+      <height>601</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>4</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <zorder>gridLayoutWidget</zorder>
+   <zorder>notificationLabel</zorder>
+   <zorder>humidityLabel</zorder>
+   <zorder>temperatureLabel</zorder>
+   <zorder>createGroupButton</zorder>
+   <zorder>createProfileButton</zorder>
+   <zorder>systemLogButton</zorder>
+   <zorder>notificationListWidget</zorder>
+   <zorder>line_3</zorder>
+   <zorder>line_2</zorder>
+   <zorder>line_4</zorder>
+   <zorder>line</zorder>
+   <zorder>line_5</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1384</width>
+     <width>1394</width>
      <height>25</height>
     </rect>
    </property>

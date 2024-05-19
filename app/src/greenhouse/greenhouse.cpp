@@ -31,20 +31,26 @@ std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
     std::shared_ptr<Fertilizer> fertilizer_2 = std::shared_ptr<Fertilizer>(new Fertilizer("Biobizz Grow", "Organic"));
     std::shared_ptr<Fertilizer> fertilizer_3 = std::shared_ptr<Fertilizer>(new Fertilizer("Biobizz TopMax", "Organic"));
 
-    std::shared_ptr<Condition> condition_week_1 = std::shared_ptr<Condition>(new Condition(1, 70, 24, 40));
+    std::vector<NotificationTypes> notification_vector_1{NotificationTypes::FertilizerNotification, NotificationTypes::LampDistanceNotification};
+    std::vector<NotificationTypes> notification_vector_2{NotificationTypes::HumidityNotification, NotificationTypes::TemperatureNotification,
+                                                         NotificationTypes::LampDistanceNotification, NotificationTypes::FertilizerNotification};
+
+    std::shared_ptr<Condition> condition_week_1 = std::shared_ptr<Condition>(new Condition(70, 24, 40));
     condition_week_1->addFertilizer(fertilizer_1, 1);
-    std::shared_ptr<Condition> condition_week_2 = std::shared_ptr<Condition>(new Condition(2, 65, 22, 40));
+    condition_week_1->setNotifications(notification_vector_1);
+    std::shared_ptr<Condition> condition_week_2 = std::shared_ptr<Condition>(new Condition(65, 22, 40));
     condition_week_2->addFertilizer(fertilizer_1, 2);
     condition_week_2->addFertilizer(fertilizer_2, 1);
-    std::shared_ptr<Condition> condition_week_3 = std::shared_ptr<Condition>(new Condition(3, 60, 20, 40));
+    condition_week_2->setNotifications(notification_vector_2);
+    std::shared_ptr<Condition> condition_week_3 = std::shared_ptr<Condition>(new Condition(60, 20, 40));
     condition_week_3->addFertilizer(fertilizer_2, 3);
     condition_week_3->addFertilizer(fertilizer_3, 5);
+    condition_week_3->setNotifications(notification_vector_2);
 
     std::shared_ptr<PlantProfile> plant_profile_1 = std::shared_ptr<PlantProfile>(new PlantProfile("Purple Haze", 3, 8, 22.0, 3.0, "Coco", 10,  20));
     plant_profile_1->addWeeklyCondition(condition_week_1);
     plant_profile_1->addWeeklyCondition(condition_week_2);
     plant_profile_1->addWeeklyCondition(condition_week_3);
-
     std::shared_ptr<PlantProfile> plant_profile_2 = std::shared_ptr<PlantProfile>(new PlantProfile("Auto Sour Diesel", 3, 7, 23.0, 5.0, "Soil", 10,  20));
     plant_profile_2->addWeeklyCondition(condition_week_1);
     plant_profile_2->addWeeklyCondition(condition_week_2);
@@ -52,15 +58,15 @@ std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
 
     // The format of the date and time string
     QString format = "dd.MM.yyyy HH:mm:ss";
-    std::shared_ptr<Plant> plant_1 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("21.04.2023 12:34:56", format), plant_profile_1));
-    std::shared_ptr<Plant> plant_2 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("22.04.2023 13:34:56", format), plant_profile_1));
-    std::shared_ptr<Plant> plant_3 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("23.04.2023 14:34:56", format), plant_profile_2));
-    std::shared_ptr<Plant> plant_4 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("24.04.2023 15:34:56", format), plant_profile_2));
+    std::shared_ptr<Plant> plant_1 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("14.05.2024 12:34:56", format), plant_profile_1));
+    std::shared_ptr<Plant> plant_2 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("14.05.2024 13:34:56", format), plant_profile_1));
+    std::shared_ptr<Plant> plant_3 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("07.05.2024 14:34:56", format), plant_profile_2));
+    std::shared_ptr<Plant> plant_4 = std::shared_ptr<Plant>(new Plant(QDateTime::fromString("07.05.2024 15:34:56", format), plant_profile_2));
 
-    std::shared_ptr<Note> note1 = std::make_shared<Note>(QDateTime::fromString("21.04.2023 13:35:56", format), "Test test 1");
-    std::shared_ptr<Note> note2 = std::make_shared<Note>(QDateTime::fromString("22.04.2023 15:35:56", format), "Test test 2");
-    std::shared_ptr<Note> note3 = std::make_shared<Note>(QDateTime::fromString("23.04.2023 14:35:56", format), "Test test 3");
-    std::shared_ptr<Note> note4 = std::make_shared<Note>(QDateTime::fromString("24.04.2023 16:35:56", format), "Test test 4");
+    std::shared_ptr<Note> note1 = std::make_shared<Note>(QDateTime::fromString("21.04.2024 13:35:56", format), "Test test 1");
+    std::shared_ptr<Note> note2 = std::make_shared<Note>(QDateTime::fromString("22.04.2024 15:35:56", format), "Test test 2");
+    std::shared_ptr<Note> note3 = std::make_shared<Note>(QDateTime::fromString("23.04.2024 14:35:56", format), "Test test 3");
+    std::shared_ptr<Note> note4 = std::make_shared<Note>(QDateTime::fromString("24.04.2024 16:35:56", format), "Test test 4");
 
     std::shared_ptr<PlantGroup> plant_group_1 = std::make_shared<PlantGroup>(2, 1);
     plant_group_1->addPlantToGrid(plant_1, 0, 0);

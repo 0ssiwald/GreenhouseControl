@@ -22,8 +22,6 @@ QGridLayout* PlantGroupBox::setPlantGroupLayout(int group_number) {
     QGridLayout *gridLayoutPlants = new QGridLayout(container);
     // Set the grid layout as the layout for the container widget
     setLayout(gridLayoutPlants);
-        // Set the container as the layout of the group box
-    setLayout(new QVBoxLayout);
     layout()->addWidget(container);
     return gridLayoutPlants;
 }

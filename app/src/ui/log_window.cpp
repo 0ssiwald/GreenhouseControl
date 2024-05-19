@@ -1,5 +1,4 @@
 #include "ui/log_window.h"
-//include "date_time.h"
 
 LogWindow::~LogWindow() {
     delete fileListWidget;

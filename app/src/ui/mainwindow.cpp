@@ -2,10 +2,20 @@
 #include "ui/plant_group_box.h"
 #include "ui/log_window.h"
 
-MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog> log, QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse_(gh), systemLog_(log) {
+MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog> log, NotificationControl* notification, QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse_(gh), systemLog_(log), notificationControl_(notification) {
     ui->setupUi(this);
 
+    setGroupLayout();
+}
+
+
+MainWindow::~MainWindow() {
+    delete ui;
+}
+
+// Create the main Layout of Plant Groups and Plants
+void MainWindow::setGroupLayout() {
     // Populate the QGridLayout
     int group_number = 1;
     for(int group_row = 0; group_row <= greenhouse_->getNumberOfRows(); ++group_row) {
@@ -18,6 +28,7 @@ MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog
                     groupBox->setGroupNumber(group_number);
                     // Configure the Layout of the group Box
                     QGridLayout *gridLayoutPlants = groupBox->setPlantGroupLayout(group_number++);
+                    int plant_number = 1;
                     for(int plant_row = 0; plant_row <= it->getNumberOfPlantRows(); ++plant_row) {
                         for(int plant_column = 0; plant_column <= it->getNumberOfPlantColumns(); ++plant_column) {
                             PlantLabel* plantLabel = new PlantLabel();
@@ -26,6 +37,7 @@ MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog
                                     // Adding the sensor to the corrisponding label
                                     plantLabel->setMoistureSensor(it2->getSoilMoistureSensor());
                                     plantLabel->setPlantLabelLayout();
+                                    plantLabel->setProperty("plant_number", plant_number++);
                                     // Add label to vector for updating moisture reading in UI
                                     plantLabels_.push_back(plantLabel);
                                     break;
@@ -43,10 +55,6 @@ MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog
 }
 
 
-MainWindow::~MainWindow() {
-    delete ui;
-}
-
 void MainWindow::updateTemperatureLabel(float temperature) {
     ui->temperatureLabel->setText(QString("Temperatur: %1 °C").arg(QString::number(temperature, 'f', 1)));
 }
@@ -60,7 +68,8 @@ void MainWindow::updatePlantLabels() {
         // Test if the Moisture Sensor is a nullptr
         if(it->getMoistureSensor()) {
             float soil_moisture = it->getMoistureSensor()->getMeasurementValue();
-            it->setText(QString("RH: %1%").arg(QString::number(soil_moisture, 'f', 1)));
+            QString plant_string = QString("Pflanze %1:\n%2%").arg(QString::number(it->property("plant_number").toInt()), QString::number(soil_moisture, 'f', 1));
+            it->setText(plant_string);
         }
     }
 }
@@ -69,6 +78,55 @@ void MainWindow::on_systemLogButton_clicked() {
     // Create and show a new LogWindow (nullptr -> no parent to open as a new window)
     LogWindow* logWindow = new LogWindow(systemLog_, nullptr);
     logWindow->show();
+}
+
+// Displays the Notification List
+void MainWindow::setNotificationList() {
+    ui->notificationListWidget->clear();
+    for(size_t notification_number = 0; notification_number < notificationControl_->getNotificationList().size(); notification_number++) {
+        QString notification_string = notificationControl_->getNotificationList()[notification_number]->getNotificationMessage();
+        // other widgets like ui->notificationWidget set as parents to handle freeing the memory
+        QWidget* notificationWidget = new QWidget(ui->notificationListWidget);
+        QHBoxLayout* layout = new QHBoxLayout(notificationWidget);
+        QLabel* notificationLabel = new QLabel(notification_string, notificationWidget);
+        // Set maximum width for the QLabel to handle line breaks
+        notificationLabel->setWordWrap(true);
+        QCheckBox* deleteCheckBox = new QCheckBox(notificationWidget);
+        // Store the note index as a property of the Check Box
+        deleteCheckBox->setProperty("notificationIndex", int(notification_number));
+        connect(deleteCheckBox, &QCheckBox::clicked, this, &MainWindow::deleteNotification);
+        // Set the focus policy of the delete button
+        deleteCheckBox->setFocusPolicy(Qt::NoFocus);
+        // Set the size policy of the delete button to be fixed
+        deleteCheckBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        // Adjust the size of the delete button
+        deleteCheckBox->setFixedSize(24, 24);
+        layout->addWidget(notificationLabel);
+        layout->addWidget(deleteCheckBox);
+        notificationWidget->setLayout(layout);
+        // Create a QListWidgetItem and set the custom widget as its item widget
+        QListWidgetItem* item = new QListWidgetItem(ui->notificationListWidget);
+        item->setSizeHint(notificationWidget->sizeHint());
+        ui->notificationListWidget->addItem(item);
+        ui->notificationListWidget->setItemWidget(item, notificationWidget);
+    }
+}
+
+
+void MainWindow::deleteNotification() {
+    // Get the sender of the signal, which is the delete button clicked
+    QCheckBox* deleteCheckBox = qobject_cast<QCheckBox*>(sender());
+
+    if (deleteCheckBox) {
+        // Get the index stored as a property of the delete button
+        unsigned int notificationIndex = deleteCheckBox->property("notificationIndex").toInt();
+        // Ensure the index is valid
+        if (notificationIndex < notificationControl_->getNotificationList().size()) {
+            notificationControl_->deleteNotification(notificationIndex);
+            // Update the list
+            setNotificationList();
+        }
+    }
 }
 
 

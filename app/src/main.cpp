@@ -4,6 +4,7 @@
 #include "clock.h"
 #include "log.h"
 #include "control/sensor_control.h"
+#include "notification_control.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -18,12 +19,14 @@ int main(int argc, char *argv[])
     // Create Greenhouse
     GreenhouseCreate ghc;
     std::shared_ptr<Greenhouse> greenhouse = ghc.createGreenhouseFromCode();
-    qDebug() << *greenhouse;
+    //qDebug() << *greenhouse;
 
     //Create Log
     std::shared_ptr<SystemLog> log = std::make_shared<SystemLog>();
-    log->initLogging();
-    //log->loadLogMessagesFromFile();
+    //log->initLogging();
+
+    //Create notifications
+    NotificationControl notificationControl(greenhouse, 3);
 
     // Create a mock environment
     std::shared_ptr<MockEnvironment> mockEnv = std::make_shared<MockEnvironment>();
@@ -32,28 +35,35 @@ int main(int argc, char *argv[])
     SensorControl sensorControl(mockEnv, greenhouse, seconds_per_measurement);
     sensorControl.addSoilSensorsToPlants();
 
+
+
     // Init GUI
-    MainWindow window(greenhouse, log);
+    MainWindow window(greenhouse, log, &notificationControl);
     window.show();
 
-    // Init Physics
-    physics::Clock clock(sensorControl.getSecondsperMeasurement());
+    int seconds_per_update_notifications = (60 * 60);
+    // Init Clocks
+    physics::Clock sensorClock(sensorControl.getSecondsperMeasurement());
+    physics::Clock notificationClock(seconds_per_update_notifications);
     // Measure temperature every clock cycle
-    QObject::connect(&clock, &physics::Clock::update, &sensorControl, &SensorControl::measureTemperature);
+    QObject::connect(&sensorClock, &physics::Clock::update, &sensorControl, &SensorControl::measureTemperature);
     // Connect the signal from the SensorControl class to the updateTemperatureLabel slot in the MainWindow class
     QObject::connect(&sensorControl, &SensorControl::temperatureMeasured, &window, &MainWindow::updateTemperatureLabel);
     // Same for humidity
-    QObject::connect(&clock, &physics::Clock::update, &sensorControl, &SensorControl::measureHumidity);  
+    QObject::connect(&sensorClock, &physics::Clock::update, &sensorControl, &SensorControl::measureHumidity);
     QObject::connect(&sensorControl, &SensorControl::humidityMeasured, &window, &MainWindow::updateHumidityLabel);
     // Same for soil moisture
-    QObject::connect(&clock, &physics::Clock::update, &sensorControl, &SensorControl::measureSoilMoistures);
+    QObject::connect(&sensorClock, &physics::Clock::update, &sensorControl, &SensorControl::measureSoilMoistures);
     QObject::connect(&sensorControl, &SensorControl::soilMoisturesMeasured, &window, &MainWindow::updatePlantLabels);
+    // Update notifications
+    QObject::connect(&notificationClock, &physics::Clock::update, &notificationControl, &NotificationControl::updateNotificationList);
+    QObject::connect(&notificationControl, &NotificationControl::updateNotificationListInUi, &window, &MainWindow::setNotificationList);
 
-    clock.start();
+    sensorClock.start();
+    notificationClock.start();
 
     return app.exec();
 }
-
 
 /*
 

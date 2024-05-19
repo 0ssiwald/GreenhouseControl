@@ -7,10 +7,8 @@
 namespace physics {
 
 
-class Clock : public QObject
-{
+class Clock : public QObject {
     Q_OBJECT
-
 public:
     explicit Clock(int secounds_per_tick = 5);
     int getSecondsPerTick() const;

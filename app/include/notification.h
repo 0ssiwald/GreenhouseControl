@@ -1,87 +1,38 @@
 #ifndef NOTIFICATION_H
 #define NOTIFICATION_H
 
-#include <chrono>
-#include <vector>
-#include <memory>
-#include "log.h"
-#include "greenhouse/greenhouse.h"
+#include <QString>
+#include <QDateTime>
 
 enum class NotificationTypes {
     LampDistanceNotification,
-    LampIntensityNotification,
     FertilizerNotification,
     TemperatureNotification,
     HumidityNotification,
-    HarvestNotification
-};
-
-
-class NotificationHandler {
-public:
-    virtual ~NotificationHandler() = default;
-    virtual std::string getNotificationMessage() const = 0;
-};
-
-class LampDistanceNotificationHandler : public NotificationHandler {
-public:
-    std::string getNotificationMessage() const override {
-        return "Lamp distance should be adjusted.";
-    }
-};
-
-class LampIntensityNotificationHandler : public NotificationHandler {
-public:
-    std::string getNotificationMessage() const override {
-        return "Lamp intensity should be adjusted.";
-    }
 };
 
 class Notification {
-    std::chrono::system_clock::time_point notification_date;
-    std::shared_ptr<NotificationHandler> notification_handler;
+    int group_index_;
+    // Vector because multible plants can have the same notification
+    int week_index_;
+    std::vector<int> plant_indices_;
+    QString value_as_string_;
+    // Condition ptr;
+    NotificationTypes notification_type_;
 
 public:
-    Notification(std::chrono::system_clock::time_point date, std::shared_ptr<NotificationHandler> handler)
-        : notification_date(date), notification_handler(handler) {}
-
-    std::string getNotificationMessage() const {
-        return notification_handler->getNotificationMessage();
+    Notification(int group_number, int plant_number, int week_number, QString value_as_string, NotificationTypes notification_type)
+        : group_index_(group_number), week_index_(week_number), value_as_string_(value_as_string), notification_type_(notification_type) {
+        plant_indices_.push_back(plant_number);
     }
+
+    void addPlantNumber(int plant_number) {plant_indices_.push_back(plant_number);}
+    int getGroupNumber() {return group_index_;}
+    int getWeekNumber() {return week_index_;}
+    std::vector<int> getPlantNumbers() {return plant_indices_;}
+    QString getValueAsString() {return value_as_string_;}
+    NotificationTypes getNotificationType() {return notification_type_;}
+    QString getNotificationMessage();
 };
 
-class NotificationControl {
-    int time_between_checks_in_s;
-    std::vector<std::shared_ptr<Notification>> notification_list;
-    std::shared_ptr<SystemLog> system_log;
-    std::shared_ptr<Greenhouse> greenhouse;
-public:
-    void updateNotificationList();
-    void addNotification(NotificationTypes, std::chrono::system_clock::time_point);
-    std::shared_ptr<Notification> checkNotificationDeadlines();
-    void displayNotification();
-    bool saveNotificationToLog();
-};
-
-
-/*
-enum NotificationTypes {LampDistanceNotification, LampIntensityNotification, FertilizerNotification, TemperatureNotification, HumidityNotification, HarvestNotification};
-
-class Notification {
-    std::chrono::system_clock::time_point notification_date;
-    NotificationTypes notification_type;
-};
-
-class NotificationControl {
-    int time_between_checks_in_s;
-    std::vector<std::shared_ptr<Notification>> notification_list;
-    std::shared_ptr<SystemLog> system_log;
-    std::shared_ptr<Greenhouse> greenhouse;
-public:
-    void updateNotificationList();
-    std::shared_ptr<Notification> checkNotificationDeadlines();
-    void displaNotification();
-    bool saveNotificationToLog();
-};
-*/
 #endif // NOTIFICATION_H
