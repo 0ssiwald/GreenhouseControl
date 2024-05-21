@@ -14,13 +14,13 @@ INCLUDEPATH += $$PWD/../app/include
 
 # The source files (e.g. *.cpp)
 SOURCES += \
-    ../app/src/circlemotionprovider.cpp \
-    ../app/src/rocket.cpp \
-    testcirclemotionprovider.cpp
+ #   ../app/src/circlemotionprovider.cpp \
+ #   ../app/src/rocket.cpp \
+#    testcirclemotionprovider.cpp
 
 # The header files (e.g. *.h)
 HEADERS += \
-    ../app/include/circlemotionprovider.h \
-    ../app/include/rocket.h \
-    testcirclemotionprovider.h
+#    ../app/include/circlemotionprovider.h \
+ #   ../app/include/rocket.h \
+ #   testcirclemotionprovider.h
 

@@ -47,11 +47,11 @@ std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
     condition_week_3->addFertilizer(fertilizer_3, 5);
     condition_week_3->setNotifications(notification_vector_2);
 
-    std::shared_ptr<PlantProfile> plant_profile_1 = std::shared_ptr<PlantProfile>(new PlantProfile("Purple Haze", 3, 8, 22.0, 3.0, "Coco", 10,  20));
+    std::shared_ptr<PlantProfile> plant_profile_1 = std::shared_ptr<PlantProfile>(new PlantProfile("Purple Haze", 3, 8, 22.0, 3.0, "Coco", 70, 80));
     plant_profile_1->addWeeklyCondition(condition_week_1);
     plant_profile_1->addWeeklyCondition(condition_week_2);
     plant_profile_1->addWeeklyCondition(condition_week_3);
-    std::shared_ptr<PlantProfile> plant_profile_2 = std::shared_ptr<PlantProfile>(new PlantProfile("Auto Sour Diesel", 3, 7, 23.0, 5.0, "Soil", 10,  20));
+    std::shared_ptr<PlantProfile> plant_profile_2 = std::shared_ptr<PlantProfile>(new PlantProfile("Auto Sour Diesel", 3, 7, 23.0, 5.0, "Soil", 68, 90));
     plant_profile_2->addWeeklyCondition(condition_week_1);
     plant_profile_2->addWeeklyCondition(condition_week_2);
     plant_profile_2->addWeeklyCondition(condition_week_3);

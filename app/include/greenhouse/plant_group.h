@@ -30,9 +30,8 @@ public:
     void setGridPosition(int , int);
     void addPlantToGrid(std::shared_ptr<Plant>, int, int);
     void addNote(std::shared_ptr<Note>);
-    void removeNote(unsigned int);
+    void removeNote(size_t);
     void removePlant(std::shared_ptr<Plant>);
-    //bool savePlantGroupToFile(const std::string&);
     friend QDebug operator<<(QDebug, const PlantGroup &);
 };
 

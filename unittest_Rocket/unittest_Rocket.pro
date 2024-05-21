@@ -14,11 +14,11 @@ INCLUDEPATH += $$PWD/../app/include
 
 # The source files (e.g. *.cpp)
 SOURCES += \
-    ../app/src/rocket.cpp \
-    testrocket.cpp
+ #   ../app/src/rocket.cpp \
+ #   testrocket.cpp
 
 # The header files (e.g. *.h)
 HEADERS += \
-    ../app/include/rocket.h \
-    testrocket.h
+#    ../app/include/rocket.h \
+#    testrocket.h
 

@@ -5,10 +5,6 @@ void PlantGroup::addPlantToGrid(std::shared_ptr<Plant> plant, int row_number, in
     // Check viability of row and column numbers
     if (row_number > number_of_plant_rows_ || column_number > number_of_plant_columns_) {
         qDebug() << "row  or columm problem plant";
-        qDebug() << "Row Number: " << row_number << "Number of Plant Rows: " << number_of_plant_rows_;
-        qDebug() << "Col Number: " << column_number << "Number of Plant Col: " << number_of_plant_columns_;
-
-
         throw("Plant cant be added"); // Throw needs catch?????????????????????
         return;
     }
@@ -38,7 +34,7 @@ void PlantGroup::setPlantGridSize(int row_size, int column_size) {
     number_of_plant_columns_ = column_size;
 }
 
-void PlantGroup::removeNote(unsigned int index) {
+void PlantGroup::removeNote(size_t index) {
     if (index < notes_.size()) {
         notes_.erase(notes_.begin() + index);
     }

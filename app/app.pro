@@ -23,12 +23,12 @@ INCLUDEPATH += $$PWD/include
 
 # The source files (e.g. *.cpp)
 SOURCES += \
-    src/circlemotionprovider.cpp \
     src/clock.cpp \
     src/control/mock_enviroment.cpp \
     src/control/sensor.cpp \
     src/control/sensor_control.cpp \
     src/control/water_control.cpp \
+    src/greenhouse/condition.cpp \
     src/greenhouse/greenhouse.cpp \
     src/greenhouse/plant.cpp \
     src/greenhouse/plant_group.cpp \
@@ -38,7 +38,6 @@ SOURCES += \
     src/note.cpp \
     src/notification.cpp \
     src/notification_control.cpp \
-    src/rocket.cpp \
     src/ui/group_dialog.cpp \
     src/ui/log_window.cpp \
     src/ui/mainwindow.cpp \
@@ -48,13 +47,14 @@ SOURCES += \
 
 # The header files (e.g. *.h)
 HEADERS += \
-    include/circlemotionprovider.h \
     include/clock.h \
     include/control/mock_enviroment.h \
     include/control/sensor.h \
     include/control/sensor_control.h \
     include/control/water_control.h \
+    include/control/water_valve.h \
     include/date_time.h \
+    include/greenhouse/condition.h \
     include/greenhouse/greenhouse.h \
     include/greenhouse/plant.h \
     include/greenhouse/plant_group.h \
@@ -63,13 +63,12 @@ HEADERS += \
     include/note.h \
     include/notification.h \
     include/notification_control.h \
-    include/rocket.h \
     include/ui/group_dialog.h \
     include/ui/log_window.h \
     include/ui/mainwindow.h \
     include/ui/plant_group_box.h \
     include/ui/plant_label.h \
-    include/warning.h \
+    include/warning.h
 
 # The GUI definition files (so-called forms)
 FORMS += \

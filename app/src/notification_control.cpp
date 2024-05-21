@@ -1,15 +1,12 @@
 #include "notification_control.h"
 
 
-NotificationControl::NotificationControl(std::shared_ptr<Greenhouse> greenhouse, int time_between_checks_in_s)
-    : QObject(nullptr), time_between_checks_in_s_(time_between_checks_in_s), greenhouse_(greenhouse) {}
+NotificationControl::NotificationControl(std::shared_ptr<Greenhouse> greenhouse)
+    : QObject(nullptr), greenhouse_(greenhouse) {}
 
 
 void NotificationControl::updateNotificationList() {
     bool notifcation_list_has_changed = false;
-    // Clear the notification list first
-    //std::vector<std::shared_ptr<Notification>> notification_list_old = active_notification_list_;
-    //active_notification_list_.clear();
     // Current time to compare it to the sowing dates
     QDateTime current_time = QDateTime::currentDateTime();
     for(size_t group_index = 0; group_index < greenhouse_->getPlantGroups().size(); group_index++) {
@@ -70,6 +67,7 @@ bool NotificationControl::addNewNotificationToActiveList(int group_index, int pl
             return true;
         }
     }
+    // If not add the new notification to the active list
     std::shared_ptr<Notification> notification;
     notification = std::make_shared<Notification>(int(group_index), int(plant_index), int( week_index), value_as_string, notification_type);
     active_notification_list_.push_back(notification);
@@ -90,9 +88,11 @@ void NotificationControl::deleteNotification(int notification_index) {
             }
         }
     }
+    qInfo().noquote() << "This Notification was deleted:\n \"" << notification->getNotificationMessage() << "\"";
     active_notification_list_.erase(active_notification_list_.begin() + notification_index);
 }
 
+// Displays notification for debugging
 void NotificationControl::displayNotifications() {
     for(auto &note: active_notification_list_) {
         qDebug() << note->getNotificationMessage();

@@ -5,6 +5,7 @@
 #include "log.h"
 #include "control/sensor_control.h"
 #include "notification_control.h"
+#include "control/water_control.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -13,8 +14,7 @@
 #include <QDir>
 #include <QObject>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     // Create Greenhouse
     GreenhouseCreate ghc;
@@ -23,28 +23,27 @@ int main(int argc, char *argv[])
 
     //Create Log
     std::shared_ptr<SystemLog> log = std::make_shared<SystemLog>();
-    //log->initLogging();
+    log->initLogging();
 
     //Create notifications
-    NotificationControl notificationControl(greenhouse, 3);
+    NotificationControl notificationControl(greenhouse);
 
+    // Create Control Classes
+    SensorControl sensorControl(greenhouse);
+    WaterControl waterControl(greenhouse);
     // Create a mock environment
-    std::shared_ptr<MockEnvironment> mockEnv = std::make_shared<MockEnvironment>();
-    // Create sensor Control
-    int seconds_per_measurement = 2;
-    SensorControl sensorControl(mockEnv, greenhouse, seconds_per_measurement);
-    sensorControl.addSoilSensorsToPlants();
-
+    MockEnvironment mockEnviroment(greenhouse, &sensorControl, &waterControl);
 
 
     // Init GUI
-    MainWindow window(greenhouse, log, &notificationControl);
+    MainWindow window(greenhouse, log, &notificationControl, &waterControl);
     window.show();
 
-    int seconds_per_update_notifications = (60 * 60);
+    int seconds_between_notification_update = (60 * 60);
+    int seconds_between_measurments = 2;
     // Init Clocks
-    physics::Clock sensorClock(sensorControl.getSecondsperMeasurement());
-    physics::Clock notificationClock(seconds_per_update_notifications);
+    physics::Clock sensorClock(seconds_between_measurments);
+    physics::Clock notificationClock(seconds_between_notification_update);
     // Measure temperature every clock cycle
     QObject::connect(&sensorClock, &physics::Clock::update, &sensorControl, &SensorControl::measureTemperature);
     // Connect the signal from the SensorControl class to the updateTemperatureLabel slot in the MainWindow class
@@ -58,6 +57,13 @@ int main(int argc, char *argv[])
     // Update notifications
     QObject::connect(&notificationClock, &physics::Clock::update, &notificationControl, &NotificationControl::updateNotificationList);
     QObject::connect(&notificationControl, &NotificationControl::updateNotificationListInUi, &window, &MainWindow::setNotificationList);
+    // Control the moisture levels
+    QObject::connect(&sensorClock, &physics::Clock::update, &waterControl, &WaterControl::controlMoistureLevels);
+    QObject::connect(&waterControl, &WaterControl::mainValveWasClosed,  &window, &MainWindow::toggleMainValveToggleButtonOff);
+    // Update the enviroment
+    QObject::connect(&sensorClock, &physics::Clock::update, &mockEnviroment, &MockEnvironment::generateNewSoilMoistureAndFlow);
+    QObject::connect(&sensorClock, &physics::Clock::update, &mockEnviroment, &MockEnvironment::generateNewTemperature);
+    QObject::connect(&sensorClock, &physics::Clock::update, &mockEnviroment, &MockEnvironment::generateNewHumidity);
 
     sensorClock.start();
     notificationClock.start();
@@ -65,73 +71,3 @@ int main(int argc, char *argv[])
     return app.exec();
 }
 
-/*
-
-#include "circlemotionprovider.h"
-#include "clock.h"
-#include "rocket.h"
-#include "mainwindow.h"
-
-#include <QApplication>
-#include <QSettings>
-#include <QCommandLineParser>
-#include <QtDebug>
-#include <QDir>
-
-int main(int argc, char *argv[])
-{
-    // Set some defaults
-    QCoreApplication::setApplicationName("SE 2 Demo");
-    QCoreApplication::setApplicationVersion("0.1");
-    QCoreApplication::setOrganizationName("Berliner Hochschule für Technik");
-    QCoreApplication::setOrganizationDomain("bht-berlin.de");
-
-    qDebug() << QCoreApplication::applicationName() << " v" << QCoreApplication::applicationVersion();
-    qDebug() << "Current working directory" << QDir::currentPath();
-
-    // Parse command line options
-    QApplication app(argc, argv);
-    QCommandLineParser parser;
-    parser.setApplicationDescription("A demo application for the SE2 course at Beuth University");
-    parser.addHelpOption();
-    parser.addVersionOption();
-    parser.addOption({{"c", "config"}, "Use file for configuration", "name of file", "default.cfg"});
-    parser.process(app);
-
-    // Process config file
-    const QString configFile = parser.value("config");
-    qDebug() << "Using config file" << configFile;
-
-    // Default values are encoded here and used if not given by config file
-    // Note: the file is located using the current working directory - make sure that the file and CWD is in the right spot
-    QSettings settings(configFile, QSettings::IniFormat);
-
-    int framerate = settings.value("framerate", 30).toInt();
-    float frequency = settings.value("frequency", 0.2).toFloat();
-    float amplitude = settings.value("amplitude", 200).toFloat();
-    float offset = settings.value("offset", 1.507).toFloat();
-    bool clockwise = settings.value("clockwise", false).toBool();
-
-    // Init GUI
-    MainWindow window;
-    window.show();
-
-    // Init Logic
-    logic::RocketImpl rocket(400, 300);
-    logic::CircleMotionProvider motion(frequency, amplitude, offset, clockwise);
-    motion.setRocket(&rocket);  // dependency injection
-    QObject::connect(&rocket, &logic::RocketImpl::rocketMovementUpdate, &window, &MainWindow::moveRocket);
-
-    // Init Physics
-    physics::Clock clock(framerate);
-    QObject::connect(&clock, &physics::Clock::update, &motion, &logic::CircleMotionProvider::update);
-
-    // Connect GUI button to clock
-    QObject::connect(&window, &MainWindow::start, &clock, QOverload<>::of(&physics::Clock::start));
-    QObject::connect(&window, &MainWindow::stop, &clock, QOverload<>::of(&physics::Clock::stop));
-
-    // Go!
-    return app.exec();
-}
-
-*/

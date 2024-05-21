@@ -1,28 +1,28 @@
 #include "control/sensor_control.h"
 
 #include "control/sensor.h"
-#include "control/mock_enviroment.h"
+//#include "control/mock_enviroment.h"
 #include <QtDebug>
 
-SensorControl::SensorControl(std::shared_ptr<MockEnvironment> mock_enviroment, std::shared_ptr<Greenhouse> greenhouse, int seconds_per_measurement = 1)
-    : QObject(nullptr), seconds_per_measurement_(seconds_per_measurement), greenhouse_(greenhouse), mock_enviroment_(mock_enviroment)  {
+SensorControl::SensorControl(std::shared_ptr<Greenhouse> greenhouse)
+    : QObject(nullptr), greenhouse_(greenhouse)  {
 
-    temperature_sensor_ = std::make_shared<TemperatureSensor>(mock_enviroment_);
-    humidity_sensor_ = std::make_shared<HumiditySensor>(mock_enviroment_);
+    temperature_sensor_ = std::make_shared<TemperatureSensor>();
+    humidity_sensor_ = std::make_shared<HumiditySensor>();
+    addSoilSensorsToPlants();
 }
 
 void SensorControl::addSoilSensorsToPlants() {
     for(auto& group_iterator: greenhouse_->getPlantGroups()) {
         for(auto& plant_iterator: group_iterator->getPlants()) {
-            std::shared_ptr<SoilMoistureSensor> soil_sensor = std::make_shared<SoilMoistureSensor>(mock_enviroment_);
+            std::shared_ptr<SoilMoistureSensor> soil_sensor = std::make_shared<SoilMoistureSensor>();
             plant_iterator->setSoilMoistureSensor(soil_sensor);
         }
     }
 }
 
 void SensorControl::measureTemperature() {
-    temperature_sensor_->takeMeasurement();
-    float temperature = temperature_sensor_->getMeasurementValue();
+    float temperature = temperature_sensor_->getMeasurement();
     // Create a formatted QString using the desired precision and fixed-point format
     QString formattedTemperature = QString::asprintf("Temperature: %.1f °C", temperature);
     // Save the temperature to the log without " " but with ° by UTF-8 encoding
@@ -34,8 +34,7 @@ void SensorControl::measureTemperature() {
 }
 
 void SensorControl::measureHumidity() {
-    humidity_sensor_->takeMeasurement();
-    float humidity = humidity_sensor_->getMeasurementValue();
+    float humidity = humidity_sensor_->getMeasurement();
     // Create a formatted QString using the desired precision and fixed-point format
     QString formattedHumidity = QString::asprintf("Humidity: %.1f%%", humidity);
     qInfo().noquote() << formattedHumidity;
@@ -49,8 +48,7 @@ void  SensorControl::measureSoilMoistures() {
         QString soil_moistures_string = QString::asprintf("Soil Moisture of Plant Group %i:", group_number);
         for(auto& plant_iterator: group_iterator->getPlants()) {
             std::shared_ptr<SoilMoistureSensor> soil_moisture_sensor = plant_iterator->getSoilMoistureSensor();
-            soil_moisture_sensor->takeMeasurement();
-            float soil_moisture = soil_moisture_sensor->getMeasurementValue();
+            float soil_moisture = soil_moisture_sensor->getMeasurement();
             soil_moistures_string.append(QString::asprintf(" %.1f", soil_moisture));
         }
         // Save the humidity to the log

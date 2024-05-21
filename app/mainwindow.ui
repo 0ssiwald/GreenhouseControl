@@ -218,38 +218,6 @@
      <string>Temperatur: </string>
     </property>
    </widget>
-   <widget class="QPushButton" name="createGroupButton">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>700</y>
-      <width>261</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Pflanzengruppe erstellen</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="createProfileButton">
-    <property name="geometry">
-     <rect>
-      <x>590</x>
-      <y>700</y>
-      <width>261</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Pflanzenprofil anlegen</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="systemLogButton">
     <property name="geometry">
      <rect>
@@ -294,12 +262,29 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
+   <widget class="QPushButton" name="mainValveToggleButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>690</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Hauptventil: ____</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
    <zorder>gridLayoutWidget</zorder>
    <zorder>notificationLabel</zorder>
    <zorder>humidityLabel</zorder>
    <zorder>temperatureLabel</zorder>
-   <zorder>createGroupButton</zorder>
-   <zorder>createProfileButton</zorder>
    <zorder>systemLogButton</zorder>
    <zorder>notificationListWidget</zorder>
    <zorder>line_3</zorder>
@@ -307,6 +292,7 @@
    <zorder>line_4</zorder>
    <zorder>line</zorder>
    <zorder>line_5</zorder>
+   <zorder>mainValveToggleButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

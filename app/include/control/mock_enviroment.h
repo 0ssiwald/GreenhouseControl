@@ -1,29 +1,27 @@
 #ifndef MOCK_ENVIROMENT_H
 #define MOCK_ENVIROMENT_H
 
+#include <QObject>
+#include "greenhouse/greenhouse.h"
+#include "sensor_control.h"
+#include "water_control.h"
 
+class MockEnvironment: public QObject {
+    Q_OBJECT
 
-class MockEnvironment {
-    //float temperature_;
-    //float humidity_;
+    std::shared_ptr<Greenhouse> greenhouse_;
+    SensorControl* sensor_control_;
+    WaterControl* water_control_;
+
     float getRandomChange(const float min_change = -0.5, const float max_change = 0.5);
 public:
-    //MockEnvironment(float tmp,float humid)
-   //     : temperature_(tmp), humidity_(humid) {}
+    explicit MockEnvironment(std::shared_ptr<Greenhouse> greenhouse, SensorControl* sensor_control, WaterControl* water_control)
+        : QObject(nullptr), greenhouse_(greenhouse), sensor_control_(sensor_control), water_control_(water_control) {}
 
-
-    float generateNewTemperature(float last_temperature) {
-        float new_temperature = last_temperature + getRandomChange();
-        return new_temperature;
-    }
-    float generateNewHumidity(float last_humidity) {
-        float new_humidity = last_humidity + getRandomChange();
-        return new_humidity;
-    }
-    float generateNewSoilMoisture(float soil_moisture, float max_dry_amount = 1.0) {
-        float new_soil_moisture = soil_moisture - getRandomChange(0, max_dry_amount);
-        return new_soil_moisture;
-    }
+public slots:
+    void generateNewTemperature();
+    void generateNewHumidity();
+    void generateNewSoilMoistureAndFlow();
 };
 
 #endif // MOCK_ENVIROMENT_H

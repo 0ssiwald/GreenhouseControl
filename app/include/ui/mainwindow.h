@@ -5,11 +5,12 @@
 #include <QGroupBox>
 #include <QCheckBox>
 #include <memory>
+#include <QtDebug>
 #include "ui_mainwindow.h" // because Ui::MainWindow class is an incomplete type at the point where you're trying to access its members.
 #include "greenhouse/greenhouse.h"
 #include "log.h"
 #include "plant_label.h"
-
+#include "control/water_control.h"
 #include "notification_control.h"
 
 
@@ -21,23 +22,25 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog> log, NotificationControl* note, QWidget *parent = nullptr);
+    MainWindow(std::shared_ptr<Greenhouse>, std::shared_ptr<SystemLog>, NotificationControl*, WaterControl*, QWidget * = nullptr);
     ~MainWindow();
-
-    void updateTemperatureLabel(float);
-    void updateHumidityLabel(float);
-    void updatePlantLabels();
     void setNotificationList();
 
 private slots:
     void on_systemLogButton_clicked();
     void deleteNotification();
-
+    void on_mainValveToggleButton_toggled(bool);
+public slots:
+    void updatePlantLabels();
+    void updateTemperatureLabel(float);
+    void updateHumidityLabel(float);
+    void toggleMainValveToggleButtonOff();
 private:
     Ui::MainWindow *ui;
     std::shared_ptr<Greenhouse> greenhouse_;
     std::shared_ptr<SystemLog> systemLog_;
     NotificationControl* notificationControl_;
+    WaterControl* waterControl_;
     QPushButton* systemLogButton_;
     std::vector<PlantLabel*> plantLabels_;
     void setGroupLayout();

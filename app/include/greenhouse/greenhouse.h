@@ -5,8 +5,6 @@
 #include <memory>
 #include <QtDebug>
 #include "plant_group.h"
-#include "notification.h"
-
 
 
 class Greenhouse {
@@ -27,7 +25,6 @@ public:
     std::vector<std::shared_ptr<PlantGroup>> getPlantGroups() {return plant_groups_;};
     friend QDebug operator<<(QDebug, const Greenhouse &);
 };
-
 
 
 // Class to create Greenhouse form File

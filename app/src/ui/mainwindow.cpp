@@ -2,13 +2,12 @@
 #include "ui/plant_group_box.h"
 #include "ui/log_window.h"
 
-MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog> log, NotificationControl* notification, QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse_(gh), systemLog_(log), notificationControl_(notification) {
+MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog> log, NotificationControl* notification, WaterControl *water, QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse_(gh), systemLog_(log), notificationControl_(notification), waterControl_(water) {
     ui->setupUi(this);
 
     setGroupLayout();
 }
-
 
 MainWindow::~MainWindow() {
     delete ui;
@@ -22,20 +21,21 @@ void MainWindow::setGroupLayout() {
         for(int group_col = 0; group_col <= greenhouse_->getNumberOfColumns(); ++group_col) {
             // First an empty groupBox is created and if a real group is found it gets overwritten
             PlantGroupBox* groupBox = new PlantGroupBox(this);
-            for(auto &it: greenhouse_->getPlantGroups()) {
-                if(it->getGridRowNumber() == group_row && it->getGridColumnNumber() == group_col) {
-                    groupBox->setPlantGroup(it);
+            for(auto &group: greenhouse_->getPlantGroups()) {
+                if(group->getGridRowNumber() == group_row && group->getGridColumnNumber() == group_col) {
+                    groupBox->setPlantGroup(group);
                     groupBox->setGroupNumber(group_number);
                     // Configure the Layout of the group Box
                     QGridLayout *gridLayoutPlants = groupBox->setPlantGroupLayout(group_number++);
                     int plant_number = 1;
-                    for(int plant_row = 0; plant_row <= it->getNumberOfPlantRows(); ++plant_row) {
-                        for(int plant_column = 0; plant_column <= it->getNumberOfPlantColumns(); ++plant_column) {
+                    for(int plant_row = 0; plant_row <= group->getNumberOfPlantRows(); ++plant_row) {
+                        for(int plant_column = 0; plant_column <= group->getNumberOfPlantColumns(); ++plant_column) {
                             PlantLabel* plantLabel = new PlantLabel();
-                            for(auto &it2: it->getPlants()) {
-                                if(it2->getGridRowNumber() == plant_row && it2->getGridColumnNumber() == plant_column) {
-                                    // Adding the sensor to the corrisponding label
-                                    plantLabel->setMoistureSensor(it2->getSoilMoistureSensor());
+                            for(auto &plant: group->getPlants()) {
+                                if(plant->getGridRowNumber() == plant_row && plant->getGridColumnNumber() == plant_column) {
+                                    // Adding the sensor and valve to the corrisponding label
+                                    plantLabel->setMoistureSensor(plant->getSoilMoistureSensor());
+                                    plantLabel->setWaterValve(plant->getWaterValve());
                                     plantLabel->setPlantLabelLayout();
                                     plantLabel->setProperty("plant_number", plant_number++);
                                     // Add label to vector for updating moisture reading in UI
@@ -65,12 +65,7 @@ void MainWindow::updateHumidityLabel(float humidity) {
 
 void MainWindow::updatePlantLabels() {
     for(auto &it: plantLabels_) {
-        // Test if the Moisture Sensor is a nullptr
-        if(it->getMoistureSensor()) {
-            float soil_moisture = it->getMoistureSensor()->getMeasurementValue();
-            QString plant_string = QString("Pflanze %1:\n%2%").arg(QString::number(it->property("plant_number").toInt()), QString::number(soil_moisture, 'f', 1));
-            it->setText(plant_string);
-        }
+        it->updatePlantLabel(waterControl_->isMainValveOpen());
     }
 }
 
@@ -129,7 +124,25 @@ void MainWindow::deleteNotification() {
     }
 }
 
+void MainWindow::on_mainValveToggleButton_toggled(bool checked) {
+    if(checked){
+        waterControl_->openMainValve();
+        ui->mainValveToggleButton->setText("Hauptventil: ____");
+        qInfo().noquote() << "Main valve was closed in the UI";
+    }
+    else{
+        waterControl_->closeMainValve();
+        ui->mainValveToggleButton->setText("Hauptventil: _/ _");
+        qInfo().noquote() << "Main valve was opend in the UI";
+    }
+}
 
+void MainWindow::toggleMainValveToggleButtonOff() {
+    // If the button is on turn it off
+    if(ui->mainValveToggleButton->isChecked()) {
+        ui->mainValveToggleButton->toggle();
+    }
+}
 /*
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -182,6 +195,9 @@ void MainWindow::on_startStopButton_clicked()
 }
 
 */
+
+
+
 
 
 
