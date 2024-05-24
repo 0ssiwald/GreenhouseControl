@@ -3,8 +3,10 @@
 
 #include <memory>
 #include <QDialog>
+#include <QString>
 #include "greenhouse/plant_group.h"
 #include "ui_group_window.h"
+#include "date_time.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class GroupDialog; }

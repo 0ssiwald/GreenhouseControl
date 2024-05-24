@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QDateTime>
 #include <QtDebug>
+#include <string>
 #include "notification.h"
 #include "greenhouse/greenhouse.h"
 
@@ -14,7 +15,7 @@ public:
     explicit NotificationControl(std::shared_ptr<Greenhouse>);
     void addNotification(NotificationTypes, QDateTime);
     std::vector<std::shared_ptr<Notification>> getNotificationList() {return active_notification_list_;}
-    bool addNewNotificationToActiveList(int, int, int, QString, NotificationTypes);
+    bool addNewNotificationToActiveList(int, int, int, std::string, NotificationTypes);
     void displayNotifications();
     bool saveNotificationToLog();
     void deleteNotification(int);

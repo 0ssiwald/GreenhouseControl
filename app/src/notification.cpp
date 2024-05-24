@@ -1,35 +1,39 @@
 #include "notification.h"
+#include <sstream>
 
-QString Notification::getNotificationMessage() {
-    QString notification_string = QString("Woche %1 Gruppe %2:\n").arg(QString::number(week_index_ + 1), QString::number(group_index_ + 1));
-    QString plant_numbers_string;
-    // Make "Pflanzen" if there are multable plants
-    if(plant_indices_.size() > 1) {
-        plant_numbers_string += "n";
+std::string Notification::getNotificationMessage() {
+    std::ostringstream notification_stream;
+    notification_stream << "Woche " << (week_index_ + 1) << " Gruppe " << (group_index_ + 1) << ":\n";
+
+    std::ostringstream plant_numbers_stream;
+    if (plant_indices_.size() > 1) {
+        plant_numbers_stream << "n";
     }
-    for (auto &plant_number: plant_indices_) {
-        plant_numbers_string += QString(" %1").arg(QString::number(plant_number + 1));
-        // Add a comma if there are still other plants
-        if(plant_number !=  plant_indices_.back()) {
-            plant_numbers_string += ",";
+    for (auto it = plant_indices_.begin(); it != plant_indices_.end(); ++it) {
+        plant_numbers_stream << " " << (*it + 1);
+        if (it != plant_indices_.end() - 1) {
+            plant_numbers_stream << ",";
         }
     }
-    switch(notification_type_) {
+    std::string plant_numbers_string = plant_numbers_stream.str();
+
+    switch (notification_type_) {
     case NotificationTypes::LampDistanceNotification:
-        notification_string += QString("Der optimale Lampenabstand für Pflanze%1 beträgt %2 cm").arg(plant_numbers_string, value_as_string_);
+        notification_stream << "Der optimale Lampenabstand für Pflanze" << plant_numbers_string << " beträgt " << value_as_string_ << " cm";
         break;
     case NotificationTypes::FertilizerNotification:
-        notification_string += QString("Die Pflanze%1  müssen gedüngt werden mit:\n%2").arg(plant_numbers_string, value_as_string_);
+        notification_stream << "Die Pflanze" << plant_numbers_string << " müssen gedüngt werden mit:\n" << value_as_string_;
         break;
     case NotificationTypes::TemperatureNotification:
-        notification_string += QString("Die optimale Temperatur für Pflanze%1 beträgt %2 °C").arg(plant_numbers_string, value_as_string_);
+        notification_stream << "Die optimale Temperatur für Pflanze" << plant_numbers_string << " beträgt " << value_as_string_ << " °C";
         break;
     case NotificationTypes::HumidityNotification:
-        notification_string += QString ("Die optimale Luftfeuchtigkeit für Pflanze%1 beträgt %2%").arg(plant_numbers_string, value_as_string_);
+        notification_stream << "Die optimale Luftfeuchtigkeit für Pflanze" << plant_numbers_string << " beträgt " << value_as_string_ << "%";
         break;
     default:
-        notification_string = QString("Unknown notification");
+        notification_stream << "Unknown notification";
+        break;
     }
-    return notification_string;
-}
 
+    return notification_stream.str();
+}

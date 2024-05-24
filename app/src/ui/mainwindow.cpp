@@ -79,7 +79,7 @@ void MainWindow::on_systemLogButton_clicked() {
 void MainWindow::setNotificationList() {
     ui->notificationListWidget->clear();
     for(size_t notification_number = 0; notification_number < notificationControl_->getNotificationList().size(); notification_number++) {
-        QString notification_string = notificationControl_->getNotificationList()[notification_number]->getNotificationMessage();
+        QString notification_string = QString::fromStdString(notificationControl_->getNotificationList()[notification_number]->getNotificationMessage());
         // other widgets like ui->notificationWidget set as parents to handle freeing the memory
         QWidget* notificationWidget = new QWidget(ui->notificationListWidget);
         QHBoxLayout* layout = new QHBoxLayout(notificationWidget);

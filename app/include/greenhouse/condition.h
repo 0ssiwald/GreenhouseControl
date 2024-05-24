@@ -1,19 +1,19 @@
 #ifndef CONDITION_H
 #define CONDITION_H
 
-#include <QString>
+#include <string>
 #include <vector>
 #include <memory>
 #include "notification.h"
 
 class Fertilizer {
-    QString name_;
-    QString type_;
+    std::string name_;
+    std::string type_;
 public:
-    Fertilizer(const QString& name, const QString& type)
+    Fertilizer(const std::string& name, const std::string& type)
         : name_(name), type_(type) {}
-    QString getName() {return name_;}
-    QString getType() {return type_;}
+    std::string getName() {return name_;}
+    std::string getType() {return type_;}
 };
 
 struct FertilizerWithAmount {
@@ -43,7 +43,7 @@ public:
     float getTemperature() {return temperature_;}
     int getLampDistance() {return lamp_distance_in_cm_;}
     std::vector<FertilizerWithAmount> getFertilizers() {return fertilizers_;}
-    QString getFertilazersAsString();
+    std::string getFertilazersAsString();
 };
 
 

@@ -34,9 +34,9 @@ void GroupDialog::setDisplayGroupValues(QListWidgetItem* item) {
     // Ensure the QListWidget is not empty
     if(ui->plantListWidget->count() > 0) {
         ui->groupLabel->setText(QString("Gruppe: %1").arg(group_number_));
-        ui->strainLabel->setText(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getStrainName());
-        ui->soilLabel->setText(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getSoilType());
-        ui->ageLabel->setText(plantGroup_->getPlants()[selected_plant_]->getSowingDate().toString("dd.MM.yyyy"));
+        ui->strainLabel->setText(QString::fromStdString(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getStrainName()));
+        ui->soilLabel->setText(QString::fromStdString(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getSoilType()));
+        ui->ageLabel->setText(QString::fromStdString(DateTimeConverter::timePointToString(plantGroup_->getPlants()[selected_plant_]->getSowingDate())));
         QString cbd_string = QString("%1%").arg(QString::number(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getExpectedCbdContent()));
         ui->cbdLabel->setText(cbd_string);
         QString thc_string = QString("%1%").arg(QString::number(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getExpectedThcContent()));
@@ -64,7 +64,7 @@ void GroupDialog::setConditionWeeklyValues(QListWidgetItem* item) {
         ui->temperatureLabel->setText(temperature);
         QString lamp_distance = QString("%1 cm").arg(QString::number(conditions_weekly->getLampDistance()));
         ui->lampLabel->setText(lamp_distance);
-        ui->fertilizerLabel->setText(conditions_weekly->getFertilazersAsString());
+        ui->fertilizerLabel->setText(QString::fromStdString(conditions_weekly->getFertilazersAsString()));
     }
 }
 
@@ -90,8 +90,8 @@ void GroupDialog::setWeekList(int plant_number = 0) {
 void GroupDialog::setNoteList() {
     ui->notesListWidget->clear();
     for(size_t note_number = 0; note_number < plantGroup_->getNotes().size(); note_number++) {
-        QString date_string = QString("%1:\n").arg(plantGroup_->getNotes()[note_number]->getDate().toString("dd.MM.yyyy HH:mm:ss"));
-        QString message_string = plantGroup_->getNotes()[note_number]->getMessage();
+        QString date_string = QString("%1:\n").arg(QString::fromStdString(DateTimeConverter::timePointToString(plantGroup_->getNotes()[note_number]->getDate())));
+        QString message_string = QString::fromStdString(plantGroup_->getNotes()[note_number]->getMessage());
         QString note_string = date_string + message_string;
         // Create a custom widget to hold the note content and the delete button
         // other widgets like ui->notesListWidget set as parents to handle freeing the memory
@@ -154,16 +154,17 @@ void GroupDialog::on_addNoteButton_clicked() {
         ui->addNoteButton->setText("Notiz speichern");
     } else {
         QString text = ui->noteEdit->toPlainText();
+        std::string std_string_text = text.toStdString();
         // save only the text to a new note if it is not empty
         if(!text.isEmpty()) {
             // If it is a edited message the note text should only be altered
             if(is_edit_) {
                 QListWidgetItem *item = ui->notesListWidget->currentItem();
                 int index = ui->notesListWidget->row(item);
-                plantGroup_->getNotes()[index]->setMessage(text);
+                plantGroup_->getNotes()[index]->setMessage(std_string_text);
 
             } else {
-                std::shared_ptr<Note> new_note = std::make_shared<Note>(QDateTime::currentDateTime(), text);
+                std::shared_ptr<Note> new_note = std::make_shared<Note>(std::chrono::system_clock::now(), std_string_text);
                 plantGroup_->addNote(new_note);
             }
             setNoteList();
@@ -182,6 +183,6 @@ void GroupDialog::on_notesListWidget_itemDoubleClicked(QListWidgetItem *item) {
     on_addNoteButton_clicked();
     // Get the index of the clicked item
     int index = ui->notesListWidget->row(item);
-    ui->noteEdit->setText(plantGroup_->getNotes()[index]->getMessage());
+    ui->noteEdit->setText(QString::fromStdString(plantGroup_->getNotes()[index]->getMessage()));
 }
 

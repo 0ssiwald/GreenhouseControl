@@ -1,22 +1,22 @@
 #ifndef NOTE_H
 #define NOTE_H
 
-#include <QString>
-#include <QDateTime>
+#include <string>
+#include <chrono>
 
 class Note {
-    QDateTime creation_date_;
-    QString message_;
+    std::chrono::system_clock::time_point creation_date_;
+    std::string message_;
 public:
-    Note(const QDateTime&  creation_date, const QString& message)
+    Note(const std::chrono::system_clock::time_point&  creation_date, const std::string& message)
         : creation_date_(creation_date), message_(message) {}
     //void createNote(const QString&);
-    QDateTime getDate() {return creation_date_;}
-    QString getMessage() {return message_;}
-    void setMessage(QString &message) {message_ = message;}
+    std::chrono::system_clock::time_point getDate() {return creation_date_;}
+    std::string getMessage() {return message_;}
+    void setMessage(std::string &message) {message_ = message;}
     void saveNoteToFile();
     void removeNote();
-    Note* loadNotesFromFile(const QString&);
+    Note* loadNotesFromFile(const std::string&);
 
 };
 

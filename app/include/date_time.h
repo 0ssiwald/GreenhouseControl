@@ -1,9 +1,6 @@
 #ifndef DATE_TIME_H
 #define DATE_TIME_H
 
-// Use QDateTime instead!!!!!!!!!!
-
-/*
 #include <chrono>
 #include <ctime>
 #include <iomanip>
@@ -36,5 +33,4 @@ struct DateTimeConverter {
     }
 };
 
-*/
 #endif // DATE_TIME_H

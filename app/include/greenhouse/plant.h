@@ -1,8 +1,9 @@
 #ifndef PLANT_H
 #define PLANT_H
 
-#include <QString>
+#include <string>
 #include <memory>
+#include <chrono>
 #include <QDebug>
 #include <QDateTime>
 #include "plant_profile.h"
@@ -14,16 +15,16 @@ class Plant {
     int plant_grid_row_number_;
     int plant_grid_column_number_;
 
-    QDateTime  sowing_date_;
+    std::chrono::system_clock::time_point  sowing_date_;
     std::shared_ptr<PlantProfile> profile_;
     std::shared_ptr<SoilMoistureSensor> soil_moisture_sensor_;
 
     std::shared_ptr<WaterValve> water_valve_;
 public:
-    Plant(const QDateTime&  sowing_date, std::shared_ptr<PlantProfile> profile, int row_number = 0, int column_number = 0) :
+    Plant(const std::chrono::system_clock::time_point&  sowing_date, std::shared_ptr<PlantProfile> profile, int row_number = 0, int column_number = 0) :
         plant_grid_row_number_(row_number), plant_grid_column_number_(column_number), sowing_date_(sowing_date), profile_(profile) {}
 
-    bool savePlantToFile(const QString&);
+    bool savePlantToFile(const std::string&);
     void setWaterValve(std::shared_ptr<WaterValve> water_valve) {water_valve_ = water_valve;}
     void setSoilMoistureSensor(std::shared_ptr<SoilMoistureSensor> soil_moisture_sensor) {soil_moisture_sensor_ = soil_moisture_sensor;};
     void setGridPosition(int, int);
@@ -33,7 +34,7 @@ public:
     std::shared_ptr<PlantProfile> getProfile() {return profile_;}
     std::shared_ptr<SoilMoistureSensor> getSoilMoistureSensor() {return soil_moisture_sensor_;}
     std::shared_ptr<PlantProfile> getPlantProfile() {return profile_;}
-    QDateTime getSowingDate() {return sowing_date_;}
+    std::chrono::system_clock::time_point  getSowingDate() {return sowing_date_;}
     friend QDebug operator<<(QDebug qdebug, const Plant &pl);
 };
 

@@ -1,5 +1,5 @@
 #include "notification_control.h"
-
+#include <chrono>
 
 NotificationControl::NotificationControl(std::shared_ptr<Greenhouse> greenhouse)
     : QObject(nullptr), greenhouse_(greenhouse) {}
@@ -8,30 +8,32 @@ NotificationControl::NotificationControl(std::shared_ptr<Greenhouse> greenhouse)
 void NotificationControl::updateNotificationList() {
     bool notifcation_list_has_changed = false;
     // Current time to compare it to the sowing dates
-    QDateTime current_time = QDateTime::currentDateTime();
+    //QDateTime current_time = QDateTime::currentDateTime();
+    std::chrono::system_clock::time_point current_time = std::chrono::system_clock::now();
+
     for(size_t group_index = 0; group_index < greenhouse_->getPlantGroups().size(); group_index++) {
         for(size_t plant_index = 0; plant_index < greenhouse_->getPlantGroups()[group_index]->getPlants().size(); plant_index++) {
             std::shared_ptr<Plant> plant = greenhouse_->getPlantGroups()[group_index]->getPlants()[plant_index];
             // Calculates the time in weeks between now and sowing date
-            size_t time_diff_in_secs = plant->getSowingDate().secsTo(current_time);
-            size_t time_diff_in_weeks = time_diff_in_secs / (60 * 60 * 24 * 7);
+            std::chrono::hours elapsed_hours = std::chrono::duration_cast<std::chrono::hours>(plant->getSowingDate() - current_time);
+            size_t time_diff_in_weeks = elapsed_hours.count() / (24 * 7);
             for(size_t week_index = 0; week_index < plant->getProfile()->getConditionsWeekly().size(); week_index++) {
                 // only took at the weeks that are already happened
                 if(week_index <= time_diff_in_weeks) {
                     for(auto &notification_type: plant->getProfile()->getConditionsWeekly()[week_index]->getNotificationTypes()) {
-                        QString value_as_string;
+                        std::string value_as_string;
                         switch(notification_type) {
                         case NotificationTypes::LampDistanceNotification:
-                            value_as_string = QString::number(plant->getProfile()->getConditionsWeekly()[week_index]->getLampDistance());
+                            value_as_string = plant->getProfile()->getConditionsWeekly()[week_index]->getLampDistance();
                             break;
                         case NotificationTypes::FertilizerNotification:
                             value_as_string = plant->getProfile()->getConditionsWeekly()[week_index]->getFertilazersAsString();
                             break;
                         case NotificationTypes::TemperatureNotification:
-                            value_as_string = QString::number(plant->getProfile()->getConditionsWeekly()[week_index]->getTemperature());
+                            value_as_string = plant->getProfile()->getConditionsWeekly()[week_index]->getTemperature();
                             break;
                         case NotificationTypes::HumidityNotification:
-                            value_as_string = QString::number(plant->getProfile()->getConditionsWeekly()[week_index]->getHumidity());
+                            value_as_string = plant->getProfile()->getConditionsWeekly()[week_index]->getHumidity();
                             break;
                         default:
                             value_as_string = "Something went wrong";
@@ -51,7 +53,7 @@ void NotificationControl::updateNotificationList() {
 }
 
 // Add a Notification if its new or else update the plant vector -> return true
-bool NotificationControl::addNewNotificationToActiveList(int group_index, int plant_index, int week_index, QString value_as_string, NotificationTypes notification_type) {
+bool NotificationControl::addNewNotificationToActiveList(int group_index, int plant_index, int week_index, std::string value_as_string, NotificationTypes notification_type) {
     // If there are already plants with the same conditions just the additional plant number is saved
     for(auto & notification: active_notification_list_) {
         if(notification->getValueAsString() == value_as_string

@@ -10,6 +10,7 @@
 #include <QDateTime>
 #include <QTime>
 #include <QDir>
+#include <QString>
 
 class SystemLog {
     static QString log_folder_name_;
