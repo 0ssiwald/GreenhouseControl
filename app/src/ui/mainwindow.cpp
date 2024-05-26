@@ -2,10 +2,9 @@
 #include "ui/plant_group_box.h"
 #include "ui/log_window.h"
 
-MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog> log, NotificationControl* notification, WaterControl *water, QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse_(gh), systemLog_(log), notificationControl_(notification), waterControl_(water) {
+MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog> log, NotificationControl* notification, WaterControl *water, SensorControl *sensor, QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse_(gh), systemLog_(log), notificationControl_(notification), waterControl_(water), sensorControl_(sensor) {
     ui->setupUi(this);
-
     setGroupLayout();
 }
 
@@ -13,10 +12,25 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::addPlantLabel(PlantLabel* plantLabel, std::shared_ptr<Plant> plant) {
+    plantLabel->setPlantLabelLayout();
+    plantLabel->setProperty("plant_name", QString::fromStdString(plant->getPlantName()));
+    for(auto &plants_with_valves: waterControl_->getWaterValves()) {
+        if(plants_with_valves.first == plant) {
+            plantLabel->setWaterValve(plants_with_valves.second);
+        }
+    }
+    for(auto &plants_with_sensors: sensorControl_->getSoilSensors()) {
+        if(plants_with_sensors.first == plant) {
+            plantLabel->setMoistureSensor(plants_with_sensors.second);
+        }
+    }
+    plantLabels_.push_back(plantLabel);
+}
+
 // Create the main Layout of Plant Groups and Plants
 void MainWindow::setGroupLayout() {
     // Populate the QGridLayout
-    int group_number = 1;
     for(int group_row = 0; group_row <= greenhouse_->getNumberOfRows(); ++group_row) {
         for(int group_col = 0; group_col <= greenhouse_->getNumberOfColumns(); ++group_col) {
             // First an empty groupBox is created and if a real group is found it gets overwritten
@@ -24,22 +38,15 @@ void MainWindow::setGroupLayout() {
             for(auto &group: greenhouse_->getPlantGroups()) {
                 if(group->getGridRowNumber() == group_row && group->getGridColumnNumber() == group_col) {
                     groupBox->setPlantGroup(group);
-                    groupBox->setGroupNumber(group_number);
                     // Configure the Layout of the group Box
-                    QGridLayout *gridLayoutPlants = groupBox->setPlantGroupLayout(group_number++);
-                    int plant_number = 1;
+                    QGridLayout *gridLayoutPlants = groupBox->setPlantGroupLayout();
                     for(int plant_row = 0; plant_row <= group->getNumberOfPlantRows(); ++plant_row) {
                         for(int plant_column = 0; plant_column <= group->getNumberOfPlantColumns(); ++plant_column) {
                             PlantLabel* plantLabel = new PlantLabel();
                             for(auto &plant: group->getPlants()) {
                                 if(plant->getGridRowNumber() == plant_row && plant->getGridColumnNumber() == plant_column) {
                                     // Adding the sensor and valve to the corrisponding label
-                                    plantLabel->setMoistureSensor(plant->getSoilMoistureSensor());
-                                    plantLabel->setWaterValve(plant->getWaterValve());
-                                    plantLabel->setPlantLabelLayout();
-                                    plantLabel->setProperty("plant_number", plant_number++);
-                                    // Add label to vector for updating moisture reading in UI
-                                    plantLabels_.push_back(plantLabel);
+                                    addPlantLabel(plantLabel, plant);
                                     break;
                                 }
                             }
@@ -63,9 +70,12 @@ void MainWindow::updateHumidityLabel(float humidity) {
     ui->humidityLabel->setText(QString("Luftfeuchtigkeit: %1%").arg(QString::number(humidity, 'f', 1))); // 'f', 1 -> eine Nachkommastelle
 }
 
+// Plant Labels get updated with the moisture Value and the right colour
 void MainWindow::updatePlantLabels() {
+    bool main_valve_is_open = waterControl_->isMainValveOpen();
+    bool flow_is_detected = waterControl_->getFlowSensor()->isFlowDetected();
     for(auto &it: plantLabels_) {
-        it->updatePlantLabel(waterControl_->isMainValveOpen());
+        it->updatePlantLabel(main_valve_is_open, flow_is_detected);
     }
 }
 
@@ -127,74 +137,42 @@ void MainWindow::deleteNotification() {
 void MainWindow::on_mainValveToggleButton_toggled(bool checked) {
     if(checked){
         waterControl_->openMainValve();
-        ui->mainValveToggleButton->setText("Hauptventil: ____");
-        qInfo().noquote() << "Main valve was closed in the UI";
+        ui->mainValveToggleButton->setText("____");
+        qInfo().noquote() << "Main valve was opend";
     }
     else{
         waterControl_->closeMainValve();
-        ui->mainValveToggleButton->setText("Hauptventil: _/ _");
-        qInfo().noquote() << "Main valve was opend in the UI";
+        ui->mainValveToggleButton->setText("_/ _");
+        qInfo().noquote() << "Main valve was closed";
     }
 }
 
 void MainWindow::toggleMainValveToggleButtonOff() {
-    // If the button is on turn it off
-    if(ui->mainValveToggleButton->isChecked()) {
-        ui->mainValveToggleButton->toggle();
+    if( ui->mainValveToggleButton->isChecked()) {
+        // Create a message box
+        QMessageBox* warningBox = new QMessageBox(QMessageBox::Warning, "Warnung",
+            "Unregelmäßgier Wasserfluss regestriert. Hauptventil wird geschlossen", QMessageBox::Ok, this);
+        // Show the message box without blocking the UI
+        warningBox->show();
     }
-}
-/*
-
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
-
-    this->rocketLabel = findChild<QLabel *>("rocketLabel");
-
-    // Note the special syntax for resource paths (this loads from a generated qrc file)
-    this->rocketImg = new QPixmap(":/rocket.png");  // Need a second copy for rotation in moveRocket(...)
-
-    qDebug() << "Initial window size is" << this->width() << "x" << this->height();
-    qDebug() << "Rocket label size is" << this->rocketLabel->size().width() << "x" << this->rocketLabel->size().height();
+    // Set the slider and the flow value to 0
+    on_waterSlider_sliderMoved(0);
+    // Open main valve
+    ui->mainValveToggleButton->setChecked(false);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-    delete rocketImg;
+void MainWindow::on_waterSlider_sliderMoved(int position) {
+    waterControl_->getFlowSensor()->setMeasurent(float(position));
 }
 
-void MainWindow::moveRocket(float offsetX, float offsetY, float angleRad)
-{
-    // Calculate new position taking center window and center rocket image into account
-    const float centerImgX = this->rocketLabel->size().width()/2;
-    const float centerImgY = this->rocketLabel->size().height()/2;
-    const float x = offsetX - centerImgX;
-    const float y = offsetY - centerImgY;
-
-    // Reposition label
-    this->rocketLabel->move(x, y);
-
-    // Rotate rocket image
-    // NOTE: A simple, non-efficient and rather ugly way of rotating a picture.
-    // If you don't need this, don't use the following code. Some students required this functionality in the previous semesters.
-    QTransform transform;
-    transform.rotateRadians(-angleRad + M_PI / 2);
-    ui->rocketLabel->setPixmap(this->rocketImg->transformed(transform));
+void MainWindow::changeWaterSlider() {
+    float flow_amount = waterControl_->getFlowSensor()->getMeasurement();
+    ui->waterSlider->setValue(int(flow_amount));
 }
 
-void MainWindow::on_startStopButton_clicked()
-{
-    if (ui->startStopButton->isChecked()) {
-        ui->startStopButton->setText("Stop");
-        emit start();
-    } else {
-        ui->startStopButton->setText("Start");
-        emit stop();
-    }
-}
 
-*/
+
+
 
 
 

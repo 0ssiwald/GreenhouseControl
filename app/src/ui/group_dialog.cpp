@@ -1,13 +1,13 @@
 #include "ui/group_dialog.h"
 #include <QDateTime>
 
-GroupDialog::GroupDialog(std::shared_ptr<PlantGroup> plantGroup, int group_number, QWidget* parent)
-    : QDialog(parent), ui(new Ui::GroupDialog), plantGroup_(plantGroup), group_number_(group_number) {
+GroupDialog::GroupDialog(std::shared_ptr<PlantGroup> plantGroup, QString group_name, QWidget* parent)
+    : QDialog(parent), ui(new Ui::GroupDialog), plantGroup_(plantGroup), group_name_(group_name) {
     ui->setupUi(this);
 
     // Fill the plantListWidget with the Plants of the Group
-    for(unsigned long number_of_plants = 0; number_of_plants < plantGroup->getPlants().size(); number_of_plants++) {
-        ui->plantListWidget->addItem(QString("Pflanze: %1").arg(number_of_plants + 1));
+    for(auto &plant: plantGroup->getPlants())  {
+        ui->plantListWidget->addItem(QString("Pflanze: %1").arg(QString::fromStdString(plant->getPlantName())));
     }
     // Ensure the QListWidget is not empty
     if(ui->plantListWidget->count() > 0) {
@@ -33,10 +33,12 @@ void GroupDialog::setDisplayGroupValues(QListWidgetItem* item) {
         selected_plant_ = ui->plantListWidget->row(item);
     // Ensure the QListWidget is not empty
     if(ui->plantListWidget->count() > 0) {
-        ui->groupLabel->setText(QString("Gruppe: %1").arg(group_number_));
+        ui->groupLabel->setText(QString("Gruppe: %1").arg(group_name_));
         ui->strainLabel->setText(QString::fromStdString(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getStrainName()));
         ui->soilLabel->setText(QString::fromStdString(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getSoilType()));
         ui->ageLabel->setText(QString::fromStdString(DateTimeConverter::timePointToString(plantGroup_->getPlants()[selected_plant_]->getSowingDate())));
+        ui->lowerThresholdLabel->setText(QString("%1%").arg(QString::number(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getLowerWateringThreshold())));
+        ui->upperThresholdLabel->setText(QString("%1%").arg(QString::number(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getUpperWateringThreshold())));
         QString cbd_string = QString("%1%").arg(QString::number(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getExpectedCbdContent()));
         ui->cbdLabel->setText(cbd_string);
         QString thc_string = QString("%1%").arg(QString::number(plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getExpectedThcContent()));

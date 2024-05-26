@@ -15,7 +15,7 @@ QT_END_NAMESPACE
 class GroupDialog: public QDialog {
     Q_OBJECT
 public:
-    explicit GroupDialog(std::shared_ptr<PlantGroup> plantGroup, int group_number, QWidget* parent = nullptr);
+    explicit GroupDialog(std::shared_ptr<PlantGroup> plantGroup, QString group_name, QWidget* parent = nullptr);
     ~GroupDialog();
 
 private:
@@ -25,7 +25,7 @@ private:
     bool is_edit_ = false;
     Ui::GroupDialog *ui;
     std::shared_ptr<PlantGroup> plantGroup_;
-    int group_number_;
+    QString group_name_;
     int selected_plant_ = 0;
     void setWeekList(int);
     void setNoteList();

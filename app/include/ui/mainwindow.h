@@ -12,6 +12,7 @@
 #include "plant_label.h"
 #include "control/water_control.h"
 #include "notification_control.h"
+#include "control/sensor_control.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -22,7 +23,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(std::shared_ptr<Greenhouse>, std::shared_ptr<SystemLog>, NotificationControl*, WaterControl*, QWidget * = nullptr);
+    MainWindow(std::shared_ptr<Greenhouse>, std::shared_ptr<SystemLog>, NotificationControl*, WaterControl*, SensorControl*, QWidget * = nullptr);
     ~MainWindow();
     void setNotificationList();
 
@@ -30,20 +31,27 @@ private slots:
     void on_systemLogButton_clicked();
     void deleteNotification();
     void on_mainValveToggleButton_toggled(bool);
+    void on_waterSlider_sliderMoved(int position);
+
 public slots:
     void updatePlantLabels();
     void updateTemperatureLabel(float);
     void updateHumidityLabel(float);
     void toggleMainValveToggleButtonOff();
+    void changeWaterSlider();
 private:
     Ui::MainWindow *ui;
     std::shared_ptr<Greenhouse> greenhouse_;
     std::shared_ptr<SystemLog> systemLog_;
     NotificationControl* notificationControl_;
     WaterControl* waterControl_;
+    SensorControl* sensorControl_;
     QPushButton* systemLogButton_;
     std::vector<PlantLabel*> plantLabels_;
     void setGroupLayout();
+    void addPlantLabel(PlantLabel*, std::shared_ptr<Plant>);
+signals:
+    void setManualFlow(float);
 };
 
 

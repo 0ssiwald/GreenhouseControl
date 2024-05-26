@@ -61,6 +61,6 @@ void LogWindow::onFileSelected(QListWidgetItem* item) {
         logTextEdit->setPlainText(in.readAll());
         file.close();
     } else {
-        QMessageBox::warning(this, "Error", "Unable to open file: " + fileName);
+        QMessageBox::warning(this, "Fehler", "Datei konnte nicht geöffnet werden: " + fileName);
     }
 }

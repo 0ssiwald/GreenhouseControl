@@ -9,7 +9,7 @@ void Condition::addFertilizer(std::shared_ptr<Fertilizer> fertilizer, int amount
 
 // Erase the Notification from the notification vector
 void Condition::removeNotification(NotificationTypes notification) {
-    notifications_.erase(std::remove(notifications_.begin(), notifications_.end(), notification), notifications_.end());
+   notifications_.erase(std::remove(notifications_.begin(), notifications_.end(), notification), notifications_.end());
 }
 
 

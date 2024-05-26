@@ -2,6 +2,7 @@
 #define NOTIFICATION_H
 
 #include <string>
+#include <vector>
 #include <QDateTime>
 
 enum class NotificationTypes {

@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1394</width>
-    <height>796</height>
+    <height>819</height>
    </rect>
   </property>
   <property name="font">
@@ -265,20 +265,102 @@
    <widget class="QPushButton" name="mainValveToggleButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>690</y>
-      <width>121</width>
-      <height>31</height>
+      <x>60</x>
+      <y>720</y>
+      <width>61</width>
+      <height>41</height>
      </rect>
     </property>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="Accent">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>3</red>
+          <green>116</green>
+          <blue>215</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="Accent">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>3</red>
+          <green>116</green>
+          <blue>215</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="Accent">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>3</red>
+          <green>116</green>
+          <blue>215</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </disabled>
+     </palette>
+    </property>
     <property name="text">
-     <string>Hauptventil: ____</string>
+     <string> ____</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
     </property>
     <property name="checked">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QSlider" name="waterSlider">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>730</y>
+      <width>131</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>10</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>690</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Hauptventil</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>690</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Wasserfluss</string>
     </property>
    </widget>
    <zorder>gridLayoutWidget</zorder>
@@ -293,6 +375,9 @@
    <zorder>line</zorder>
    <zorder>line_5</zorder>
    <zorder>mainValveToggleButton</zorder>
+   <zorder>waterSlider</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

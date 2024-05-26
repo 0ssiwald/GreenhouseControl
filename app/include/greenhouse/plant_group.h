@@ -8,6 +8,7 @@
 #include "note.h"
 
 class PlantGroup {
+    std::string group_name_;
     // Specify the place of the plant group in the greenhouse grid
     int group_grid_row_number_;
     int group_grid_column_number_;
@@ -17,13 +18,14 @@ class PlantGroup {
     std::vector<std::shared_ptr<Plant>> plants_;
     std::vector<std::shared_ptr<Note>> notes_;
 public:
-    PlantGroup(int row_size = 0, int column_size = 0)
-        : number_of_plant_rows_(row_size), number_of_plant_columns_(column_size) {}
+    PlantGroup(const std::string &name, int row_size = 0, int column_size = 0)
+        : group_name_(name), number_of_plant_rows_(row_size), number_of_plant_columns_(column_size) {}
 
     int getGridRowNumber() {return group_grid_row_number_;}
     int getGridColumnNumber() {return group_grid_column_number_;}
     int getNumberOfPlantRows() {return number_of_plant_rows_;}
     int getNumberOfPlantColumns() {return number_of_plant_columns_;}
+    std::string getGroupName() {return group_name_;}
     std::vector<std::shared_ptr<Note>> getNotes() {return notes_;}
     std::vector<std::shared_ptr<Plant>> getPlants() {return plants_;}
     void setPlantGridSize(int, int);

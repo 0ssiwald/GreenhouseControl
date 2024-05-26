@@ -9,14 +9,15 @@ SensorControl::SensorControl(std::shared_ptr<Greenhouse> greenhouse)
 
     temperature_sensor_ = std::make_shared<TemperatureSensor>();
     humidity_sensor_ = std::make_shared<HumiditySensor>();
-    addSoilSensorsToPlants();
+    addSoilSensors();
 }
 
-void SensorControl::addSoilSensorsToPlants() {
-    for(auto& group_iterator: greenhouse_->getPlantGroups()) {
-        for(auto& plant_iterator: group_iterator->getPlants()) {
+
+void SensorControl::addSoilSensors() {
+    for(auto& group: greenhouse_->getPlantGroups()) {
+        for(auto& plant: group->getPlants()) {
             std::shared_ptr<SoilMoistureSensor> soil_sensor = std::make_shared<SoilMoistureSensor>();
-            plant_iterator->setSoilMoistureSensor(soil_sensor);
+            plants_with_soil_moisture_sensors_.insert_or_assign(plant, soil_sensor);
         }
     }
 }
@@ -43,18 +44,14 @@ void SensorControl::measureHumidity() {
 }
 
 void  SensorControl::measureSoilMoistures() {
-    int group_number = 1;
-    for(auto& group_iterator: greenhouse_->getPlantGroups()) {
-        QString soil_moistures_string = QString::asprintf("Soil Moisture of Plant Group %i:", group_number);
-        for(auto& plant_iterator: group_iterator->getPlants()) {
-            std::shared_ptr<SoilMoistureSensor> soil_moisture_sensor = plant_iterator->getSoilMoistureSensor();
-            float soil_moisture = soil_moisture_sensor->getMeasurement();
-            soil_moistures_string.append(QString::asprintf(" %.1f", soil_moisture));
-        }
-        // Save the humidity to the log
+    QString soil_moistures_string = "Soil Moistures of Plants: ";
+    for(auto& plant_and_sensor: plants_with_soil_moisture_sensors_) {
+        QString plant_name = QString::fromStdString(plant_and_sensor.first->getPlantName());
+        emit updateSoilMoisture(plant_and_sensor.first);
+        float sensor_value = plant_and_sensor.second->getMeasurement();
+        soil_moistures_string += QString("%1: %2 ").arg(plant_name, QString::number(sensor_value));
+        // Save the soil moisture to the log
         qInfo().noquote() << soil_moistures_string;
-        group_number++;
     }
     emit soilMoisturesMeasured();
 }
-
