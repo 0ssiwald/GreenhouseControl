@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <QDateTime>
+#include <chrono>
 
 enum class NotificationTypes {
     LampDistanceNotification,
@@ -13,26 +13,25 @@ enum class NotificationTypes {
 };
 
 class Notification {
-    int group_index_;
-    // Vector because multible plants can have the same notification
+    std::chrono::system_clock::time_point activation_timepoint_;
     int week_index_;
-    std::vector<int> plant_indices_;
+    std::string group_name_;
+    // Vector because multible plants can have the same notification
+    std::vector<std::string> plant_names_;
     std::string value_as_string_;
-    // Condition ptr;
     NotificationTypes notification_type_;
 
 public:
-    Notification(int group_number, int plant_number, int week_number, std::string value_as_string, NotificationTypes notification_type)
-        : group_index_(group_number), week_index_(week_number), value_as_string_(value_as_string), notification_type_(notification_type) {
-        plant_indices_.push_back(plant_number);
+    Notification(std::chrono::system_clock::time_point time_point,int week_index,std::string group_name,
+                 std::string plant_name, std::string value_as_string, NotificationTypes notification_type)
+        : activation_timepoint_(time_point), week_index_(week_index), group_name_(group_name),
+        value_as_string_(value_as_string), notification_type_(notification_type){
+        plant_names_.push_back(plant_name);
     }
 
-    void addPlantNumber(int plant_number) {plant_indices_.push_back(plant_number);}
-    int getGroupNumber() {return group_index_;}
-    int getWeekNumber() {return week_index_;}
-    std::vector<int> getPlantNumbers() {return plant_indices_;}
-    std::string getValueAsString() {return value_as_string_;}
-    NotificationTypes getNotificationType() {return notification_type_;}
+    std::chrono::system_clock::time_point getActivationTimepoint() {return activation_timepoint_;}
+    void addPlant(std::string plant_name) {plant_names_.push_back(plant_name);}
+    bool isNotificationTheSameForAnotherPlant(std::chrono::system_clock::time_point,int, std::string, std::string, NotificationTypes);
     std::string getNotificationMessage();
 };
 

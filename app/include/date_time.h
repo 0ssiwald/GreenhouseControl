@@ -31,6 +31,20 @@ struct DateTimeConverter {
         std::strftime(buffer, sizeof(buffer), format.c_str(), tm);
         return std::string(buffer);
     }
+    static bool isSameDay(const std::chrono::system_clock::time_point& tp1, const std::chrono::system_clock::time_point& tp2) {
+        // Convert time_point to time_t
+        std::time_t time1 = std::chrono::system_clock::to_time_t(tp1);
+        std::time_t time2 = std::chrono::system_clock::to_time_t(tp2);
+
+        // Convert time_t to tm struct
+        std::tm tm1 = *std::localtime(&time1);
+        std::tm tm2 = *std::localtime(&time2);
+
+        // Compare year, month, and day
+        return (tm1.tm_year == tm2.tm_year &&
+                tm1.tm_mon == tm2.tm_mon &&
+                tm1.tm_mday == tm2.tm_mday);
+    }
 };
 
 #endif // DATE_TIME_H

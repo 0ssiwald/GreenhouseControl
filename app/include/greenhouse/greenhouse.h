@@ -19,6 +19,7 @@ public:
 
     int getNumberOfRows() {return number_of_group_rows_;};
     int getNumberOfColumns() {return number_of_group_columns_;};
+    std::vector<std::shared_ptr<Plant>> getAllPlants();
     void setGroupGridSize(int, int);
     bool saveGreehouse();
     void addPlantGroupToGrid(std::shared_ptr<PlantGroup>, int, int);

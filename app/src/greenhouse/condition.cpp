@@ -7,12 +7,6 @@ void Condition::addFertilizer(std::shared_ptr<Fertilizer> fertilizer, int amount
     return;
 }
 
-// Erase the Notification from the notification vector
-void Condition::removeNotification(NotificationTypes notification) {
-   notifications_.erase(std::remove(notifications_.begin(), notifications_.end(), notification), notifications_.end());
-}
-
-
 std::string Condition::getFertilazersAsString() {
     std::ostringstream fertilizer_string_combined;
     for (auto it = fertilizers_.begin(); it != fertilizers_.end(); ++it) {

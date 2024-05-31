@@ -1,8 +1,8 @@
 #ifndef PLANT_LABEL_H
 #define PLANT_LABEL_H
 #include <QLabel>
-#include "control/sensor.h"
-#include "control/water_valve.h"
+#include "sensors_actors/sensor.h"
+#include "sensors_actors/water_valve.h"
 
 class PlantLabel: public QLabel {
     Q_OBJECT

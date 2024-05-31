@@ -3,24 +3,29 @@
 #include <QObject>
 #include <QDateTime>
 #include <QtDebug>
-#include <string>
-#include "notification.h"
+#include <memory>
 #include "greenhouse/greenhouse.h"
+#include "notification.h"
 
 class NotificationControl: public QObject {
     Q_OBJECT
     std::vector<std::shared_ptr<Notification>> active_notification_list_;
-    std::shared_ptr<Greenhouse> greenhouse_;
+    std::vector<std::shared_ptr<Notification>> impending_notifications_;
 public:
-    explicit NotificationControl(std::shared_ptr<Greenhouse>);
-    void addNotification(NotificationTypes, QDateTime);
-    std::vector<std::shared_ptr<Notification>> getNotificationList() {return active_notification_list_;}
-    bool addNewNotificationToActiveList(int, int, int, std::string, NotificationTypes);
+    explicit NotificationControl();
+    std::vector<std::shared_ptr<Notification>> getActiveNotificationList() {return active_notification_list_;}
     void displayNotifications();
     bool saveNotificationToLog();
     void deleteNotification(int);
+    void addNotificationToVector(std::chrono::system_clock::time_point, int, std::string, std::string, std::string, NotificationTypes);
+    // mostly for testing
+    void createAllNotificationsForAllPlants(std::shared_ptr<Greenhouse>);
+    // needs implementation
+    void loadNotifications();
+
+
 public slots:
-    void updateNotificationList();
+    void updateActiveNotificationList();
 signals:
     void updateNotificationListInUi();
 };

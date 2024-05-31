@@ -1,11 +1,11 @@
 #include "greenhouse/greenhouse.h"
 #include "ui/mainwindow.h"
-#include "control/mock_enviroment.h"
+#include "sensors_actors/mock_enviroment.h"
 #include "clock.h"
 #include "log.h"
-#include "control/sensor_control.h"
+#include "sensors_actors/sensor_control.h"
 #include "notification_control.h"
-#include "control/water_control.h"
+#include "sensors_actors/water_control.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -26,11 +26,12 @@ int main(int argc, char *argv[]) {
     //log->initLogging();
 
     //Create notifications
-    NotificationControl notificationControl(greenhouse);
+    NotificationControl notificationControl;
+    notificationControl.createAllNotificationsForAllPlants(greenhouse);
 
     // Create Control Classes
-    SensorControl sensorControl(greenhouse);
-    WaterControl waterControl(greenhouse, &sensorControl);
+    SensorControl sensorControl(greenhouse->getAllPlants());
+    WaterControl waterControl(greenhouse->getAllPlants(), &sensorControl);
     // Create a mock environment
     MockEnvironment mockEnvironment(&sensorControl, &waterControl);
 
@@ -39,7 +40,7 @@ int main(int argc, char *argv[]) {
     MainWindow window(greenhouse, log, &notificationControl, &waterControl, &sensorControl);
     window.show();
 
-    int seconds_between_notification_update = (60 * 60);
+    int seconds_between_notification_update = 5;
     int seconds_between_measurments = 2;
     // Init Clocks
     physics::Clock sensorClock(seconds_between_measurments);
@@ -58,7 +59,7 @@ int main(int argc, char *argv[]) {
     QObject::connect(&sensorControl, &SensorControl::soilMoisturesMeasured, &window, &MainWindow::updatePlantLabels);
     QObject::connect(&sensorControl, &SensorControl::updateSoilMoisture, &mockEnvironment, &MockEnvironment::generateNewSoilMoisture);
     // Update notifications
-    QObject::connect(&notificationClock, &physics::Clock::update, &notificationControl, &NotificationControl::updateNotificationList);
+    QObject::connect(&notificationClock, &physics::Clock::update, &notificationControl, &NotificationControl::updateActiveNotificationList);
     QObject::connect(&notificationControl, &NotificationControl::updateNotificationListInUi, &window, &MainWindow::setNotificationList);
     // Control the moisture levels
     QObject::connect(&sensorClock, &physics::Clock::update, &waterControl, &WaterControl::controlMoistureLevels);

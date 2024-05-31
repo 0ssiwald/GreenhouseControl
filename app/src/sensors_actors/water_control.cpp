@@ -1,13 +1,13 @@
 #include "control/water_control.h"
 
-WaterControl::WaterControl(std::shared_ptr<Greenhouse> greenhouse, SensorControl* sensor_control)
-    : QObject(nullptr), greenhouse_(greenhouse), sensor_control_(sensor_control) {
+WaterControl::WaterControl(std::vector<std::shared_ptr<Plant>> plants, SensorControl* sensor_control)
+    : QObject(nullptr), sensor_control_(sensor_control) {
     //createMainValve
     main_valve_ = std::make_shared<WaterValve>();
     openMainValve();
     //createFlowSensor
     flow_sensor_ = std::make_shared<FlowSensor>();
-    addWaterValves();
+    addWaterValves(plants);
 }
 
 void WaterControl::controlMoistureLevels() {
@@ -44,12 +44,10 @@ void WaterControl::controlUnregularFlow() {
 }
 
 
-void WaterControl::addWaterValves() {
-    for(auto& group: greenhouse_->getPlantGroups()) {
-        for(auto& plant: group->getPlants()) {
-            std::shared_ptr<WaterValve> water_valve = std::make_shared<WaterValve>();
-            plants_with_water_valves_.insert_or_assign(plant, water_valve);
-        }
+void WaterControl::addWaterValves(std::vector<std::shared_ptr<Plant>> plants) {
+    for(auto& plant: plants) {
+        std::shared_ptr<WaterValve> water_valve = std::make_shared<WaterValve>();
+        plants_with_water_valves_.insert_or_assign(plant, water_valve);
     }
 }
 

@@ -1,24 +1,20 @@
 #include "control/sensor_control.h"
-
 #include "control/sensor.h"
-//#include "control/mock_enviroment.h"
 #include <QtDebug>
 
-SensorControl::SensorControl(std::shared_ptr<Greenhouse> greenhouse)
-    : QObject(nullptr), greenhouse_(greenhouse)  {
+SensorControl::SensorControl(std::vector<std::shared_ptr<Plant>> plants)
+    : QObject(nullptr) {
 
     temperature_sensor_ = std::make_shared<TemperatureSensor>();
     humidity_sensor_ = std::make_shared<HumiditySensor>();
-    addSoilSensors();
+    addSoilSensors(plants);
 }
 
 
-void SensorControl::addSoilSensors() {
-    for(auto& group: greenhouse_->getPlantGroups()) {
-        for(auto& plant: group->getPlants()) {
-            std::shared_ptr<SoilMoistureSensor> soil_sensor = std::make_shared<SoilMoistureSensor>();
-            plants_with_soil_moisture_sensors_.insert_or_assign(plant, soil_sensor);
-        }
+void SensorControl::addSoilSensors(std::vector<std::shared_ptr<Plant>> plants) {
+    for(auto& plant: plants) {
+        std::shared_ptr<SoilMoistureSensor> soil_sensor = std::make_shared<SoilMoistureSensor>();
+        plants_with_soil_moisture_sensors_.insert_or_assign(plant, soil_sensor);
     }
 }
 
@@ -49,9 +45,9 @@ void  SensorControl::measureSoilMoistures() {
         QString plant_name = QString::fromStdString(plant_and_sensor.first->getPlantName());
         emit updateSoilMoisture(plant_and_sensor.first);
         float sensor_value = plant_and_sensor.second->getMeasurement();
-        soil_moistures_string += QString("%1: %2 ").arg(plant_name, QString::number(sensor_value));
-        // Save the soil moisture to the log
-        qInfo().noquote() << soil_moistures_string;
+        soil_moistures_string += QString("%1: %2 ").arg(plant_name, QString::number(sensor_value));   
     }
+    // Save the soil moisture to the log
+    qInfo().noquote() << soil_moistures_string;
     emit soilMoisturesMeasured();
 }

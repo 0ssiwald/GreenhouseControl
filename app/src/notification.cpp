@@ -1,17 +1,18 @@
 #include "notification.h"
+#include "date_time.h"
 #include <sstream>
 
 std::string Notification::getNotificationMessage() {
     std::ostringstream notification_stream;
-    notification_stream << "Woche " << (week_index_ + 1) << " Gruppe " << (group_index_ + 1) << ":\n";
+    notification_stream << "Woche " << (week_index_ + 1) << " Gruppe " << group_name_ << ":\n";
 
     std::ostringstream plant_numbers_stream;
-    if (plant_indices_.size() > 1) {
+    if (plant_names_.size() > 1) {
         plant_numbers_stream << "n";
     }
-    for (auto it = plant_indices_.begin(); it != plant_indices_.end(); ++it) {
-        plant_numbers_stream << " " << (*it + 1);
-        if (it != plant_indices_.end() - 1) {
+    for (auto it = plant_names_.begin(); it != plant_names_.end(); ++it) {
+        plant_numbers_stream << " " << *it;
+        if (it != plant_names_.end() - 1) {
             plant_numbers_stream << ",";
         }
     }
@@ -36,4 +37,16 @@ std::string Notification::getNotificationMessage() {
     }
 
     return notification_stream.str();
+}
+
+// so that similar plants in a plant group have the same notification
+bool Notification::isNotificationTheSameForAnotherPlant(std::chrono::system_clock::time_point time_point,int week_index, std::string group_name,
+                                          std::string value_as_string, NotificationTypes notification_type) {
+    if (DateTimeConverter::isSameDay(time_point, activation_timepoint_) && week_index_ == week_index &&
+        value_as_string_ == value_as_string && notification_type_ == notification_type &&
+        group_name_ == group_name) {
+        return true;
+    }
+    return false;
+
 }

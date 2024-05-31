@@ -24,10 +24,6 @@ INCLUDEPATH += $$PWD/include
 # The source files (e.g. *.cpp)
 SOURCES += \
     src/clock.cpp \
-    src/control/mock_enviroment.cpp \
-    src/control/sensor.cpp \
-    src/control/sensor_control.cpp \
-    src/control/water_control.cpp \
     src/greenhouse/condition.cpp \
     src/greenhouse/greenhouse.cpp \
     src/greenhouse/plant.cpp \
@@ -38,6 +34,10 @@ SOURCES += \
     src/note.cpp \
     src/notification.cpp \
     src/notification_control.cpp \
+    src/sensors_actors/mock_enviroment.cpp \
+    src/sensors_actors/sensor.cpp \
+    src/sensors_actors/sensor_control.cpp \
+    src/sensors_actors/water_control.cpp \
     src/ui/group_dialog.cpp \
     src/ui/log_window.cpp \
     src/ui/mainwindow.cpp \
@@ -48,11 +48,6 @@ SOURCES += \
 # The header files (e.g. *.h)
 HEADERS += \
     include/clock.h \
-    include/control/mock_enviroment.h \
-    include/control/sensor.h \
-    include/control/sensor_control.h \
-    include/control/water_control.h \
-    include/control/water_valve.h \
     include/date_time.h \
     include/greenhouse/condition.h \
     include/greenhouse/greenhouse.h \
@@ -63,6 +58,11 @@ HEADERS += \
     include/note.h \
     include/notification.h \
     include/notification_control.h \
+    include/sensors_actors/mock_enviroment.h \
+    include/sensors_actors/sensor.h \
+    include/sensors_actors/sensor_control.h \
+    include/sensors_actors/water_control.h \
+    include/sensors_actors/water_valve.h \
     include/ui/group_dialog.h \
     include/ui/log_window.h \
     include/ui/mainwindow.h \

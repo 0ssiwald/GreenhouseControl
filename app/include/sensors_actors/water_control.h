@@ -8,21 +8,19 @@
 #include "water_valve.h"
 #include "sensor.h"
 #include "sensor_control.h"
-#include "greenhouse/greenhouse.h"
 
 class WaterControl: public QObject {
     Q_OBJECT
     int number_of_open_valves_ = 0;
     std::shared_ptr<WaterValve> main_valve_;
     std::shared_ptr<FlowSensor> flow_sensor_;
-    std::shared_ptr<Greenhouse> greenhouse_;
     SensorControl* sensor_control_;
     std::map<std::shared_ptr<Plant>, std::shared_ptr<WaterValve>> plants_with_water_valves_;
     void controlUnregularFlow();
 public:
-    explicit WaterControl(std::shared_ptr<Greenhouse>, SensorControl *);
+    explicit WaterControl(std::vector<std::shared_ptr<Plant>>, SensorControl *);
 
-    void addWaterValves();
+    void addWaterValves(std::vector<std::shared_ptr<Plant>>);
     bool isMainValveOpen() {return main_valve_->getValveIsOpen();}
     void openMainValve() {main_valve_->openValve();}
     void closeMainValve() {main_valve_->closeValve();}

@@ -10,9 +10,9 @@
 #include "greenhouse/greenhouse.h"
 #include "log.h"
 #include "plant_label.h"
-#include "control/water_control.h"
+#include "sensors_actors/water_control.h"
 #include "notification_control.h"
-#include "control/sensor_control.h"
+#include "sensors_actors/sensor_control.h"
 
 
 QT_BEGIN_NAMESPACE

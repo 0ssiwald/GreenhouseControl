@@ -25,27 +25,30 @@ void Greenhouse::setGroupGridSize(int row_size, int column_size) {
     number_of_group_columns_ = column_size;
 }
 
+std::vector<std::shared_ptr<Plant>> Greenhouse::getAllPlants() {
+    std::vector<std::shared_ptr<Plant>> plant_vector;
+    for(auto& group: plant_groups_) {
+        for(auto& plant: group->getPlants()) {
+            plant_vector.push_back(plant);
+        }
+    }
+    return plant_vector;
+}
+
 std::shared_ptr<Greenhouse> GreenhouseCreate::createGreenhouseFromCode() {
 
     std::shared_ptr<Fertilizer> fertilizer_1 = std::shared_ptr<Fertilizer>(new Fertilizer("Biobizz Bloom", "Organic"));
     std::shared_ptr<Fertilizer> fertilizer_2 = std::shared_ptr<Fertilizer>(new Fertilizer("Biobizz Grow", "Organic"));
     std::shared_ptr<Fertilizer> fertilizer_3 = std::shared_ptr<Fertilizer>(new Fertilizer("Biobizz TopMax", "Organic"));
 
-    std::vector<NotificationTypes> notification_vector_1{NotificationTypes::FertilizerNotification, NotificationTypes::LampDistanceNotification};
-    std::vector<NotificationTypes> notification_vector_2{NotificationTypes::HumidityNotification, NotificationTypes::TemperatureNotification,
-                                                         NotificationTypes::LampDistanceNotification, NotificationTypes::FertilizerNotification};
-
     std::shared_ptr<Condition> condition_week_1 = std::shared_ptr<Condition>(new Condition(70, 24, 40));
     condition_week_1->addFertilizer(fertilizer_1, 1);
-    condition_week_1->setNotifications(notification_vector_1);
     std::shared_ptr<Condition> condition_week_2 = std::shared_ptr<Condition>(new Condition(65, 22, 40));
     condition_week_2->addFertilizer(fertilizer_1, 2);
     condition_week_2->addFertilizer(fertilizer_2, 1);
-    condition_week_2->setNotifications(notification_vector_2);
     std::shared_ptr<Condition> condition_week_3 = std::shared_ptr<Condition>(new Condition(60, 20, 40));
     condition_week_3->addFertilizer(fertilizer_2, 3);
     condition_week_3->addFertilizer(fertilizer_3, 5);
-    condition_week_3->setNotifications(notification_vector_2);
 
     std::shared_ptr<PlantProfile> plant_profile_1 = std::shared_ptr<PlantProfile>(new PlantProfile("Purple Haze", 3, 8, 22.0, 3.0, "Coco", 70, 75));
     plant_profile_1->addWeeklyCondition(condition_week_1);

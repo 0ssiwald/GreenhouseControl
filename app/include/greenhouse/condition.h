@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "notification.h"
 
 class Fertilizer {
     std::string name_;
@@ -31,14 +30,10 @@ class Condition {
     float temperature_;
     int lamp_distance_in_cm_;
     std::vector<FertilizerWithAmount> fertilizers_;
-    std::vector<NotificationTypes> notifications_;
 public:
     Condition(float humidity, float temperature, int lamp_distance)
         : humidity_(humidity), temperature_(temperature), lamp_distance_in_cm_(lamp_distance) {}
-    void setNotifications(std::vector<NotificationTypes> notifications) {notifications_ = notifications;}
-    void removeNotification(NotificationTypes);
     void addFertilizer(std::shared_ptr<Fertilizer>, int);
-    std::vector<NotificationTypes> getNotificationTypes() {return notifications_;}
     float getHumidity() {return humidity_;}
     float getTemperature() {return temperature_;}
     int getLampDistance() {return lamp_distance_in_cm_;}

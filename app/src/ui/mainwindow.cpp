@@ -88,8 +88,8 @@ void MainWindow::on_systemLogButton_clicked() {
 // Displays the Notification List
 void MainWindow::setNotificationList() {
     ui->notificationListWidget->clear();
-    for(size_t notification_number = 0; notification_number < notificationControl_->getNotificationList().size(); notification_number++) {
-        QString notification_string = QString::fromStdString(notificationControl_->getNotificationList()[notification_number]->getNotificationMessage());
+    for(size_t notification_number = 0; notification_number < notificationControl_->getActiveNotificationList().size(); notification_number++) {
+        QString notification_string = QString::fromStdString(notificationControl_->getActiveNotificationList()[notification_number]->getNotificationMessage());
         // other widgets like ui->notificationWidget set as parents to handle freeing the memory
         QWidget* notificationWidget = new QWidget(ui->notificationListWidget);
         QHBoxLayout* layout = new QHBoxLayout(notificationWidget);
@@ -126,7 +126,7 @@ void MainWindow::deleteNotification() {
         // Get the index stored as a property of the delete button
         unsigned int notificationIndex = deleteCheckBox->property("notificationIndex").toInt();
         // Ensure the index is valid
-        if (notificationIndex < notificationControl_->getNotificationList().size()) {
+        if (notificationIndex < notificationControl_->getActiveNotificationList().size()) {
             notificationControl_->deleteNotification(notificationIndex);
             // Update the list
             setNotificationList();
