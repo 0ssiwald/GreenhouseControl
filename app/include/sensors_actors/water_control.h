@@ -22,9 +22,11 @@ public:
 
     void addWaterValves(std::vector<std::shared_ptr<Plant>>);
     bool isMainValveOpen() {return main_valve_->getValveIsOpen();}
-    void openMainValve() {main_valve_->openValve();}
-    void closeMainValve() {main_valve_->closeValve();}
+    void openMainValve();
+    void closeMainValve();
     std::shared_ptr<FlowSensor> getFlowSensor() {return flow_sensor_;}
+    int getNumberOfOpenValves() {return number_of_open_valves_;}
+    std::shared_ptr<WaterValve> getMainValve() {return main_valve_;}
     std::map<std::shared_ptr<Plant>, std::shared_ptr<WaterValve>> getWaterValves() {return plants_with_water_valves_;}
 
 public slots:

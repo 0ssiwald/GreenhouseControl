@@ -6,3 +6,5 @@ SUBDIRS += \
     ../app \
     #../unittest_CircleMotionProvider \
     #../unittest_Rocket
+    ../unittest_SensorControl \
+    ../unittest_Greenhouse \

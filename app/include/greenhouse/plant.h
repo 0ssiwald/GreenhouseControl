@@ -19,6 +19,9 @@ class Plant {
 public:
     Plant(const std::string & name, const std::chrono::system_clock::time_point&  sowing_date, std::shared_ptr<PlantProfile> profile, int row_number = 0, int column_number = 0) :
         plant_name_(name), plant_grid_row_number_(row_number), plant_grid_column_number_(column_number), sowing_date_(sowing_date), profile_(profile) {}
+    // For mocking????
+    Plant();
+    virtual ~Plant() = default;
 
     bool savePlantToFile(const std::string&);
     void setGridPosition(int, int);

@@ -21,6 +21,10 @@ public:
     PlantGroup(const std::string &name, int row_size = 0, int column_size = 0)
         : group_name_(name), number_of_plant_rows_(row_size), number_of_plant_columns_(column_size) {}
 
+    // for mock???????
+    PlantGroup();
+    virtual ~PlantGroup() = default;
+
     int getGridRowNumber() {return group_grid_row_number_;}
     int getGridColumnNumber() {return group_grid_column_number_;}
     int getNumberOfPlantRows() {return number_of_plant_rows_;}

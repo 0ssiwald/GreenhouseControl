@@ -117,7 +117,6 @@ void MainWindow::setNotificationList() {
     }
 }
 
-
 void MainWindow::deleteNotification() {
     // Get the sender of the signal, which is the delete button clicked
     QCheckBox* deleteCheckBox = qobject_cast<QCheckBox*>(sender());
@@ -155,8 +154,6 @@ void MainWindow::toggleMainValveToggleButtonOff() {
         // Show the message box without blocking the UI
         warningBox->show();
     }
-    // Set the slider and the flow value to 0
-    on_waterSlider_sliderMoved(0);
     // Open main valve
     ui->mainValveToggleButton->setChecked(false);
 }

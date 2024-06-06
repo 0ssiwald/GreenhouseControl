@@ -39,6 +39,7 @@ public slots:
     void updateHumidityLabel(float);
     void toggleMainValveToggleButtonOff();
     void changeWaterSlider();
+
 private:
     Ui::MainWindow *ui;
     std::shared_ptr<Greenhouse> greenhouse_;
@@ -50,8 +51,6 @@ private:
     std::vector<PlantLabel*> plantLabels_;
     void setGroupLayout();
     void addPlantLabel(PlantLabel*, std::shared_ptr<Plant>);
-signals:
-    void setManualFlow(float);
 };
 
 

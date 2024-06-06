@@ -10,10 +10,11 @@ protected:
 public:
     explicit Sensor(float initial_value)
         : measurement_value_(initial_value) {}
+    explicit Sensor();
     // virtual destuctor to enshure that derived classes get destroyed
     virtual ~Sensor() = default;
-    float getMeasurement() {return measurement_value_;};
-    void setMeasurent(float measurement_value) {measurement_value_ = measurement_value;}
+    virtual float getMeasurement() {return measurement_value_;};
+    virtual void setMeasurent(float measurement_value) {measurement_value_ = measurement_value;}
 };
 
 class SoilMoistureSensor: public Sensor {

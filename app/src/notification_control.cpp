@@ -60,8 +60,6 @@ void NotificationControl::createAllNotificationsForAllPlants(std::shared_ptr<Gre
     }
 }
 
-
-
 // Add a Notification if its new or else update the plant vector
  void NotificationControl::addNotificationToVector(std::chrono::system_clock::time_point time_point, int week_index, std::string group_name,
                                                   std::string plant_name, std::string value_as_string, NotificationTypes notification_type) {
@@ -79,17 +77,12 @@ void NotificationControl::createAllNotificationsForAllPlants(std::shared_ptr<Gre
     return;
 }
 
-
 // Deletes Notification from active List and from the Plant
 void NotificationControl::deleteNotification(int notification_index) {
     std::shared_ptr<Notification> notification = active_notification_list_[notification_index];
     qInfo().noquote() << "Diese Benachrichtigung wurde gelöscht:\n" << notification->getNotificationMessage();
     active_notification_list_.erase(active_notification_list_.begin() + notification_index);
 }
-
-
-
-
 
 
 /*

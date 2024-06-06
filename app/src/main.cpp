@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     window.show();
 
     int seconds_between_notification_update = 5;
-    int seconds_between_measurments = 2;
+    int seconds_between_measurments = 1;
     // Init Clocks
     physics::Clock sensorClock(seconds_between_measurments);
     physics::Clock notificationClock(seconds_between_notification_update);

@@ -1,4 +1,15 @@
-#include "control/water_control.h"
+#include "sensors_actors/water_control.h"
+
+void WaterControl::openMainValve() {
+    main_valve_->openValve();
+    // If valve is change the flow is reseted to the unmanipulated vlaue
+    emit updateFlow(main_valve_);
+}
+void WaterControl::closeMainValve() {
+    main_valve_->closeValve();
+    // If valve is change the flow is reseted to the unmanipulated vlaue
+    emit updateFlow(main_valve_);
+}
 
 WaterControl::WaterControl(std::vector<std::shared_ptr<Plant>> plants, SensorControl* sensor_control)
     : QObject(nullptr), sensor_control_(sensor_control) {

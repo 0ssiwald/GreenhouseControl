@@ -23,7 +23,6 @@ public:
     // needs implementation
     void loadNotifications();
 
-
 public slots:
     void updateActiveNotificationList();
 signals:

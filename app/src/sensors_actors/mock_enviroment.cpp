@@ -1,4 +1,4 @@
-#include "control/mock_enviroment.h"
+#include "sensors_actors/mock_enviroment.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -31,7 +31,7 @@ void MockEnvironment::generateNewSoilMoisture(std::shared_ptr<Plant> plant) {
         if(plant == plant_and_valve.first) {
             float soil_moisture = sensor_control_->getSoilSensors()[plant]->getMeasurement();
             float new_soil_moisture;
-                if(plant_and_valve.second->getValveIsOpen() && water_control_->isMainValveOpen()) {
+            if(plant_and_valve.second->getValveIsOpen() && water_control_->isMainValveOpen() && water_control_->getFlowSensor()->isFlowDetected()) {
                     new_soil_moisture = soil_moisture + getRandomChange(1.0, 3.0);
                 } else {
                     new_soil_moisture = soil_moisture - getRandomChange(0, 1.0);
@@ -42,12 +42,17 @@ void MockEnvironment::generateNewSoilMoisture(std::shared_ptr<Plant> plant) {
 }
 
 void MockEnvironment::generateNewFlow( std::shared_ptr<WaterValve> valve) {
+    int water_amount_per_open_valve = 3.0;
     float previous_measurement = water_control_->getFlowSensor()->getMeasurement();
     if(!water_control_->isMainValveOpen()) {
         water_control_->getFlowSensor()->setMeasurent(0.0);
+    // Sets the Flow to the appropriate number for the number of open valves (if main valve was changed the flow is reseted)
+    } else if (valve == water_control_->getMainValve()){
+        water_control_->getFlowSensor()->setMeasurent(water_amount_per_open_valve * water_control_->getNumberOfOpenValves());
     } else if(valve->getValveIsOpen() ) {
-        water_control_->getFlowSensor()->setMeasurent(previous_measurement + 3.0);
+        water_control_->getFlowSensor()->setMeasurent(previous_measurement + water_amount_per_open_valve);
     } else if(!valve->getValveIsOpen()) {
-        water_control_->getFlowSensor()->setMeasurent(previous_measurement - 3.0);
+        water_control_->getFlowSensor()->setMeasurent(previous_measurement - water_amount_per_open_valve);
     }
 }
+

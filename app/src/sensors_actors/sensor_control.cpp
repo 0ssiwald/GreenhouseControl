@@ -1,5 +1,5 @@
-#include "control/sensor_control.h"
-#include "control/sensor.h"
+#include "sensors_actors/sensor_control.h"
+#include "sensors_actors/sensor.h"
 #include <QtDebug>
 
 SensorControl::SensorControl(std::vector<std::shared_ptr<Plant>> plants)

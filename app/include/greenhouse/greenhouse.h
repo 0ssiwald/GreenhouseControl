@@ -21,7 +21,6 @@ public:
     int getNumberOfColumns() {return number_of_group_columns_;};
     std::vector<std::shared_ptr<Plant>> getAllPlants();
     void setGroupGridSize(int, int);
-    bool saveGreehouse();
     void addPlantGroupToGrid(std::shared_ptr<PlantGroup>, int, int);
     std::vector<std::shared_ptr<PlantGroup>> getPlantGroups() {return plant_groups_;};
     friend QDebug operator<<(QDebug, const Greenhouse &);

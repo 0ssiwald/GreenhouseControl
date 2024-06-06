@@ -4,14 +4,12 @@
 void Greenhouse::addPlantGroupToGrid(std::shared_ptr<PlantGroup> pg, int row_position, int column_position) {
     // Check viability of row and column numbers
     if (row_position > number_of_group_rows_ || column_position > number_of_group_columns_) {
-        qDebug() << "row problem";
-        throw("Plant Group cant be added"); // Throw needs catch?????????????????????
+        qWarning() << "group cant be added to desired row";
         return;
     }
     for(auto &it: plant_groups_) {
         if(it->getGridRowNumber() == row_position && it->getGridColumnNumber() == column_position) {
-            qDebug() << "column problem";
-            throw("Plant Group cant be added"); // Throw needs catch?????????????????????
+            qWarning() << "group cant be added to desired column";
             return;
         }
     }
