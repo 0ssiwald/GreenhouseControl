@@ -1,12 +1,6 @@
 #include "greenhouse/condition.h"
 #include <sstream>
 
-// Add a fertilizer to the fertilizer vector
-void Condition::addFertilizer(std::shared_ptr<Fertilizer> fertilizer, int amount) {
-    fertilizers_.emplace_back(fertilizer, amount);
-    return;
-}
-
 std::string Condition::getFertilazersAsString() {
     std::ostringstream fertilizer_string_combined;
     for (auto it = fertilizers_.begin(); it != fertilizers_.end(); ++it) {
@@ -22,3 +16,7 @@ std::string Condition::getFertilazersAsString() {
     }
     return fertilizer_string_combined.str();
 }
+
+
+// Add a fertilizer to the fertilizer vector
+void Condition::addFertilizer(Fertilizer* fertilizer, int amount) {fertilizers_.emplace_back(fertilizer, amount);}

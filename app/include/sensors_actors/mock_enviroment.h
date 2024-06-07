@@ -19,8 +19,8 @@ public:
 public slots:
     void generateNewTemperature();
     void generateNewHumidity();
-    void generateNewSoilMoisture(std::shared_ptr<Plant>);
-    void generateNewFlow(std::shared_ptr<WaterValve>);
+    void generateNewSoilMoisture(Plant*);
+    void generateNewFlow(WaterValve*);
 };
 
 #endif // MOCK_ENVIROMENT_H

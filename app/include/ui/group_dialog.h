@@ -15,7 +15,7 @@ QT_END_NAMESPACE
 class GroupDialog: public QDialog {
     Q_OBJECT
 public:
-    explicit GroupDialog(std::shared_ptr<PlantGroup> plantGroup, QString group_name, QWidget* parent = nullptr);
+    explicit GroupDialog(PlantGroup* plantGroup, QString group_name, QWidget* parent = nullptr);
     ~GroupDialog();
 
 private:
@@ -24,7 +24,7 @@ private:
     // parameter that determines if the addNoteButton creates a new note or just eddits the message of a note
     bool is_edit_ = false;
     Ui::GroupDialog *ui;
-    std::shared_ptr<PlantGroup> plantGroup_;
+    PlantGroup* plantGroup_;
     QString group_name_;
     int selected_plant_ = 0;
     void setWeekList(int);

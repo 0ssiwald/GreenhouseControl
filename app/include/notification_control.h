@@ -19,7 +19,7 @@ public:
     void deleteNotification(int);
     void addNotificationToVector(std::chrono::system_clock::time_point, int, std::string, std::string, std::string, NotificationTypes);
     // mostly for testing
-    void createAllNotificationsForAllPlants(std::shared_ptr<Greenhouse>);
+    void createAllNotificationsForAllPlants(Greenhouse*);
     // needs implementation
     void loadNotifications();
 

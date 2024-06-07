@@ -2,7 +2,6 @@
 #define PLANT_GROUP_H
 
 #include <vector>
-#include <memory>
 #include <QDebug>
 #include "plant.h"
 #include "note.h"
@@ -10,35 +9,34 @@
 class PlantGroup {
     std::string group_name_;
     // Specify the place of the plant group in the greenhouse grid
-    int group_grid_row_number_;
-    int group_grid_column_number_;
+    unsigned int group_grid_row_number_;
+    unsigned int group_grid_column_number_;
     // Specify the grid size for the plants in the plant group
-    int number_of_plant_rows_;
-    int number_of_plant_columns_;
-    std::vector<std::shared_ptr<Plant>> plants_;
-    std::vector<std::shared_ptr<Note>> notes_;
+    unsigned int number_of_plant_rows_;
+    unsigned int number_of_plant_columns_;
+    std::vector<Plant*> plants_;
+    std::vector<Note*> notes_;
 public:
-    PlantGroup(const std::string &name, int row_size = 0, int column_size = 0)
+    PlantGroup(const std::string &name, unsigned int row_size = 0, unsigned int column_size = 0)
         : group_name_(name), number_of_plant_rows_(row_size), number_of_plant_columns_(column_size) {}
 
-    // for mock???????
-    PlantGroup();
+    // for mocking in tests
+    PlantGroup() = default;
     virtual ~PlantGroup() = default;
 
-    int getGridRowNumber() {return group_grid_row_number_;}
-    int getGridColumnNumber() {return group_grid_column_number_;}
-    int getNumberOfPlantRows() {return number_of_plant_rows_;}
-    int getNumberOfPlantColumns() {return number_of_plant_columns_;}
+    unsigned int getGridRowNumber();
+    unsigned int getGridColumnNumber();
+    unsigned int getNumberOfPlantRows() {return number_of_plant_rows_;}
+    unsigned int getNumberOfPlantColumns() {return number_of_plant_columns_;}
     std::string getGroupName() {return group_name_;}
-    std::vector<std::shared_ptr<Note>> getNotes() {return notes_;}
-    std::vector<std::shared_ptr<Plant>> getPlants() {return plants_;}
-    void setPlantGridSize(int, int);
-    void setGridPosition(int , int);
-    void addPlantToGrid(std::shared_ptr<Plant>, int, int);
-    void addNote(std::shared_ptr<Note>);
+    std::vector<Note*> getNotes() {return notes_;}
+    std::vector<Plant*> getPlants();
+    void setPlantGridSize(unsigned int, unsigned int);
+    void setGridPosition(unsigned int , unsigned int);
+    void addPlantToGrid(Plant*, unsigned int, unsigned int);
+    void addNote(Note* );
     void removeNote(size_t);
-    void removePlant(std::shared_ptr<Plant>);
-    friend QDebug operator<<(QDebug, const PlantGroup &);
+    void removePlant(Plant*);
 };
 
 #endif // PLANT_GROUP_H

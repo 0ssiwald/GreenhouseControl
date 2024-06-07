@@ -1,35 +1,71 @@
 #include "testsensorcontrol.h"
 
-const float epsilon = 1.0e-4;   // fixed epsilon for comparison of float numbers
+int number_of_measurements = 0;
+float sensor_value = 5.0;
+std::vector<Plant*> mock_plants;
+
+float Sensor::getMeasurement() {
+    number_of_measurements += 1;
+    return sensor_value;
+}
+
+std::vector<Plant*> Greenhouse::getAllPlants() {
+    return mock_plants;
+}
 
 void TestSensorControl::init() {
-    mock_temperature_sensor_ = std::make_shared<MockSensor>();
-    mock_humidity_sensor_ = std::make_shared<MockSensor>();
-
-    std::shared_ptr<MockPlant> mock_plant1 = std::make_shared<MockPlant>();
-    std::shared_ptr<MockSensor> mock_sensor1 = std::make_shared<MockSensor>();
-    mock_plants_with_soil_moisture_sensors_.insert_or_assign(mock_plant1, mock_sensor1);
-    std::shared_ptr<MockPlant> mock_plant2 = std::make_shared<MockPlant>();
-    std::shared_ptr<MockSensor> mock_sensor2 = std::make_shared<MockSensor>();
-    mock_plants_with_soil_moisture_sensors_.insert_or_assign(mock_plant2, mock_sensor2);
-    std::shared_ptr<MockPlant> mock_plant3 = std::make_shared<MockPlant>();
-    std::shared_ptr<MockSensor> mock_sensor3 = std::make_shared<MockSensor>();
-    mock_plants_with_soil_moisture_sensors_.insert_or_assign(mock_plant3, mock_sensor3);
-
-    sut = new SensorControl(mock_temperature_sensor_, mock_humidity_sensor_, mock_plants_with_soil_moisture_sensors_);
+    number_of_measurements = 0;
 }
 
-void TestSensorControl::cleanup() {
+void TestSensorControl::cleanup() {}
+
+void TestSensorControl::initTestCase() {
+    mock_plant1_ = new MockPlant;
+    mock_plants.push_back(mock_plant1_);
+    mock_plant2_ = new MockPlant;
+    mock_plants.push_back(mock_plant2_);
+    mock_temperature_sensor_ = new Sensor(0);
+    mock_humidity_sensor_ = new Sensor(0);
+    mock_greenhouse_ = new Greenhouse();
+
+    sut = new SensorControl(mock_temperature_sensor_, mock_humidity_sensor_, mock_greenhouse_);
+}
+
+void TestSensorControl::cleanupTestCase() {
     delete sut;
     sut = nullptr;
+    delete mock_plant1_;
+    delete mock_plant2_;
+    delete mock_temperature_sensor_;
+    delete mock_humidity_sensor_;
+    delete mock_greenhouse_;
 }
 
-void TestSensorControl::initTestCase() {}
 
-void TestSensorControl::cleanupTestCase() {}
-
-
-QTEST_APPLESS_MAIN(TestSensorControl)
-
-
+void TestSensorControl::testMeasureTemperature() {
+    QSignalSpy spy = QSignalSpy(sut, SIGNAL(temperatureMeasured(float)));
+    QVERIFY(number_of_measurements == 0);
+    sut->measureTemperature();
+    QVERIFY(number_of_measurements == 1); // one measurement should happen
+    QVERIFY(spy.count() == 1);    // one signal emitted
+    QVERIFY(qFuzzyCompare(spy.takeLast().at(0).toFloat(), 5.0f)); // test for the right emmited value
+}
+void TestSensorControl::testMeasureHumidity() {
+    QSignalSpy spy = QSignalSpy(sut, SIGNAL(humidityMeasured(float)));
+    QVERIFY(number_of_measurements == 0);
+    sut->measureHumidity();
+    QVERIFY(number_of_measurements == 1); // one measurement should happen
+    QVERIFY(spy.count() == 1);    // one signal emitted
+    QVERIFY(qFuzzyCompare(spy.takeLast().at(0).toFloat(), 5.0f)); // test for the right emmited value
+}
+void TestSensorControl::testMeasureSoilMoistures() {
+    QSignalSpy spy1 = QSignalSpy(sut, SIGNAL(updateSoilMoisture(Plant*)));
+    QSignalSpy spy2 = QSignalSpy(sut, SIGNAL(soilMoisturesMeasured()));
+    QVERIFY(number_of_measurements == 0);
+    sut->measureSoilMoistures();
+    QVERIFY(number_of_measurements == 2); // because 2 plants should be measured
+    QVERIFY(spy1.count() == 2); // because 2 plants should be measured
+    QVERIFY(spy2.count() == 1);
+}
+QTEST_APPLESS_MAIN(TestSensorControl);
 

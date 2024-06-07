@@ -1,24 +1,44 @@
 #include "testgreenhouse.h"
 
-void TestGreenhouse::init() {
-    mock_plant_group1_ = std::make_shared<MockPlantGroup>();
-    mock_plant_group2_ = std::make_shared<MockPlantGroup>();
-    mock_plant_group3_ = std::make_shared<MockPlantGroup>();
+unsigned int group_grid_row_number;
+unsigned int group_grid_column_number;
+std::vector<Plant*> mock_plants;
+
+unsigned int PlantGroup::getGridRowNumber() {
+    return group_grid_row_number;
+}
+unsigned int PlantGroup:: getGridColumnNumber() {
+    return group_grid_column_number;
+}
+void PlantGroup::setGridPosition(unsigned int row_number,unsigned int column_number) {
+    group_grid_row_number = row_number;
+    group_grid_column_number = column_number;
 }
 
-// Is it ok to create the sut in the init Testcases to remove all plant groups???
-void TestGreenhouse::cleanup() {}
+std::vector<Plant*> PlantGroup::getPlants() {
+    return mock_plants;
+}
 
-void TestGreenhouse::initTestCase() {
-    sut = new Greenhouse();
+
+void TestGreenhouse::init() {
+    sut = new Greenhouse;
     QVERIFY(sut->getNumberOfRows()== 0);
     QVERIFY(sut->getNumberOfColumns() == 0);
     QVERIFY(sut->getPlantGroups().empty());
 }
 
-void TestGreenhouse::cleanupTestCase() {
+void TestGreenhouse::cleanup() {
     delete sut;
-    sut = nullptr;
+}
+
+void TestGreenhouse::initTestCase() {
+    plant_group1= new PlantGroup;
+    plant_group2= new PlantGroup;
+}
+
+void TestGreenhouse::cleanupTestCase() {
+    delete plant_group1;
+    delete plant_group2;
 }
 
 void TestGreenhouse::testSetGroupGridSize() {
@@ -30,20 +50,33 @@ void TestGreenhouse::testSetGroupGridSize() {
 }
 
 void TestGreenhouse::testAddPlantGroupToGrid() {
-
+    // plant_group should not be able to get place 1, 1 because grid is only 0, 0
+    QVERIFY(sut->addPlantGroupToGrid(plant_group1, 1, 1) == false);
+    QVERIFY(sut->getPlantGroups().empty());
+    // Add plat_group1
+    QVERIFY(sut->addPlantGroupToGrid(plant_group1, 0, 0) == true);
+    QVERIFY(sut->getPlantGroups().size() == 1);
+    QVERIFY(group_grid_row_number == 0);
+    QVERIFY(group_grid_column_number == 0);
+    // Test that plant_group2 cant be added to the same spot
+    QVERIFY(sut->addPlantGroupToGrid(plant_group2, 0, 0) == false);
+    QVERIFY(sut->getPlantGroups().size() == 1);
 }
 
+// Is it ok that this test uses multiple methods?????????
 void TestGreenhouse::testgetAllPants() {
-    std::vector<std::shared_ptr<Plant>> plant_vector;
-    plant_vector = sut->getAllPlants();
-    QVERIFY(plant_vector.size() == 0);
-    //sut->?????????
-
+    QVERIFY(sut->getAllPlants().empty());
+    sut->setGroupGridSize(1, 0);
+    // should still be empty because no plants are in the plant group
+    sut->addPlantGroupToGrid(plant_group1, 0, 0);
+    QVERIFY(sut->getAllPlants().empty());
+    // after adding a plant there should be plants that get returned
+    Plant p1;
+    mock_plants.push_back(&p1);
+    sut->addPlantGroupToGrid(plant_group1, 0, 0);
+    QVERIFY(sut->getAllPlants().size() == 1);
+    sut->addPlantGroupToGrid(plant_group2, 1, 0);
+    QVERIFY(sut->getAllPlants().size() == 2);
 }
-
 
 QTEST_APPLESS_MAIN(TestGreenhouse)
-
-
-
-

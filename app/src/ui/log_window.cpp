@@ -5,7 +5,7 @@ LogWindow::~LogWindow() {
     delete logTextEdit;
 }
 
-LogWindow::LogWindow(std::shared_ptr<SystemLog> systemLog, QWidget* parent)
+LogWindow::LogWindow(SystemLog* systemLog, QWidget* parent)
     : QWidget(parent), systemLog_(std::move(systemLog)) {
     setWindowTitle("System Log");
 

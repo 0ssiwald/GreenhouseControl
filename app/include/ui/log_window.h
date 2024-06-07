@@ -14,12 +14,12 @@
 class LogWindow: public QWidget {
     Q_OBJECT
 public:
-    explicit LogWindow(std::shared_ptr<SystemLog> systemLog, QWidget* parent = nullptr);
+    explicit LogWindow(SystemLog* systemLog, QWidget* parent = nullptr);
     ~LogWindow();
 
 private:
     QListWidget* fileListWidget;
-    std::shared_ptr<SystemLog> systemLog_;
+    SystemLog* systemLog_;
     QTextEdit* logTextEdit;
     void populateFileList();
 

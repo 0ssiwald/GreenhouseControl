@@ -26,7 +26,7 @@ class PlantProfile: public WateringProfile {
     float expected_thc_content_;
     float expected_cbd_content_;
     std::string soil_type_;
-    std::vector<std::shared_ptr<Condition>> conditions_weekly_;
+    std::vector<Condition*> conditions_weekly_;
 public:
     //call by reference can improve the overall performance and memory usage e.g. const std::string&
     PlantProfile(const std::string& strain_name, int length_vegitation_period, int length_flowering_period,
@@ -43,9 +43,9 @@ public:
     float getExpectedThcContent() {return expected_thc_content_;}
     float getExpectedCbdContent() {return expected_cbd_content_;}
     std::string& getSoilType() {return soil_type_;}
-    std::vector<std::shared_ptr<Condition>> getConditionsWeekly() {return conditions_weekly_;}
+    std::vector<Condition*> getConditionsWeekly() {return conditions_weekly_;}
 
-    void addWeeklyCondition(std::shared_ptr<Condition>);
+    void addWeeklyCondition(Condition*);
 };
 
 #endif // PLANT_PROFILE_H

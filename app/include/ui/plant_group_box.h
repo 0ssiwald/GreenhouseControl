@@ -11,10 +11,10 @@
 class PlantGroupBox: public QGroupBox {
     Q_OBJECT
 private:
-    std::shared_ptr<PlantGroup> plant_group_;
+    PlantGroup* plant_group_;
 public:
     explicit PlantGroupBox(QWidget* parent = nullptr);
-    void setPlantGroup(std::shared_ptr<PlantGroup> plant_group) {plant_group_ = plant_group;}
+    void setPlantGroup(PlantGroup* plant_group) {plant_group_ = plant_group;}
     QGridLayout* setPlantGroupLayout();
 protected:
     // Reimplement the mousePressEvent to detect clicks on the group box

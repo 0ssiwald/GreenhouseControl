@@ -1,20 +1,16 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
-#include <QObject>
-#include <memory.h>
-
 class Sensor {
 protected:
     float measurement_value_;
 public:
     explicit Sensor(float initial_value)
         : measurement_value_(initial_value) {}
-    explicit Sensor();
     // virtual destuctor to enshure that derived classes get destroyed
     virtual ~Sensor() = default;
-    virtual float getMeasurement() {return measurement_value_;};
-    virtual void setMeasurent(float measurement_value) {measurement_value_ = measurement_value;}
+    float getMeasurement();
+    void setMeasurent(float);
 };
 
 class SoilMoistureSensor: public Sensor {

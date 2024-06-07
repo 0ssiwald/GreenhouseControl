@@ -26,6 +26,7 @@ SOURCES += \
     src/clock.cpp \
     src/greenhouse/condition.cpp \
     src/greenhouse/greenhouse.cpp \
+    src/greenhouse/greenhouse_create.cpp \
     src/greenhouse/plant.cpp \
     src/greenhouse/plant_group.cpp \
     src/greenhouse/plant_profile.cpp \
@@ -51,6 +52,7 @@ HEADERS += \
     include/date_time.h \
     include/greenhouse/condition.h \
     include/greenhouse/greenhouse.h \
+    include/greenhouse/greenhouse_create.h \
     include/greenhouse/plant.h \
     include/greenhouse/plant_group.h \
     include/greenhouse/plant_profile.h \

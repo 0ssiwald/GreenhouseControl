@@ -6,6 +6,7 @@
 #include "sensors_actors/sensor_control.h"
 #include "notification_control.h"
 #include "sensors_actors/water_control.h"
+#include "greenhouse/greenhouse_create.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -18,32 +19,37 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     // Create Greenhouse
     GreenhouseCreate ghc;
-    std::shared_ptr<Greenhouse> greenhouse = ghc.createGreenhouseFromCode();
+    Greenhouse* greenhouse = ghc.createGreenhouseFromCode();
     //qDebug() << *greenhouse;
 
     //Create Log
-    std::shared_ptr<SystemLog> log = std::make_shared<SystemLog>();
-    //log->initLogging();
+    SystemLog log;
+    // Saves the log in file instead of the console output
+    //log.initLogging();
 
     //Create notifications
     NotificationControl notificationControl;
     notificationControl.createAllNotificationsForAllPlants(greenhouse);
 
     // Create Control Classes
-    SensorControl sensorControl(greenhouse->getAllPlants());
-    WaterControl waterControl(greenhouse->getAllPlants(), &sensorControl);
+    TemperatureSensor temperature_sensor;
+    HumiditySensor humidity_sensor;
+    SensorControl sensorControl(&temperature_sensor, &humidity_sensor, greenhouse);
+    WaterValve main_valve(true);
+    FlowSensor flow_sensor;
+    WaterControl waterControl(&main_valve, &flow_sensor, greenhouse);
     // Create a mock environment
     MockEnvironment mockEnvironment(&sensorControl, &waterControl);
 
 
     // Init GUI
-    MainWindow window(greenhouse, log, &notificationControl, &waterControl, &sensorControl);
+    MainWindow window(greenhouse, &log, &notificationControl, &waterControl, &sensorControl);
     window.show();
 
     int seconds_between_notification_update = 5;
-    int seconds_between_measurments = 1;
+    int seconds_between_measurements = 1;
     // Init Clocks
-    physics::Clock sensorClock(seconds_between_measurments);
+    physics::Clock sensorClock(seconds_between_measurements);
     physics::Clock notificationClock(seconds_between_notification_update);
     // Measure temperature every clock cycle
     QObject::connect(&sensorClock, &physics::Clock::update, &sensorControl, &SensorControl::measureTemperature);

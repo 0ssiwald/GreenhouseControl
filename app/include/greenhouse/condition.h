@@ -3,7 +3,6 @@
 
 #include <string>
 #include <vector>
-#include <memory>
 
 class Fertilizer {
     std::string name_;
@@ -16,13 +15,13 @@ public:
 };
 
 struct FertilizerWithAmount {
-    std::shared_ptr<Fertilizer> fertilizer_;
+    Fertilizer* fertilizer_;
     int amount_in_ml_;
 
-    FertilizerWithAmount(std::shared_ptr<Fertilizer> fertilizer, int amount)
+    FertilizerWithAmount(Fertilizer* fertilizer, int amount)
         : fertilizer_(fertilizer), amount_in_ml_(amount) {}
     int getAmount() {return amount_in_ml_;}
-    std::shared_ptr<Fertilizer> getFertilizer() {return fertilizer_;}
+    Fertilizer* getFertilizer() {return fertilizer_;}
 };
 
 class Condition {
@@ -33,7 +32,7 @@ class Condition {
 public:
     Condition(float humidity, float temperature, int lamp_distance)
         : humidity_(humidity), temperature_(temperature), lamp_distance_in_cm_(lamp_distance) {}
-    void addFertilizer(std::shared_ptr<Fertilizer>, int);
+    void addFertilizer(Fertilizer*, int);
     float getHumidity() {return humidity_;}
     float getTemperature() {return temperature_;}
     int getLampDistance() {return lamp_distance_in_cm_;}

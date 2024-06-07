@@ -1,26 +1,16 @@
+#pragma once
+
+#include <QObject>
 #include <QtTest>
-#include <string>
 #include "sensors_actors/sensor_control.h"
+#include "greenhouse/greenhouse.h"
+#include "sensors_actors/sensor.h"
 #include "greenhouse/plant.h"
-
-class MockSensor: public Sensor {
-public:
-
-    float test_measurement_value_ = NAN; // why not a number
-
-    MockSensor() = default;              // always default constructor for mock?????
-    virtual ~MockSensor() = default;
-    virtual float getMeasurement() override {return test_measurement_value_;}; // how to override ???
-    virtual void setMeasurent(float measurement_value) override {test_measurement_value_ = measurement_value;}
-};
 
 class MockPlant: public Plant {
 public:
-    std::string test_plant_name_ = "TestName";
-
     MockPlant() = default;
-    virtual ~MockPlant() = default;
-    virtual std::string getPlantName() {return test_plant_name_;}
+    std::string getPlantName() override {return "Test";}
 };
 
 
@@ -28,10 +18,12 @@ class TestSensorControl : public QObject {
     Q_OBJECT
 
     SensorControl *sut;
+    MockPlant* mock_plant1_;
+    MockPlant* mock_plant2_;
 
-    std::shared_ptr<MockSensor> mock_temperature_sensor_;
-    std::shared_ptr<MockSensor> mock_humidity_sensor_;
-    std::map<std::shared_ptr<MockPlant>, std::shared_ptr<MockSensor>> mock_plants_with_soil_moisture_sensors_;
+    Sensor* mock_temperature_sensor_;
+    Sensor* mock_humidity_sensor_;
+    Greenhouse* mock_greenhouse_;
 
 public:
     explicit TestSensorControl(QObject *parent = nullptr)  : QObject(parent) {}
@@ -43,7 +35,6 @@ private slots:
     void cleanup();
 
     //tests
-    void testAddSoilSensors(); // Needs testing???????????
     void testMeasureTemperature();
     void testMeasureHumidity();
     void testMeasureSoilMoistures();

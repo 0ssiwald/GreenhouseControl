@@ -2,39 +2,26 @@
 #define GREENHOUSE_H
 
 #include <vector>
-#include <memory>
 #include <QtDebug>
 #include "plant_group.h"
 
 
 class Greenhouse {
     // Specify the grid size for the plant group grid in the greenhouse
-    int number_of_group_rows_;
-    int number_of_group_columns_;
+    unsigned int number_of_group_rows_;
+    unsigned int number_of_group_columns_;
 
-    std::vector<std::shared_ptr<PlantGroup>> plant_groups_;
+    std::vector<PlantGroup*> plant_groups_;
 public:
-    Greenhouse(int row_size = 0, int column_size = 0)
+    Greenhouse(unsigned int row_size = 0, unsigned  int column_size = 0)
         : number_of_group_rows_(row_size), number_of_group_columns_(column_size) {}
 
-    int getNumberOfRows() {return number_of_group_rows_;};
-    int getNumberOfColumns() {return number_of_group_columns_;};
-    std::vector<std::shared_ptr<Plant>> getAllPlants();
-    void setGroupGridSize(int, int);
-    void addPlantGroupToGrid(std::shared_ptr<PlantGroup>, int, int);
-    std::vector<std::shared_ptr<PlantGroup>> getPlantGroups() {return plant_groups_;};
-    friend QDebug operator<<(QDebug, const Greenhouse &);
-};
-
-
-// Class to create Greenhouse form File
-// At the moment just created in code
-class GreenhouseCreate {
-    std::shared_ptr<Greenhouse> greenhouse;
-public:
-    std::shared_ptr<Greenhouse> createGreenhouseFromCode();
-    // for later
-    std::shared_ptr<Greenhouse> loadGreenhouseFromFile(const std::string&);
+    unsigned int getNumberOfRows() {return number_of_group_rows_;};
+    unsigned int getNumberOfColumns() {return number_of_group_columns_;};
+    std::vector<PlantGroup*> getPlantGroups() {return plant_groups_;};
+    std::vector<Plant*> getAllPlants();
+    void setGroupGridSize(unsigned int, unsigned int);
+    bool addPlantGroupToGrid(PlantGroup*, unsigned int, unsigned int);
 };
 
 #endif // GREENHOUSE_H

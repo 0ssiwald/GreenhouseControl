@@ -1,7 +1,7 @@
 #include "ui/group_dialog.h"
 #include <QDateTime>
 
-GroupDialog::GroupDialog(std::shared_ptr<PlantGroup> plantGroup, QString group_name, QWidget* parent)
+GroupDialog::GroupDialog(PlantGroup* plantGroup, QString group_name, QWidget* parent)
     : QDialog(parent), ui(new Ui::GroupDialog), plantGroup_(plantGroup), group_name_(group_name) {
     ui->setupUi(this);
 
@@ -59,7 +59,7 @@ void GroupDialog::setConditionWeeklyValues(QListWidgetItem* item) {
     if(item)
         week_number = ui->weekListWidget->row(item);
     if(ui->weekListWidget->count() > 0) {
-        std::shared_ptr<Condition> conditions_weekly = plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getConditionsWeekly()[week_number];
+        Condition* conditions_weekly = plantGroup_->getPlants()[selected_plant_]->getPlantProfile()->getConditionsWeekly()[week_number];
         QString humidity = QString("%1%").arg(QString::number(conditions_weekly->getHumidity()));
         ui->humidityLabel->setText(humidity);
         QString temperature = QString("%1%").arg(QString::number(conditions_weekly->getTemperature()));
@@ -166,7 +166,7 @@ void GroupDialog::on_addNoteButton_clicked() {
                 plantGroup_->getNotes()[index]->setMessage(std_string_text);
 
             } else {
-                std::shared_ptr<Note> new_note = std::make_shared<Note>(std::chrono::system_clock::now(), std_string_text);
+                Note* new_note = new Note(std::chrono::system_clock::now(), std_string_text);
                 plantGroup_->addNote(new_note);
             }
             setNoteList();

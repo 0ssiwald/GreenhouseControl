@@ -23,7 +23,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(std::shared_ptr<Greenhouse>, std::shared_ptr<SystemLog>, NotificationControl*, WaterControl*, SensorControl*, QWidget * = nullptr);
+    MainWindow(Greenhouse*, SystemLog*, NotificationControl*, WaterControl*, SensorControl*, QWidget * = nullptr);
     ~MainWindow();
     void setNotificationList();
 
@@ -42,15 +42,15 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    std::shared_ptr<Greenhouse> greenhouse_;
-    std::shared_ptr<SystemLog> systemLog_;
+    Greenhouse* greenhouse_;
+    SystemLog* systemLog_;
     NotificationControl* notificationControl_;
     WaterControl* waterControl_;
     SensorControl* sensorControl_;
     QPushButton* systemLogButton_;
     std::vector<PlantLabel*> plantLabels_;
     void setGroupLayout();
-    void addPlantLabel(PlantLabel*, std::shared_ptr<Plant>);
+    void addPlantLabel(PlantLabel*, Plant*);
 };
 
 

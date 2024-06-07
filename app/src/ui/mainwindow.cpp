@@ -2,7 +2,7 @@
 #include "ui/plant_group_box.h"
 #include "ui/log_window.h"
 
-MainWindow::MainWindow(std::shared_ptr<Greenhouse> gh, std::shared_ptr<SystemLog> log, NotificationControl* notification, WaterControl *water, SensorControl *sensor, QWidget *parent)
+MainWindow::MainWindow(Greenhouse* gh, SystemLog* log, NotificationControl* notification, WaterControl *water, SensorControl *sensor, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse_(gh), systemLog_(log), notificationControl_(notification), waterControl_(water), sensorControl_(sensor) {
     ui->setupUi(this);
     setGroupLayout();
@@ -12,27 +12,21 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::addPlantLabel(PlantLabel* plantLabel, std::shared_ptr<Plant> plant) {
+void MainWindow::addPlantLabel(PlantLabel* plantLabel, Plant* plant) {
     plantLabel->setPlantLabelLayout();
     plantLabel->setProperty("plant_name", QString::fromStdString(plant->getPlantName()));
-    for(auto &plants_with_valves: waterControl_->getWaterValves()) {
-        if(plants_with_valves.first == plant) {
-            plantLabel->setWaterValve(plants_with_valves.second);
-        }
-    }
-    for(auto &plants_with_sensors: sensorControl_->getSoilSensors()) {
-        if(plants_with_sensors.first == plant) {
-            plantLabel->setMoistureSensor(plants_with_sensors.second);
-        }
-    }
+    // setting the water valve and the soil sensor so that the plant lable can display them
+    plantLabel->setWaterValve(plant->getWaterValve());
+    plantLabel->setMoistureSensor(plant->getSoilSensor());
+
     plantLabels_.push_back(plantLabel);
 }
 
 // Create the main Layout of Plant Groups and Plants
 void MainWindow::setGroupLayout() {
     // Populate the QGridLayout
-    for(int group_row = 0; group_row <= greenhouse_->getNumberOfRows(); ++group_row) {
-        for(int group_col = 0; group_col <= greenhouse_->getNumberOfColumns(); ++group_col) {
+    for(unsigned int group_row = 0; group_row <= greenhouse_->getNumberOfRows(); ++group_row) {
+        for(unsigned int group_col = 0; group_col <= greenhouse_->getNumberOfColumns(); ++group_col) {
             // First an empty groupBox is created and if a real group is found it gets overwritten
             PlantGroupBox* groupBox = new PlantGroupBox(this);
             for(auto &group: greenhouse_->getPlantGroups()) {
@@ -40,8 +34,8 @@ void MainWindow::setGroupLayout() {
                     groupBox->setPlantGroup(group);
                     // Configure the Layout of the group Box
                     QGridLayout *gridLayoutPlants = groupBox->setPlantGroupLayout();
-                    for(int plant_row = 0; plant_row <= group->getNumberOfPlantRows(); ++plant_row) {
-                        for(int plant_column = 0; plant_column <= group->getNumberOfPlantColumns(); ++plant_column) {
+                    for(unsigned int plant_row = 0; plant_row <= group->getNumberOfPlantRows(); ++plant_row) {
+                        for(unsigned int plant_column = 0; plant_column <= group->getNumberOfPlantColumns(); ++plant_column) {
                             PlantLabel* plantLabel = new PlantLabel();
                             for(auto &plant: group->getPlants()) {
                                 if(plant->getGridRowNumber() == plant_row && plant->getGridColumnNumber() == plant_column) {

@@ -3,38 +3,36 @@
 
 #include <QObject>
 #include <QtDebug>
-#include <memory>
-#include <map>
 #include "water_valve.h"
-#include "sensor.h"
-#include "sensor_control.h"
+#include "greenhouse/greenhouse.h"
+
 
 class WaterControl: public QObject {
     Q_OBJECT
     int number_of_open_valves_ = 0;
-    std::shared_ptr<WaterValve> main_valve_;
-    std::shared_ptr<FlowSensor> flow_sensor_;
-    SensorControl* sensor_control_;
-    std::map<std::shared_ptr<Plant>, std::shared_ptr<WaterValve>> plants_with_water_valves_;
+    WaterValve* main_valve_;
+    FlowSensor* flow_sensor_;
+    Greenhouse* greenhouse_;
+
     void controlUnregularFlow();
 public:
-    explicit WaterControl(std::vector<std::shared_ptr<Plant>>, SensorControl *);
+    explicit WaterControl(WaterValve* main_valve, FlowSensor* flow_sensor, Greenhouse* greenhouse)
+        : QObject(nullptr), main_valve_(main_valve), flow_sensor_(flow_sensor), greenhouse_(greenhouse) {}
 
     void addWaterValves(std::vector<std::shared_ptr<Plant>>);
     bool isMainValveOpen() {return main_valve_->getValveIsOpen();}
     void openMainValve();
     void closeMainValve();
-    std::shared_ptr<FlowSensor> getFlowSensor() {return flow_sensor_;}
+    FlowSensor* getFlowSensor() {return flow_sensor_;}
     int getNumberOfOpenValves() {return number_of_open_valves_;}
-    std::shared_ptr<WaterValve> getMainValve() {return main_valve_;}
-    std::map<std::shared_ptr<Plant>, std::shared_ptr<WaterValve>> getWaterValves() {return plants_with_water_valves_;}
+    WaterValve* getMainValve() {return main_valve_;}
 
 public slots:
     void controlMoistureLevels();
 
 signals:
     void mainValveWasClosed();
-    void updateFlow(std::shared_ptr<WaterValve>);
+    void updateFlow(WaterValve*);
     void moistureLevelsControled();
 };
 
