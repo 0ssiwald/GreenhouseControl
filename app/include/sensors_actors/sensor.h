@@ -36,12 +36,7 @@ public:
     FlowSensor(float initial_value = 0.0)
         : Sensor(initial_value) {}
 
-    bool isFlowDetected() {
-        if(measurement_value_ > flow_threshold_) {
-            return true;
-        }
-        return false;
-    }
+    bool isFlowDetected();
 };
 
 #endif // SENSOR_H

@@ -14,9 +14,9 @@ class SensorControl: public QObject {
 public:
     explicit SensorControl( Sensor* temperature_sensor, Sensor* humidity_sensor, Greenhouse* greenhouse)
         : QObject(nullptr), temperature_sensor_(temperature_sensor), humidity_sensor_(humidity_sensor), greenhouse_(greenhouse) {}
-
-    Sensor* getTemperatureSensor() {return temperature_sensor_;}
-    Sensor* getHumiditySensor() {return humidity_sensor_;}
+    SensorControl() = default;
+    virtual Sensor* getTemperatureSensor();
+    virtual Sensor* getHumiditySensor();
 public slots:
     void measureTemperature();
     void measureHumidity();

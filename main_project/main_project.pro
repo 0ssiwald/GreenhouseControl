@@ -5,4 +5,12 @@ TEMPLATE = subdirs
 SUBDIRS += \
     ../app \
     ../unittest_SensorControl \
-    ../unittest_Greenhouse
+    ../unittest_Greenhouse \
+    #../unittest_NotificationControl \
+    #../unittest_Notification \
+    ../unittest_Log \
+    ../unittest_WaterControl \
+    ../unittest_Clock \
+    ../unittest_PlantGroup \
+    ../unittest_Plant \
+    ../unittest_MockEnvironment

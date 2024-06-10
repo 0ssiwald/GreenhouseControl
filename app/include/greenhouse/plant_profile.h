@@ -2,7 +2,6 @@
 #define PLANT_PROFILE_H
 
 #include <vector>
-#include <memory>
 #include <string>
 #include "condition.h"
 
@@ -15,8 +14,12 @@ protected:
 public:
     WateringProfile(int lower_threshold = 30,int upper_threshold = 50)
         : lower_watering_threshold_(lower_threshold), upper_watering_threshold_(upper_threshold) {}
-    int getLowerWateringThreshold() const {return lower_watering_threshold_;};
-    int getUpperWateringThreshold() const {return upper_watering_threshold_;};
+
+    virtual ~WateringProfile() = default;
+
+    virtual int getLowerWateringThreshold() {return lower_watering_threshold_;}
+    virtual int getUpperWateringThreshold() {return upper_watering_threshold_;}
+
 };
 
 class PlantProfile: public WateringProfile {
@@ -36,6 +39,10 @@ public:
         strain_name_(strain_name), length_vegitation_period_(length_vegitation_period),
         length_flowering_period_(length_flowering_period), expected_thc_content_(expected_thc_content),
         expected_cbd_content_(expected_cbd_content), soil_type_(soil_type) {}
+
+    // For Mock methods for testing
+    PlantProfile() = default;
+    virtual ~PlantProfile() = default;
 
     std::string& getStrainName() {return strain_name_;}
     int getLengthVegitationPeriod() {return length_vegitation_period_;}

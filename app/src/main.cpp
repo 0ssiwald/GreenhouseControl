@@ -1,6 +1,6 @@
 #include "greenhouse/greenhouse.h"
 #include "ui/mainwindow.h"
-#include "sensors_actors/mock_enviroment.h"
+#include "sensors_actors/mock_environment.h"
 #include "clock.h"
 #include "log.h"
 #include "sensors_actors/sensor_control.h"

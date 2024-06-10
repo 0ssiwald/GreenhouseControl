@@ -1,6 +1,13 @@
 #include "sensors_actors/sensor_control.h"
 #include <QtDebug>
 
+Sensor* SensorControl::getTemperatureSensor() {
+    return temperature_sensor_;
+}
+Sensor* SensorControl::getHumiditySensor() {
+    return humidity_sensor_;
+}
+
 void SensorControl::measureTemperature() {
     float temperature = temperature_sensor_->getMeasurement();
     // Create a formatted QString using the desired precision and fixed-point format

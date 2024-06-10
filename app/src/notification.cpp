@@ -2,7 +2,7 @@
 #include "date_time.h"
 #include <sstream>
 
-std::string Notification::getNotificationMessage() {
+std::string Notification:: getNotificationMessage() {
     std::ostringstream notification_stream;
     notification_stream << "Woche " << (week_index_ + 1) << " Gruppe " << group_name_ << ":\n";
 

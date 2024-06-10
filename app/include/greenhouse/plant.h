@@ -26,17 +26,15 @@ public:
     Plant() = default;
     virtual ~Plant() = default;
 
-    bool savePlantToFile(const std::string&);
     void setGridPosition(unsigned int,unsigned int);
-    unsigned int getGridRowNumber() {return plant_grid_row_number_;}
-    unsigned int getGridColumnNumber() {return plant_grid_column_number_;}
-    Sensor* getSoilSensor() {return soil_sensor_;}
-    WaterValve* getWaterValve() {return valve_;}
+    unsigned int getGridRowNumber();
+    unsigned int getGridColumnNumber();
+    virtual Sensor* getSoilSensor() {return soil_sensor_;}
+    virtual WaterValve* getWaterValve() {return valve_;}
     void setSoilSensor(Sensor* soilsensor) {soil_sensor_ = soilsensor;}
     void setWaterValve(WaterValve* valve) {valve_ = valve;}
     virtual std::string getPlantName() {return plant_name_;}
-    PlantProfile* getProfile() {return profile_;}
-    PlantProfile* getPlantProfile() {return profile_;}
+    virtual PlantProfile* getPlantProfile() {return profile_;}
     std::chrono::system_clock::time_point  getSowingDate() {return sowing_date_;}
 };
 

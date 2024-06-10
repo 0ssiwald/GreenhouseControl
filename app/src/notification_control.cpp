@@ -33,7 +33,7 @@ void NotificationControl::createAllNotificationsForAllPlants(Greenhouse* greenho
             std::string plant_name = plant->getPlantName();
             std::chrono::system_clock::time_point sowing_date = plant->getSowingDate();
             int week_index = 0;
-            for(auto &condition: plant->getProfile()->getConditionsWeekly()) {
+            for(auto &condition: plant->getPlantProfile()->getConditionsWeekly()) {
                 // Create a duration representing the number of weeks
                 std::chrono::duration<int, std::ratio<604800>> duration_weeks(week_index); // 1 week = 604800 seconds
                 // Get the activation Timepoint by adding the week_index to the sowing date

@@ -6,9 +6,9 @@ class WaterValve {
 public:
     WaterValve(bool valve_is_open = false)
         : valve_is_open_(valve_is_open) {}
-    void openValve() {valve_is_open_ = true;}
-    void closeValve() {valve_is_open_ = false;}
-    bool getValveIsOpen() {return valve_is_open_;}
+    void openValve();
+    void closeValve();
+    bool getValveIsOpen();
 };
 
 #endif // WATER_VALVE_H

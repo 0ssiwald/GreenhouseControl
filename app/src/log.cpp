@@ -4,6 +4,7 @@
 QString SystemLog::log_folder_name_ = "logs";
 QString SystemLog::log_file_name_;
 
+
 void SystemLog::initLogging() {
     // create folder for logfiles if not exists
     if(!QDir(log_folder_name_).exists()) {
@@ -15,7 +16,6 @@ void SystemLog::initLogging() {
     //Install the costom message handler to write the logs to a file instead of stderr
     qInstallMessageHandler(myMessageHandler);
 }
-
 
 
 void SystemLog::myMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message) {

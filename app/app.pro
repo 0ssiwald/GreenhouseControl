@@ -35,10 +35,11 @@ SOURCES += \
     src/note.cpp \
     src/notification.cpp \
     src/notification_control.cpp \
-    src/sensors_actors/mock_enviroment.cpp \
+    src/sensors_actors/mock_environment.cpp \
     src/sensors_actors/sensor.cpp \
     src/sensors_actors/sensor_control.cpp \
     src/sensors_actors/water_control.cpp \
+    src/sensors_actors/water_valve.cpp \
     src/ui/group_dialog.cpp \
     src/ui/log_window.cpp \
     src/ui/mainwindow.cpp \
@@ -60,7 +61,7 @@ HEADERS += \
     include/note.h \
     include/notification.h \
     include/notification_control.h \
-    include/sensors_actors/mock_enviroment.h \
+    include/sensors_actors/mock_environment.h \
     include/sensors_actors/sensor.h \
     include/sensors_actors/sensor_control.h \
     include/sensors_actors/water_control.h \

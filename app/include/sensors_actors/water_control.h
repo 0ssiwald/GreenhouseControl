@@ -13,19 +13,16 @@ class WaterControl: public QObject {
     WaterValve* main_valve_;
     FlowSensor* flow_sensor_;
     Greenhouse* greenhouse_;
-
-    void controlUnregularFlow();
 public:
     explicit WaterControl(WaterValve* main_valve, FlowSensor* flow_sensor, Greenhouse* greenhouse)
         : QObject(nullptr), main_valve_(main_valve), flow_sensor_(flow_sensor), greenhouse_(greenhouse) {}
-
-    void addWaterValves(std::vector<std::shared_ptr<Plant>>);
-    bool isMainValveOpen() {return main_valve_->getValveIsOpen();}
-    void openMainValve();
-    void closeMainValve();
     FlowSensor* getFlowSensor() {return flow_sensor_;}
     int getNumberOfOpenValves() {return number_of_open_valves_;}
     WaterValve* getMainValve() {return main_valve_;}
+    bool isMainValveOpen() {return main_valve_->getValveIsOpen();}
+    void controlUnregularFlow();
+    void openMainValve();
+    void closeMainValve();
 
 public slots:
     void controlMoistureLevels();

@@ -10,9 +10,11 @@ namespace physics {
 class Clock : public QObject {
     Q_OBJECT
 public:
-    explicit Clock(int secounds_per_tick = 5);
+    explicit Clock(int secounds_per_tick);
     int getSecondsPerTick() const;
     void setSecondsPerTick(int);
+    QTimer timer_;
+    QTime last_start_time_;
 
 signals:
     void update(int delta_t_msec);
@@ -22,11 +24,7 @@ public slots:
     void stop();
     void tick();
 
-private:
-    QTimer timer;
-    QTime lastStartTime;
 };
-
 
 } // end namespace physics
 

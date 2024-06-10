@@ -33,10 +33,9 @@ public:
     std::vector<Plant*> getPlants();
     void setPlantGridSize(unsigned int, unsigned int);
     void setGridPosition(unsigned int , unsigned int);
-    void addPlantToGrid(Plant*, unsigned int, unsigned int);
+    bool addPlantToGrid(Plant*, unsigned int, unsigned int);
     void addNote(Note* );
-    void removeNote(size_t);
-    void removePlant(Plant*);
+    bool removeNote(size_t);
 };
 
 #endif // PLANT_GROUP_H

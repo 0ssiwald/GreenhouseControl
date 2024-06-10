@@ -5,11 +5,13 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
-// for easy conversion of strings to time_points
-struct DateTimeConverter {
-    static std::chrono::system_clock::time_point stringToTimePoint(const std::string& dateTimeStr, const std::string& format = "%d.%m.%Y %H:%M:%S") {
+// A few functions to make converting between strings and time_point easier
+namespace DateTimeConverter {
+
+     inline std::chrono::system_clock::time_point stringToTimePoint(const std::string& dateTimeStr, const std::string& format = "%d.%m.%Y %H:%M:%S") {
         std::tm tm = {};
         std::istringstream ss(dateTimeStr);
         ss >> std::get_time(&tm, format.c_str());
@@ -24,14 +26,15 @@ struct DateTimeConverter {
         return timePoint;
     }
 
-    static std::string timePointToString(const std::chrono::system_clock::time_point& timePoint, const std::string& format = "%d.%m.%Y %H:%M:%S") {
+     inline std::string timePointToString(const std::chrono::system_clock::time_point& timePoint, const std::string& format = "%d.%m.%Y %H:%M:%S") {
         std::time_t time_val = std::chrono::system_clock::to_time_t(timePoint);
         std::tm* tm = std::localtime(&time_val);
         char buffer[64];
         std::strftime(buffer, sizeof(buffer), format.c_str(), tm);
         return std::string(buffer);
     }
-    static bool isSameDay(const std::chrono::system_clock::time_point& tp1, const std::chrono::system_clock::time_point& tp2) {
+    // Test if two timepoints are on the same day
+     inline bool isSameDay(const std::chrono::system_clock::time_point& tp1, const std::chrono::system_clock::time_point& tp2) {
         // Convert time_point to time_t
         std::time_t time1 = std::chrono::system_clock::to_time_t(tp1);
         std::time_t time2 = std::chrono::system_clock::to_time_t(tp2);
@@ -45,6 +48,7 @@ struct DateTimeConverter {
                 tm1.tm_mon == tm2.tm_mon &&
                 tm1.tm_mday == tm2.tm_mday);
     }
-};
+
+} // namespace DateTimeConverter
 
 #endif // DATE_TIME_H

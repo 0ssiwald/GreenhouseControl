@@ -17,8 +17,6 @@ SOURCES += \
     ../app/src/sensors_actors/sensor_control.cpp \
     testsensorcontrol.cpp
 
-#SOURCES -= ../app/src/sensors_actors/sensor.cpp
-
 # The header files (e.g. *.h)
 HEADERS += \
     ../app/include/sensors_actors/sensor_control.h \

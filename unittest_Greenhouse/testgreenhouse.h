@@ -2,14 +2,6 @@
 #include "greenhouse/greenhouse.h"
 #include "greenhouse/plant_group.h"
 
-/*
-class MockPlant: public Plant {
-public:
-    MockPlant() = default;
-    std::string getPlantName() override {return "Test";}
-};
-*/
-
 class TestGreenhouse : public QObject {
     Q_OBJECT
 

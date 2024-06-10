@@ -21,7 +21,7 @@ public:
     // mostly for testing
     void createAllNotificationsForAllPlants(Greenhouse*);
     // needs implementation
-    void loadNotifications();
+    void loadNotificationsFromFile();
 
 public slots:
     void updateActiveNotificationList();
