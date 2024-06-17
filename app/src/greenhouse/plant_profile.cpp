@@ -2,5 +2,4 @@
 
 void PlantProfile::addWeeklyCondition(Condition* condition) {
     conditions_weekly_.push_back(condition);
-    return;
 }

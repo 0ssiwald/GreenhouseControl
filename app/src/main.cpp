@@ -17,18 +17,24 @@
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
+    // Is it fine to access the jsons via qrc file ??????????????
+    Q_INIT_RESOURCE(data);
     // Create Greenhouse
     GreenhouseCreate ghc;
-    Greenhouse* greenhouse = ghc.createGreenhouseFromCode();
-    //qDebug() << *greenhouse;
+    Greenhouse* greenhouse = ghc.loadGreenhouseFromFile(":/greenhouse.json");
+    // If there is a problem with the json file this is a alternative that should work
+    //Greenhouse* greenhouse = ghc.createGreenhouseFromCode();
 
     //Create Log
     SystemLog log;
     // Saves the log in file instead of the console output
+    // Is it fine that the logs are created in the build folder????????????????
     //log.initLogging();
 
     //Create notifications
     NotificationControl notificationControl;
+    //notificationControl.loadNotificationsFromFile(":/notifications.json");
+    // This is also a alternative to reading the notifications from json for testing
     notificationControl.createAllNotificationsForAllPlants(greenhouse);
 
     // Create Control Classes

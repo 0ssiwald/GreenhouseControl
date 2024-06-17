@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>rocket.png</file>
+		<file>greenhouse.json</file>
+		<file>notifications.json</file>
     </qresource>
 </RCC>

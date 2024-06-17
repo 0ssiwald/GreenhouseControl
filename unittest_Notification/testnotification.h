@@ -14,10 +14,8 @@ public:
     explicit TestNotification(QObject *parent = nullptr)  : QObject(parent) {}
 
 private slots:
-    void init();
     void initTestCase();
     void cleanupTestCase();
-    void cleanup();
 
     //tests
     void testIsNotificationTheSameForAnotherPlant();

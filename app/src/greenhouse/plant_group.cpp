@@ -29,7 +29,6 @@ void PlantGroup::addNote(Note* note) {
 void PlantGroup::setGridPosition(unsigned int row_number,unsigned int column_number) {
     group_grid_row_number_ = row_number;
     group_grid_column_number_ = column_number;
-
 }
 
 void PlantGroup::setPlantGridSize(unsigned int row_size,unsigned int column_size) {

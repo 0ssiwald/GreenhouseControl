@@ -2,7 +2,8 @@
 #include "date_time.h"
 #include <sstream>
 
-std::string Notification:: getNotificationMessage() {
+
+std::string Notification::getNotificationMessage() {
     std::ostringstream notification_stream;
     notification_stream << "Woche " << (week_index_ + 1) << " Gruppe " << group_name_ << ":\n";
 
@@ -20,16 +21,19 @@ std::string Notification:: getNotificationMessage() {
 
     switch (notification_type_) {
     case NotificationTypes::LampDistanceNotification:
-        notification_stream << "Der optimale Lampenabstand für Pflanze" << plant_numbers_string << " beträgt " << value_as_string_ << " cm";
+        notification_stream << "Der optimale Lampenabstand der Pflanze" << plant_numbers_string << " beträgt " << value_as_string_ << " cm";
         break;
     case NotificationTypes::FertilizerNotification:
-        notification_stream << "Die Pflanze" << plant_numbers_string << " müssen gedüngt werden mit:\n" << value_as_string_;
+        if(plant_names_.size() == 1)
+            notification_stream << "Die Pflanze" << plant_numbers_string << " muss gedüngt werden mit:\n" << value_as_string_;
+        else
+            notification_stream << "Die Pflanze" << plant_numbers_string << " müssen gedüngt werden mit:\n" << value_as_string_;
         break;
     case NotificationTypes::TemperatureNotification:
-        notification_stream << "Die optimale Temperatur für Pflanze" << plant_numbers_string << " beträgt " << value_as_string_ << " °C";
+        notification_stream << "Die optimale Temperatur der Pflanze" << plant_numbers_string << " beträgt " << value_as_string_ << " °C";
         break;
     case NotificationTypes::HumidityNotification:
-        notification_stream << "Die optimale Luftfeuchtigkeit für Pflanze" << plant_numbers_string << " beträgt " << value_as_string_ << "%";
+        notification_stream << "Die optimale Luftfeuchtigkeit der Pflanze" << plant_numbers_string << " beträgt " << value_as_string_ << "%";
         break;
     default:
         notification_stream << "Unknown notification";
@@ -40,7 +44,7 @@ std::string Notification:: getNotificationMessage() {
 }
 
 // so that similar plants in a plant group have the same notification
-bool Notification::isNotificationTheSameForAnotherPlant(std::chrono::system_clock::time_point time_point,int week_index, std::string group_name,
+bool Notification::isNotificationTheSameForAnotherPlant(std::chrono::system_clock::time_point time_point, int week_index, std::string group_name,
                                           std::string value_as_string, NotificationTypes notification_type) {
     if (DateTimeConverter::isSameDay(time_point, activation_timepoint_) && week_index_ == week_index &&
         value_as_string_ == value_as_string && notification_type_ == notification_type &&
@@ -48,5 +52,4 @@ bool Notification::isNotificationTheSameForAnotherPlant(std::chrono::system_cloc
         return true;
     }
     return false;
-
 }

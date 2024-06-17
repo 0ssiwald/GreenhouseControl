@@ -10,6 +10,8 @@ class TestNotificationControl : public QObject {
     Q_OBJECT
 
     NotificationControl* sut;
+    Notification* notification1_;
+    Notification* notification2_;
 
 public:
     explicit TestNotificationControl(QObject *parent = nullptr)  : QObject(parent) {}
@@ -21,11 +23,9 @@ private slots:
     void cleanup();
 
     //tests
-    void testDisplayNotification();
-    void testSaveNotificationToLog();
+    void testloadNotificationsFromFile();
     void testDeleteNotification();
     void testAddNotificationToVector();
-    void testCreateAllNotificationsForAllPlants();
     void testUpdateActiveNotificationList();
 };
 
