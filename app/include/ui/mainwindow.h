@@ -4,7 +4,6 @@
 #include <QLabel>
 #include <QGroupBox>
 #include <QCheckBox>
-#include <memory>
 #include <QtDebug>
 #include "ui_mainwindow.h" // because Ui::MainWindow class is an incomplete type at the point where you're trying to access its members.
 #include "greenhouse/greenhouse.h"
@@ -32,6 +31,7 @@ private slots:
     void deleteNotification();
     void on_mainValveToggleButton_toggled(bool);
     void on_waterSlider_sliderMoved(int position);
+    void on_fireAlarmButton_toggled(bool checked);
 
 public slots:
     void updatePlantLabels();
@@ -39,6 +39,9 @@ public slots:
     void updateHumidityLabel(float);
     void toggleMainValveToggleButtonOff();
     void changeWaterSlider();
+    void fireAlarm();
+signals:
+    void fireAlarmTriggered();
 
 private:
     Ui::MainWindow *ui;
@@ -52,22 +55,6 @@ private:
     void setGroupLayout();
     void addPlantLabel(PlantLabel*, Plant*);
 };
-
-
-
-   // QLabel *rocketLabel; // This one loads the image  via Qt
-   // QPixmap *rocketImg; // Storing same image again, as base for rotation
-
-//public slots:
- //   void moveRocket(float x, float y, float angleRad);
-
-//signals:
-//    void start();
-//    void stop();
-
-//private slots:
- //   void on_startStopButton_clicked();
- //   void on_centralwidget_customContextMenuRequested(const QPoint &pos);
 
 
 

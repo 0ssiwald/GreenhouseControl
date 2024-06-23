@@ -31,12 +31,13 @@ public:
 };
 class FlowSensor: public Sensor {
     // Every value over the theshold is considered a flow of water
-    float flow_threshold_ = 2;
+    float flow_threshold_ = 2.0;
 public:
     FlowSensor(float initial_value = 0.0)
         : Sensor(initial_value) {}
 
     bool isFlowDetected();
 };
+
 
 #endif // SENSOR_H

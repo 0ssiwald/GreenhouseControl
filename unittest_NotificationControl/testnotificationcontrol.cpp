@@ -84,7 +84,8 @@ void TestNotificationControl::testloadNotificationsFromFile() {
     // Verify the notifications were loaded correctly
     const auto& notifications = sut->getImpendingNotifications();
     // Verify the number of notifications
-    QCOMPARE(notifications.size(), 2);
+    const long unsigned int size = 2;
+    QCOMPARE(notifications.size(), size);
 
     QCOMPARE(QString::fromStdString(notifications[0]->getNotificationMessage()),
              QString("20.05.2024 03:34:57 0 1 40 1 2 LampDistanceNotification"));

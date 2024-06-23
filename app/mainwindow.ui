@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1394</width>
+    <width>1388</width>
     <height>819</height>
    </rect>
   </property>
@@ -107,21 +107,6 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QWidget" name="gridLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>90</y>
-      <width>931</width>
-      <height>581</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetDefaultConstraint</enum>
-     </property>
-    </layout>
-   </widget>
    <widget class="QListWidget" name="notificationListWidget">
     <property name="geometry">
      <rect>
@@ -184,7 +169,7 @@
      <rect>
       <x>300</x>
       <y>10</y>
-      <width>686</width>
+      <width>561</width>
       <height>85</height>
      </rect>
     </property>
@@ -204,7 +189,7 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>400</width>
+      <width>271</width>
       <height>85</height>
      </rect>
     </property>
@@ -309,12 +294,26 @@
      </palette>
     </property>
     <property name="text">
-     <string> ____</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="data/data.qrc">
+      <normaloff>:/pictures/ValveOpen.png</normaloff>
+      <normalon>:/pictures/ValveClose.png</normalon>:/pictures/ValveOpen.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>50</width>
+      <height>50</height>
+     </size>
     </property>
     <property name="checkable">
      <bool>true</bool>
     </property>
     <property name="checked">
+     <bool>true</bool>
+    </property>
+    <property name="flat">
      <bool>true</bool>
     </property>
    </widget>
@@ -326,6 +325,43 @@
       <width>131</width>
       <height>18</height>
      </rect>
+    </property>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="Accent">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>3</red>
+          <green>116</green>
+          <blue>215</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="Accent">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>3</red>
+          <green>116</green>
+          <blue>215</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="Accent">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>3</red>
+          <green>116</green>
+          <blue>215</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </disabled>
+     </palette>
     </property>
     <property name="maximum">
      <number>10</number>
@@ -363,7 +399,254 @@
      <string>Wasserfluss</string>
     </property>
    </widget>
-   <zorder>gridLayoutWidget</zorder>
+   <widget class="QPushButton" name="fireAlarmButton">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>720</y>
+      <width>61</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="Button">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>77</green>
+          <blue>80</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Light">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>77</green>
+          <blue>80</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Midlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>77</green>
+          <blue>80</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Highlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>215</red>
+          <green>4</green>
+          <blue>32</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Link">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>215</red>
+          <green>4</green>
+          <blue>32</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="LinkVisited">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>215</red>
+          <green>4</green>
+          <blue>32</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Accent">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>215</red>
+          <green>4</green>
+          <blue>32</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="Button">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>77</green>
+          <blue>80</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Light">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>77</green>
+          <blue>80</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Midlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>77</green>
+          <blue>80</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Highlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>215</red>
+          <green>4</green>
+          <blue>32</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Link">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>215</red>
+          <green>4</green>
+          <blue>32</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="LinkVisited">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>215</red>
+          <green>4</green>
+          <blue>32</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Accent">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>215</red>
+          <green>4</green>
+          <blue>32</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="Button">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>77</green>
+          <blue>80</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Light">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>77</green>
+          <blue>80</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Midlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>77</green>
+          <blue>80</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Highlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>215</red>
+          <green>4</green>
+          <blue>32</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Link">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>215</red>
+          <green>4</green>
+          <blue>32</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Accent">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>215</red>
+          <green>4</green>
+          <blue>32</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </disabled>
+     </palette>
+    </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="data/data.qrc">
+      <normaloff>:/pictures/FireIconOff.png</normaloff>
+      <normalon>:/pictures/FireIconOn.png</normalon>
+      <selectedoff>:/FireIconOff.png</selectedoff>:/pictures/FireIconOff.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>50</width>
+      <height>50</height>
+     </size>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>690</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Feuermelder Test</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>931</width>
+      <height>581</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout"/>
+   </widget>
    <zorder>notificationLabel</zorder>
    <zorder>humidityLabel</zorder>
    <zorder>temperatureLabel</zorder>
@@ -378,19 +661,24 @@
    <zorder>waterSlider</zorder>
    <zorder>label</zorder>
    <zorder>label_2</zorder>
+   <zorder>fireAlarmButton</zorder>
+   <zorder>label_3</zorder>
+   <zorder>gridLayoutWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1394</width>
+     <width>1388</width>
      <height>25</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="data/data.qrc"/>
+ </resources>
  <connections/>
 </ui>

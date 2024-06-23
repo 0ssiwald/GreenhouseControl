@@ -41,18 +41,20 @@ Greenhouse* GreenhouseCreate::loadGreenhouseFromFile(const std::string& file_nam
             unsigned int plantCol = plantObj["plant_grid_column_number"].toInt();
 
             QJsonObject profileObj = plantObj["profile"].toObject();
-            QString strainName = profileObj["strain_name"].toString();
-            int lengthVeg = profileObj["length_vegitation_period"].toInt();
-            int lengthFlower = profileObj["length_flowering_period"].toInt();
-            float thcContent = profileObj["expected_thc_content"].toDouble();
-            float cbdContent = profileObj["expected_cbd_content"].toDouble();
-            QString soilType = profileObj["soil_type"].toString();
-            int lowerWater = profileObj["lower_watering_threshold"].toInt();
-            int upperWater = profileObj["upper_watering_threshold"].toInt();
+            PlantProfileAttributes profileAtributes;
+            profileAtributes.strain_name_ = profileObj["strain_name"].toString().toStdString();
+            profileAtributes.length_vegitation_period_ = profileObj["length_vegitation_period"].toInt();
+            profileAtributes.length_flowering_period_ = profileObj["length_flowering_period"].toInt();
+            profileAtributes.expected_thc_content_ = profileObj["expected_thc_content"].toDouble();
+            profileAtributes.expected_cbd_content_ = profileObj["expected_cbd_content"].toDouble();
+            profileAtributes.soil_type_ = profileObj["soil_type"].toString().toStdString();
+            profileAtributes.lower_watering_threshold_ = profileObj["lower_watering_threshold"].toInt();
+            profileAtributes.upper_watering_threshold_ = profileObj["upper_watering_threshold"].toInt();
 
-            PlantProfile* profile = new PlantProfile(strainName.toStdString(), lengthVeg, lengthFlower, thcContent, cbdContent, soilType.toStdString(), lowerWater, upperWater);
+            PlantProfile* profile = new PlantProfile(profileAtributes);
 
             QJsonArray conditionsArray = profileObj["weekly_conditions"].toArray();
+            std::vector<Condition*> conditions;
             for (const QJsonValue& conditionValue : conditionsArray) {
                 QJsonObject conditionObj = conditionValue.toObject();
                 float humidity = conditionObj["humidity"].toDouble();
@@ -69,9 +71,9 @@ Greenhouse* GreenhouseCreate::loadGreenhouseFromFile(const std::string& file_nam
                     Fertilizer* fertilizer = new Fertilizer(fertilizerName.toStdString(), fertilizerType.toStdString());
                     condition->addFertilizer(fertilizer, amount);
                 }
-
-                profile->addWeeklyCondition(condition);
+                conditions.push_back(condition);
             }
+            profile->setWeeklyConditions(conditions);
 
             Plant* plant = new Plant(plantName.toStdString(), sowingDate, profile, plantRow, plantCol);
             plantGroup->addPlantToGrid(plant, plantRow, plantCol);
@@ -113,15 +115,30 @@ Greenhouse* GreenhouseCreate::createGreenhouseFromCode() {
     Condition* condition_week_3 = new Condition(60, 20, 40);
     condition_week_3->addFertilizer(fertilizer_2, 3);
     condition_week_3->addFertilizer(fertilizer_3, 5);
+    std::vector<Condition*> conditions = {condition_week_1, condition_week_2, condition_week_3};
 
-    PlantProfile* plant_profile_1 = new PlantProfile("Purple Haze", 3, 8, 22.0, 3.0, "Coco", 70, 75);
-    plant_profile_1->addWeeklyCondition(condition_week_1);
-    plant_profile_1->addWeeklyCondition(condition_week_2);
-    plant_profile_1->addWeeklyCondition(condition_week_3);
-    PlantProfile* plant_profile_2 = new PlantProfile("Auto Sour Diesel", 3, 7, 23.0, 5.0, "Soil", 30, 90);
-    plant_profile_2->addWeeklyCondition(condition_week_1);
-    plant_profile_2->addWeeklyCondition(condition_week_2);
-    plant_profile_2->addWeeklyCondition(condition_week_3);
+    PlantProfileAttributes profileAtributes;
+    profileAtributes.strain_name_ = "Sour Diesel Auto";
+    profileAtributes.length_vegitation_period_ = 3;
+    profileAtributes.length_flowering_period_ = 8;
+    profileAtributes.expected_thc_content_ = 22.0;
+    profileAtributes.expected_cbd_content_ = 3.0;
+    profileAtributes.soil_type_ = "Coco";
+    profileAtributes.lower_watering_threshold_ = 70;
+    profileAtributes.upper_watering_threshold_ = 75;
+
+    PlantProfile* plant_profile_1 = new PlantProfile(profileAtributes);
+    plant_profile_1->setWeeklyConditions(conditions);
+    profileAtributes.strain_name_ = "Purple Haze";
+    profileAtributes.length_vegitation_period_ = 3;
+    profileAtributes.length_flowering_period_ = 9;
+    profileAtributes.expected_thc_content_ = 20.0;
+    profileAtributes.expected_cbd_content_ = 6.0;
+    profileAtributes.soil_type_ = "Coco";
+    profileAtributes.lower_watering_threshold_ = 35;
+    profileAtributes.upper_watering_threshold_ = 50;
+    PlantProfile* plant_profile_2 = new PlantProfile(profileAtributes);
+    plant_profile_2->setWeeklyConditions(conditions);
 
     Plant* plant_1 = new Plant("1", DateTimeConverter::stringToTimePoint("20.05.2024 12:34:56"), plant_profile_1);
     SoilMoistureSensor* sensor1 = new SoilMoistureSensor;

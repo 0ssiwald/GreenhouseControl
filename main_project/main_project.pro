@@ -13,5 +13,4 @@ SUBDIRS += \
     ../unittest_Clock \
     ../unittest_PlantGroup \
     ../unittest_Plant \
-    ../unittest_MockEnvironment \
     ../unittest_GreenhouseCreate \

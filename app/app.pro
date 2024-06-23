@@ -24,6 +24,7 @@ INCLUDEPATH += $$PWD/include
 # The source files (e.g. *.cpp)
 SOURCES += \
     src/clock.cpp \
+    src/fire_alarm.cpp \
     src/greenhouse/condition.cpp \
     src/greenhouse/greenhouse.cpp \
     src/greenhouse/greenhouse_create.cpp \
@@ -45,12 +46,12 @@ SOURCES += \
     src/ui/mainwindow.cpp \
     src/ui/plant_group_box.cpp \
     src/ui/plant_label.cpp \
-    src/warning.cpp \
 
 # The header files (e.g. *.h)
 HEADERS += \
     include/clock.h \
     include/date_time.h \
+    include/fire_alarm.h \
     include/greenhouse/condition.h \
     include/greenhouse/greenhouse.h \
     include/greenhouse/greenhouse_create.h \
@@ -70,8 +71,7 @@ HEADERS += \
     include/ui/log_window.h \
     include/ui/mainwindow.h \
     include/ui/plant_group_box.h \
-    include/ui/plant_label.h \
-    include/warning.h
+    include/ui/plant_label.h
 
 # The GUI definition files (so-called forms)
 FORMS += \
@@ -81,7 +81,3 @@ FORMS += \
 # Resources to integrate (e.g. images)
 RESOURCES += \
     data/data.qrc
-
-# Other files to include in the distribution
-DISTFILES += \
-    default.cfg

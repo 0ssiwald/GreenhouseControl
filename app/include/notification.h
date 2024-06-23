@@ -12,6 +12,7 @@ enum class NotificationTypes {
     HumidityNotification,
 };
 
+
 class Notification {
     std::chrono::system_clock::time_point activation_timepoint_;
     int week_index_;

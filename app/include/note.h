@@ -17,8 +17,6 @@ public:
     std::chrono::system_clock::time_point getDate() {return creation_date_;}
     std::string getMessage() {return message_;}
     void setMessage(std::string &message) {message_ = message;}
-    //Needs implementation
-    Note* loadNotesFromFile(const std::string&);
 
 };
 

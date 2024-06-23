@@ -22,7 +22,6 @@ bool Greenhouse::addPlantGroupToGrid(PlantGroup* pg, unsigned int row_position, 
     plant_groups_.push_back(pg);
     return true;
 }
-void PlantProfile::addWeeklyCondition(Condition* condition) {conditions_weekly_.push_back(condition);}
 void Plant::setGridPosition(unsigned int row_number,unsigned int column_number) {
     plant_grid_row_number_ = row_number;
     plant_grid_column_number_ = column_number;
@@ -30,6 +29,17 @@ void Plant::setGridPosition(unsigned int row_number,unsigned int column_number) 
 void PlantGroup::setGridPosition(unsigned int row_number,unsigned int column_number) {
     group_grid_row_number_ = row_number;
     group_grid_column_number_ = column_number;
+}
+
+PlantProfile::PlantProfile(PlantProfileAttributes attributes) {
+    expected_cbd_content_ = attributes.expected_cbd_content_;
+    expected_thc_content_ = attributes.expected_thc_content_;
+    length_flowering_period_ = attributes.length_flowering_period_;
+    length_vegitation_period_ = attributes.length_vegitation_period_;
+    lower_watering_threshold_ = attributes.lower_watering_threshold_;
+    upper_watering_threshold_ = attributes.upper_watering_threshold_;
+    soil_type_ = attributes.soil_type_;
+    strain_name_ = attributes.strain_name_;
 }
 
 void TestGreenhouseCreate::init() {

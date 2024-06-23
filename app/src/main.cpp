@@ -7,6 +7,7 @@
 #include "notification_control.h"
 #include "sensors_actors/water_control.h"
 #include "greenhouse/greenhouse_create.h"
+#include "fire_alarm.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -46,7 +47,8 @@ int main(int argc, char *argv[]) {
     WaterControl waterControl(&main_valve, &flow_sensor, greenhouse);
     // Create a mock environment
     MockEnvironment mockEnvironment(&sensorControl, &waterControl);
-
+    // Create Fire Alarm
+    FireAlarm fireAlarm;
 
     // Init GUI
     MainWindow window(greenhouse, &log, &notificationControl, &waterControl, &sensorControl);
@@ -79,6 +81,9 @@ int main(int argc, char *argv[]) {
     QObject::connect(&waterControl, &WaterControl::updateFlow, &mockEnvironment, &MockEnvironment::generateNewFlow);
     QObject::connect(&waterControl, &WaterControl::moistureLevelsControled, &window, &MainWindow::changeWaterSlider);
     QObject::connect(&waterControl, &WaterControl::moistureLevelsControled, &window, &MainWindow::updatePlantLabels);
+    // Feueralarm
+    QObject::connect(&fireAlarm, &FireAlarm::sendAlarm, &window, &MainWindow::fireAlarm);
+    QObject::connect(&window, &MainWindow::fireAlarmTriggered, &fireAlarm, &FireAlarm::sendAlarm);
 
     sensorClock.start();
     notificationClock.start();

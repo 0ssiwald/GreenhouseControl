@@ -1,10 +1,14 @@
 #include "ui/mainwindow.h"
 #include "ui/plant_group_box.h"
 #include "ui/log_window.h"
+#include <QPalette>
 
 MainWindow::MainWindow(Greenhouse* gh, SystemLog* log, NotificationControl* notification, WaterControl *water, SensorControl *sensor, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), greenhouse_(gh), systemLog_(log), notificationControl_(notification), waterControl_(water), sensorControl_(sensor) {
     ui->setupUi(this);
+    // Make the valve button not visible only the icon
+    ui->mainValveToggleButton->setStyleSheet("QPushButton { background-color: transparent; border: 0px }");
+    ui->fireAlarmButton->setStyleSheet("QPushButton { background-color: transparent; border: 0px }");
     setGroupLayout();
 }
 
@@ -130,12 +134,10 @@ void MainWindow::deleteNotification() {
 void MainWindow::on_mainValveToggleButton_toggled(bool checked) {
     if(checked){
         waterControl_->openMainValve();
-        ui->mainValveToggleButton->setText("____");
         qInfo().noquote() << "Main valve was opend";
     }
     else{
         waterControl_->closeMainValve();
-        ui->mainValveToggleButton->setText("_/ _");
         qInfo().noquote() << "Main valve was closed";
     }
 }
@@ -161,16 +163,29 @@ void MainWindow::changeWaterSlider() {
     ui->waterSlider->setValue(int(flow_amount));
 }
 
+void MainWindow::fireAlarm() {
+    // Create a message box
+    QMessageBox* warningBox = new QMessageBox(QMessageBox::Warning, "Feueralarm",
+                                              "Rauch detektiert, bitte leiten Sie Löschmaßnamen ein!", QMessageBox::Ok, this);
+    this->setStyleSheet("QMainWindow {"
+                        "background-image: url(:/pictures/FireIconOnWithoutBorder.png);"
+                        "background-position: center;"  // Position the image in the center
+                        "background-repeat: no-repeat;"  // Do not repeat the image
+                        "background-size: 50% 50%;"      // Set the size of the image (50% of the width and height of the window)
+                        "}");
+    //warningBox->setStyleSheet("background: #f5350a");
+    // Show the message box without blocking the UI
+    warningBox->show();
+    // Close main valve to fight the fire
+    ui->mainValveToggleButton->setChecked(true);
+}
 
 
-
-
-
-
-
-
-
-
-
-
+void MainWindow::on_fireAlarmButton_toggled(bool checked) {
+    if(checked) {
+        emit fireAlarmTriggered();
+    } else {
+        this->setStyleSheet("");  // Reset the stylesheet to remove the background image
+    }
+}
 
