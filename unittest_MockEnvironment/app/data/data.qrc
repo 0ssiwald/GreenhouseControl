@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+		<file>greenhouse.json</file>
+		<file>notifications.json</file>
+		<file>pictures/FireIconOff.png</file>
+		<file>pictures/FireIconOn.png</file>
+		<file>pictures/FireIconOnWithoutBorder.png</file>
+		<file>pictures/ValveOpen.png</file>
+		<file>pictures/ValveClose.png</file>
+    </qresource>
+</RCC>

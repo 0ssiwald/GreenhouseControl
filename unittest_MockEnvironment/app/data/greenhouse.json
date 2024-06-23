@@ -1,0 +1,300 @@
+{
+    "number_of_group_rows": 1,
+    "number_of_group_columns": 1,
+    "plant_groups": [
+        {
+            "group_name": "1",
+            "number_of_plant_rows": 2,
+            "number_of_plant_columns": 1,
+            "grid_row": 0,
+            "grid_column": 0,
+            "plants": [
+                {
+                    "plant_name": "1",
+                    "sowing_date": "20.05.2024 12:34:56",
+                    "plant_grid_row_number": 0,
+                    "plant_grid_column_number": 0,
+                    "profile": {
+                        "strain_name": "Purple Haze",
+                        "length_vegitation_period": 3,
+                        "length_flowering_period": 8,
+                        "expected_thc_content": 22.0,
+                        "expected_cbd_content": 3.0,
+                        "soil_type": "Coco",
+                        "lower_watering_threshold": 70,
+                        "upper_watering_threshold": 75,
+                        "weekly_conditions": [
+                            {
+                                "humidity": 70,
+                                "temperature": 24,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Bloom",
+                                        "type": "Organic",
+                                        "amount": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "humidity": 65,
+                                "temperature": 22,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Bloom",
+                                        "type": "Organic",
+                                        "amount": 2
+                                    },
+                                    {
+                                        "name": "Biobizz Grow",
+                                        "type": "Organic",
+                                        "amount": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "humidity": 60,
+                                "temperature": 20,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Grow",
+                                        "type": "Organic",
+                                        "amount": 3
+                                    },
+                                    {
+                                        "name": "Biobizz TopMax",
+                                        "type": "Organic",
+                                        "amount": 5
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "plant_name": "2",
+                    "sowing_date": "20.05.2024 13:34:56",
+                    "plant_grid_row_number": 2,
+                    "plant_grid_column_number": 1,
+                    "profile": {
+                        "strain_name": "Purple Haze",
+                        "length_vegitation_period": 3,
+                        "length_flowering_period": 8,
+                        "expected_thc_content": 22.0,
+                        "expected_cbd_content": 3.0,
+                        "soil_type": "Coco",
+                        "lower_watering_threshold": 70,
+                        "upper_watering_threshold": 75,
+                        "weekly_conditions": [
+                            {
+                                "humidity": 70,
+                                "temperature": 24,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Bloom",
+                                        "type": "Organic",
+                                        "amount": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "humidity": 65,
+                                "temperature": 22,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Bloom",
+                                        "type": "Organic",
+                                        "amount": 2
+                                    },
+                                    {
+                                        "name": "Biobizz Grow",
+                                        "type": "Organic",
+                                        "amount": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "humidity": 60,
+                                "temperature": 20,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Grow",
+                                        "type": "Organic",
+                                        "amount": 3
+                                    },
+                                    {
+                                        "name": "Biobizz TopMax",
+                                        "type": "Organic",
+                                        "amount": 5
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ],
+            "notes": [
+                {
+                    "creation_date": "21.04.2024 13:35:56",
+                    "message": "Pflanzen wurde gedüngt"
+                },
+                {
+                    "creation_date": "22.04.2024 15:35:56",
+                    "message": "Untere Blätter wurden entfehrnt"
+                }
+            ]
+        },
+        {
+            "group_name": "2",
+            "number_of_plant_rows": 0,
+            "number_of_plant_columns": 1,
+            "grid_row": 1,
+            "grid_column": 1,
+            "plants": [
+                {
+                    "plant_name": "3",
+                    "sowing_date": "10.05.2024 14:34:56",
+                    "plant_grid_row_number": 0,
+                    "plant_grid_column_number": 0,
+                    "profile": {
+                        "strain_name": "Auto Sour Diesel",
+                        "length_vegitation_period": 3,
+                        "length_flowering_period": 7,
+                        "expected_thc_content": 23.0,
+                        "expected_cbd_content": 5.0,
+                        "soil_type": "Soil",
+                        "lower_watering_threshold": 30,
+                        "upper_watering_threshold": 90,
+                        "weekly_conditions": [
+                            {
+                                "humidity": 70,
+                                "temperature": 24,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Bloom",
+                                        "type": "Organic",
+                                        "amount": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "humidity": 65,
+                                "temperature": 22,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Bloom",
+                                        "type": "Organic",
+                                        "amount": 2
+                                    },
+                                    {
+                                        "name": "Biobizz Grow",
+                                        "type": "Organic",
+                                        "amount": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "humidity": 60,
+                                "temperature": 20,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Grow",
+                                        "type": "Organic",
+                                        "amount": 3
+                                    },
+                                    {
+                                        "name": "Biobizz TopMax",
+                                        "type": "Organic",
+                                        "amount": 5
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "plant_name": "4",
+                    "sowing_date": "10.05.2024 15:34:56",
+                    "plant_grid_row_number": 0,
+                    "plant_grid_column_number": 1,
+                    "profile": {
+                        "strain_name": "Auto Sour Diesel",
+                        "length_vegitation_period": 3,
+                        "length_flowering_period": 7,
+                        "expected_thc_content": 23.0,
+                        "expected_cbd_content": 5.0,
+                        "soil_type": "Soil",
+                        "lower_watering_threshold": 30,
+                        "upper_watering_threshold": 90,
+                        "weekly_conditions": [
+                            {
+                                "humidity": 70,
+                                "temperature": 24,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Bloom",
+                                        "type": "Organic",
+                                        "amount": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "humidity": 65,
+                                "temperature": 22,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Bloom",
+                                        "type": "Organic",
+                                        "amount": 2
+                                    },
+                                    {
+                                        "name": "Biobizz Grow",
+                                        "type": "Organic",
+                                        "amount": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "humidity": 60,
+                                "temperature": 20,
+                                "lamp_distance": 40,
+                                "fertilizers": [
+                                    {
+                                        "name": "Biobizz Grow",
+                                        "type": "Organic",
+                                        "amount": 3
+                                    },
+                                    {
+                                        "name": "Biobizz TopMax",
+                                        "type": "Organic",
+                                        "amount": 5
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ],
+            "notes": [
+                {
+                    "creation_date": "23.04.2024 14:35:56",
+                    "message": "Pflanze 1 wurde mit LST trainiert"
+                },
+                {
+                    "creation_date": "24.04.2024 16:35:56",
+                    "message": "Pflanzen wurde gedüngt"
+                }
+            ]
+        }
+    ]
+}
