@@ -1,0 +1,113 @@
+28.06.2024 11:30:51 [INFO] : Temperature: 20.0 °C
+28.06.2024 11:30:51 [INFO] : Humidity: 60.0%
+28.06.2024 11:30:51 [INFO] : Soil Moistures of Plants: 1: 69.6899 2: 69.9404 3: 69.9781 4: 69.3786 
+28.06.2024 11:30:51 [INFO] : Watervalve of Plant 1 was opened
+28.06.2024 11:30:51 [INFO] : Watervalve of Plant 2 was opened
+28.06.2024 11:30:51 [DEBUG] : Starting clock with 1 seconds per tick
+28.06.2024 11:30:51 [DEBUG] : Starting clock with 5 seconds per tick
+28.06.2024 11:30:52 [INFO] : Temperature: 20.4 °C
+28.06.2024 11:30:52 [INFO] : Humidity: 60.5%
+28.06.2024 11:30:52 [INFO] : Soil Moistures of Plants: 1: 70.7994 2: 71.5768 3: 69.3044 4: 68.7115 
+28.06.2024 11:30:52 [WARNING] : Unknown property background-size
+28.06.2024 11:30:52 [WARNING] : Unknown property background-size
+28.06.2024 11:30:53 [INFO] : Temperature: 20.4 °C
+28.06.2024 11:30:53 [INFO] : Humidity: 61.2%
+28.06.2024 11:30:53 [INFO] : Soil Moistures of Plants: 1: 73.1802 2: 73.7418 3: 68.9927 4: 68.084 
+28.06.2024 11:30:54 [INFO] : Temperature: 20.4 °C
+28.06.2024 11:30:54 [INFO] : Humidity: 62.2%
+28.06.2024 11:30:54 [INFO] : Soil Moistures of Plants: 1: 75.9245 2: 76.6903 3: 68.2468 4: 67.8502 
+28.06.2024 11:30:54 [INFO] : Watervalve of Plant 1 was closed
+28.06.2024 11:30:54 [INFO] : Watervalve of Plant 2 was closed
+28.06.2024 11:30:55 [INFO] : Temperature: 20.4 °C
+28.06.2024 11:30:55 [INFO] : Humidity: 62.9%
+28.06.2024 11:30:55 [INFO] : Soil Moistures of Plants: 1: 75.479 2: 75.9361 3: 67.5055 4: 67.113 
+28.06.2024 11:30:56 [INFO] : Temperature: 20.7 °C
+28.06.2024 11:30:56 [INFO] : Humidity: 63.1%
+28.06.2024 11:30:56 [INFO] : Soil Moistures of Plants: 1: 74.479 2: 75.7802 3: 67.4781 4: 66.7678 
+28.06.2024 11:30:57 [INFO] : Temperature: 20.4 °C
+28.06.2024 11:30:57 [INFO] : Humidity: 62.6%
+28.06.2024 11:30:57 [INFO] : Soil Moistures of Plants: 1: 74.0395 2: 75.4528 3: 66.9612 4: 66.3294 
+28.06.2024 11:30:58 [INFO] : Temperature: 20.2 °C
+28.06.2024 11:30:58 [INFO] : Humidity: 62.7%
+28.06.2024 11:30:58 [INFO] : Soil Moistures of Plants: 1: 73.4408 2: 75.4097 3: 66.4675 4: 66.2996 
+28.06.2024 11:30:59 [INFO] : Temperature: 20.2 °C
+28.06.2024 11:30:59 [INFO] : Humidity: 63.7%
+28.06.2024 11:30:59 [INFO] : Soil Moistures of Plants: 1: 72.8591 2: 74.5125 3: 66.0793 4: 65.9221 
+28.06.2024 11:31:00 [INFO] : Temperature: 20.3 °C
+28.06.2024 11:31:00 [INFO] : Humidity: 64.3%
+28.06.2024 11:31:00 [INFO] : Soil Moistures of Plants: 1: 72.216 2: 74.2255 3: 65.1154 4: 65.9112 
+28.06.2024 11:31:00 [CRITICAL] : Unreagular water flow detected. Main Valve gets closed
+28.06.2024 11:31:00 [INFO] : Main valve was closed
+28.06.2024 11:31:01 [INFO] : Temperature: 20.0 °C
+28.06.2024 11:31:01 [INFO] : Humidity: 64.0%
+28.06.2024 11:31:01 [INFO] : Soil Moistures of Plants: 1: 71.5523 2: 73.4648 3: 64.172 4: 65.0602 
+28.06.2024 11:31:02 [INFO] : Temperature: 19.9 °C
+28.06.2024 11:31:02 [INFO] : Humidity: 64.3%
+28.06.2024 11:31:02 [INFO] : Soil Moistures of Plants: 1: 71.2907 2: 73.0972 3: 63.2677 4: 64.3871 
+28.06.2024 11:31:03 [INFO] : Temperature: 20.0 °C
+28.06.2024 11:31:03 [INFO] : Humidity: 64.7%
+28.06.2024 11:31:03 [INFO] : Soil Moistures of Plants: 1: 70.3788 2: 72.4578 3: 62.9493 4: 64.3373 
+28.06.2024 11:31:04 [INFO] : Temperature: 20.4 °C
+28.06.2024 11:31:04 [INFO] : Humidity: 63.9%
+28.06.2024 11:31:04 [INFO] : Soil Moistures of Plants: 1: 69.6064 2: 71.599 3: 62.443 4: 64.137 
+28.06.2024 11:31:04 [INFO] : Watervalve of Plant 1 was opened
+28.06.2024 11:31:05 [INFO] : Main valve was opend
+28.06.2024 11:31:05 [INFO] : Temperature: 20.9 °C
+28.06.2024 11:31:05 [INFO] : Humidity: 64.7%
+28.06.2024 11:31:05 [INFO] : Soil Moistures of Plants: 1: 72.2949 2: 71.1185 3: 61.7754 4: 64.1132 
+28.06.2024 11:31:06 [INFO] : Temperature: 21.1 °C
+28.06.2024 11:31:06 [INFO] : Humidity: 65.7%
+28.06.2024 11:31:06 [INFO] : Soil Moistures of Plants: 1: 73.8175 2: 71.0473 3: 61.1405 4: 64.0034 
+28.06.2024 11:31:07 [INFO] : Temperature: 20.7 °C
+28.06.2024 11:31:07 [INFO] : Humidity: 65.4%
+28.06.2024 11:31:07 [INFO] : Soil Moistures of Plants: 1: 75.8759 2: 70.9904 3: 60.9031 4: 63.1675 
+28.06.2024 11:31:07 [INFO] : Watervalve of Plant 1 was closed
+28.06.2024 11:31:08 [INFO] : Temperature: 20.4 °C
+28.06.2024 11:31:08 [INFO] : Humidity: 65.3%
+28.06.2024 11:31:08 [INFO] : Soil Moistures of Plants: 1: 75.8321 2: 70.9504 3: 60.1651 4: 62.2735 
+28.06.2024 11:31:09 [INFO] : Temperature: 20.7 °C
+28.06.2024 11:31:09 [INFO] : Humidity: 65.0%
+28.06.2024 11:31:09 [INFO] : Soil Moistures of Plants: 1: 74.9947 2: 70.3641 3: 59.7779 4: 61.3986 
+28.06.2024 11:31:10 [INFO] : Temperature: 20.5 °C
+28.06.2024 11:31:10 [INFO] : Humidity: 65.0%
+28.06.2024 11:31:10 [INFO] : Soil Moistures of Plants: 1: 74.1386 2: 70.036 3: 59.463 4: 60.404 
+28.06.2024 11:31:11 [INFO] : Temperature: 20.1 °C
+28.06.2024 11:31:11 [INFO] : Humidity: 64.9%
+28.06.2024 11:31:11 [INFO] : Soil Moistures of Plants: 1: 73.3563 2: 69.9517 3: 59.0623 4: 59.6097 
+28.06.2024 11:31:11 [INFO] : Watervalve of Plant 2 was opened
+28.06.2024 11:31:12 [INFO] : Temperature: 20.6 °C
+28.06.2024 11:31:12 [INFO] : Humidity: 65.0%
+28.06.2024 11:31:12 [INFO] : Soil Moistures of Plants: 1: 73.2385 2: 72.1739 3: 59.0294 4: 58.7844 
+28.06.2024 11:31:13 [INFO] : Temperature: 20.2 °C
+28.06.2024 11:31:13 [INFO] : Humidity: 64.1%
+28.06.2024 11:31:13 [INFO] : Soil Moistures of Plants: 1: 72.6965 2: 74.5234 3: 58.5959 4: 58.7369 
+28.06.2024 11:31:14 [INFO] : Temperature: 20.2 °C
+28.06.2024 11:31:14 [INFO] : Humidity: 63.6%
+28.06.2024 11:31:14 [INFO] : Soil Moistures of Plants: 1: 72.5851 2: 76.555 3: 58.5067 4: 58.6758 
+28.06.2024 11:31:14 [INFO] : Watervalve of Plant 2 was closed
+28.06.2024 11:31:15 [INFO] : Temperature: 20.6 °C
+28.06.2024 11:31:15 [INFO] : Humidity: 63.1%
+28.06.2024 11:31:15 [INFO] : Soil Moistures of Plants: 1: 72.3291 2: 75.9822 3: 58.0695 4: 58.1885 
+28.06.2024 11:31:16 [INFO] : Temperature: 20.5 °C
+28.06.2024 11:31:16 [INFO] : Humidity: 62.2%
+28.06.2024 11:31:16 [INFO] : Soil Moistures of Plants: 1: 71.9081 2: 75.3037 3: 57.1585 4: 57.2736 
+28.06.2024 11:56:50 [INFO] : Temperature: 20.0 °C
+28.06.2024 11:56:50 [INFO] : Humidity: 60.0%
+28.06.2024 11:56:50 [INFO] : Soil Moistures of Plants: 1: 69.7679 2: 69.0824 3: 69.2426 4: 69.5569 
+28.06.2024 11:56:50 [INFO] : Watervalve of Plant 1 was opened
+28.06.2024 11:56:50 [INFO] : Watervalve of Plant 2 was opened
+28.06.2024 11:56:50 [DEBUG] : Starting clock with 1 seconds per tick
+28.06.2024 11:56:50 [DEBUG] : Starting clock with 5 seconds per tick
+28.06.2024 11:56:51 [INFO] : Temperature: 19.5 °C
+28.06.2024 11:56:51 [INFO] : Humidity: 59.3%
+28.06.2024 11:56:51 [INFO] : Soil Moistures of Plants: 1: 72.0182 2: 71.7067 3: 68.6058 4: 68.7943 
+28.06.2024 20:32:20 [INFO] : Temperature: 20.0 °C
+28.06.2024 20:32:20 [INFO] : Humidity: 60.0%
+28.06.2024 20:32:20 [INFO] : Soil Moistures of Plants: 1: 69.6212 2: 69.5115 3: 69.2262 4: 69.0824 
+28.06.2024 20:32:20 [INFO] : Watervalve of Plant 1 was opened
+28.06.2024 20:32:20 [INFO] : Watervalve of Plant 2 was opened
+28.06.2024 20:32:20 [DEBUG] : Starting clock with 1 seconds per tick
+28.06.2024 20:32:20 [DEBUG] : Starting clock with 5 seconds per tick
+28.06.2024 20:32:21 [INFO] : Temperature: 19.6 °C
+28.06.2024 20:32:21 [INFO] : Humidity: 60.3%
+28.06.2024 20:32:21 [INFO] : Soil Moistures of Plants: 1: 70.7385 2: 71.7066 3: 69.1993 4: 68.7438 
