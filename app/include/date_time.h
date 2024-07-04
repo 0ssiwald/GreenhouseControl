@@ -6,11 +6,9 @@
 #include <string>
 
 // To make timezone adjustment on windows and posix
-//#ifdef _WIN32
-//#define timegm _mkgmtime
-//#endif
-
+#ifdef _WIN32
 #define timegm _mkgmtime
+#endif
 
 namespace DateTimeConverter {
 
