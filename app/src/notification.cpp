@@ -2,7 +2,7 @@
 #include "date_time.h"
 #include <sstream>
 
-
+// Builds a notification String that can be displayed from the attributes of the notification
 std::string Notification::getNotificationMessage() {
     std::ostringstream notification_stream;
     notification_stream << "Woche " << (week_index_ + 1) << " Gruppe " << group_name_ << ":\n";

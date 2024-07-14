@@ -21,5 +21,14 @@ private slots:
     //tests
     void testSetGroupGridSize();
     void testgetAllPants();
-    void testAddPlantGroupToGrid();
+    // Test with the equivalence class method
+    // v == valid parameter range, i == invalid paramter range
+    // high == over valid range, low == under valid range
+    void testAddPlantGroupToGrid_v_v_v();
+    void testAddPlantGroupToGrid_v_v_ihigh();
+    void testAddPlantGroupToGrid_v_v_ilow();
+    void testAddPlantGroupToGrid_v_ilow_v();
+    void testAddPlantGroupToGrid_v_ihigh_v();
+    void testAddPlantGroupToGrid_i_v_v();
+
 };

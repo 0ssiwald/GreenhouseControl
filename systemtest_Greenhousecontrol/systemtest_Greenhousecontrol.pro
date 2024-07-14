@@ -55,3 +55,7 @@ HEADERS += \
     ../app/include/sensors_actors/water_control.h \
     ../app/include/sensors_actors/water_valve.h \
     testgreenhousecontrol.h
+
+# Resources to integrate (e.g. images)
+RESOURCES += \
+    data/data.qrc

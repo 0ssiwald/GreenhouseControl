@@ -18,5 +18,6 @@ SUBDIRS += \
     ../unittest_FireAlarm \
     ../unittest_FlowSensor \
     ../integrationstest_Sensor_SensorControl \
+    ../integrationstest_WaterValve_WaterControl \
     ../systemtest_Greenhousecontrol
 

@@ -17,7 +17,7 @@ void SystemLog::initLogging() {
     qInstallMessageHandler(myMessageHandler);
 }
 
-
+// Custom massage handler
 void SystemLog::myMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message) {
     (void)context; // Suppress unused parameter warning
 

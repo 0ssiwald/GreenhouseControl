@@ -1,6 +1,7 @@
 #include "greenhouse/condition.h"
 #include <sstream>
 
+// Combine all the fertilizers into one string
 std::string Condition::getFertilazersAsString() {
     std::ostringstream fertilizer_string_combined;
     for (auto it = fertilizers_.begin(); it != fertilizers_.end(); ++it) {
@@ -17,7 +18,6 @@ std::string Condition::getFertilazersAsString() {
     }
     return fertilizer_string_combined.str();
 }
-
 
 // Add a fertilizer to the fertilizer vector
 void Condition::addFertilizer(Fertilizer* fertilizer, int amount) {fertilizers_.emplace_back(fertilizer, amount);}

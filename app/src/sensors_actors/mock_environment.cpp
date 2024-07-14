@@ -29,6 +29,7 @@ void MockEnvironment::generateNewHumidity() {
 void MockEnvironment::generateNewSoilMoisture(Plant* plant) {
     float soil_moisture = plant->getSoilSensor()->getMeasurement();
     float new_soil_moisture;
+    // If the plant is in the watering process soil moisture is increased else its decreased to simulate drying
     if(plant->getWaterValve()->getValveIsOpen() && water_control_->isMainValveOpen() && water_control_->getFlowSensor()->isFlowDetected()) {
         new_soil_moisture = soil_moisture + getRandomChange(1.0, 3.0);
     } else {

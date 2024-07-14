@@ -25,12 +25,13 @@ void SensorControl::measureHumidity() {
     // Create a formatted QString using the desired precision and fixed-point format
     QString formattedHumidity = QString::asprintf("Humidity: %.1f%%", humidity);
     qInfo().noquote() << formattedHumidity;
-
+    // For the UI update
     emit humidityMeasured(humidity);
 }
 
 void  SensorControl::measureSoilMoistures() {
     QString soil_moistures_string = "Soil Moistures of Plants: ";
+    // Measure Moisture of all plants
     for(auto& plant: greenhouse_->getAllPlants()) {
         QString plant_name = QString::fromStdString(plant->getPlantName());
         emit updateSoilMoisture(plant);

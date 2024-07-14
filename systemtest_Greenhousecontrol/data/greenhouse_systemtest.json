@@ -1,0 +1,39 @@
+{
+                "number_of_group_rows": 2,
+                "number_of_group_columns": 2,
+                "plant_groups": [
+                    {
+                        "group_name": "Group1",
+                        "number_of_plant_rows": 2,
+                        "number_of_plant_columns": 2,
+                        "plants": [
+                            {
+                                "plant_name": "Plant1",
+                                "sowing_date": "20.05.2024 13:34:56",
+                                "plant_grid_row_number": 0,
+                                "plant_grid_column_number": 0,
+                                "profile": {
+                                    "lower_watering_threshold": 80,
+                                    "upper_watering_threshold": 90,
+                                    "weekly_conditions": [
+                                    ]
+                                }
+                            },
+                            {
+                                "plant_name": "Plant2",
+                                "sowing_date": "20.05.2024 13:34:56",
+                                "plant_grid_row_number": 0,
+                                "plant_grid_column_number": 1,
+                                "profile": {
+                                    "lower_watering_threshold": 60,
+                                    "upper_watering_threshold": 90,
+                                    "weekly_conditions": [
+                                    ]
+                                }
+                            }
+                        ],
+                        "grid_row": 0,
+                        "grid_column": 0
+                    }
+                ]
+}

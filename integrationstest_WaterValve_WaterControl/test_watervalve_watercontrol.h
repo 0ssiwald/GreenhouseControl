@@ -1,11 +1,6 @@
-#pragma once
-
-#include <QObject>
 #include <QtTest>
-#include "sensors_actors/water_control.h"
-#include "greenhouse/greenhouse.h"
 #include "sensors_actors/water_valve.h"
-#include "greenhouse/plant.h"
+#include "sensors_actors/water_control.h"
 
 class MockPlantProfile: public PlantProfile {
 public:
@@ -21,18 +16,20 @@ public:
     MockPlantProfile* mock_profile_;
     WaterValve* water_valve_;
     Sensor* mock_sensor_;
-    MockPlant(MockPlantProfile* mock_profile, WaterValve* mock_valve, Sensor* mock_sensor) : mock_profile_(mock_profile), water_valve_(mock_valve), mock_sensor_(mock_sensor) {}
+    MockPlant(MockPlantProfile* mock_profile, WaterValve* water_valve, Sensor* mock_sensor) : mock_profile_(mock_profile), water_valve_(water_valve), mock_sensor_(mock_sensor) {}
     std::string getPlantName() override {return "Test";}
     MockPlantProfile* getPlantProfile() override {return mock_profile_;}
     WaterValve* getWaterValve() override {return water_valve_;}
     Sensor* getSoilSensor() override {return mock_sensor_;}
 };
 
-class TestWaterControl : public QObject {
+
+
+class TestWaterValveWaterControl : public QObject {
     Q_OBJECT
 
-    WaterControl *sut;
-    WaterValve* mock_valve_;
+    WaterControl *water_control_;
+    WaterValve* water_valve_;
     FlowSensor* mock_sensor_;
     Greenhouse* mock_greenhouse_;
 
@@ -42,7 +39,7 @@ class TestWaterControl : public QObject {
     MockPlantProfile* mock_profile2_;
 
 public:
-    explicit TestWaterControl(QObject *parent = nullptr)  : QObject(parent) {}
+    explicit TestWaterValveWaterControl(QObject *parent = nullptr)  : QObject(parent) {}
 
 private slots:
     void init();
@@ -53,6 +50,6 @@ private slots:
     //tests
     void testOpenMainValve();
     void testCloseMainValve();
-    void testControlMoistureLevels();
-    void testControlUnreagularFlow();
+    void testControlMoistureLevels_1();
+    void testControlMoistureLevels_2();
 };

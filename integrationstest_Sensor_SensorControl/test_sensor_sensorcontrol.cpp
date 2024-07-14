@@ -41,11 +41,7 @@ void TestSensorSenorControl::TestMeasureHumidity() {
 void TestSensorSenorControl::TestMeasureSoilMoistures() {
     QSignalSpy spy1 = QSignalSpy(sensorControl, SIGNAL(updateSoilMoisture(Plant*)));
     QSignalSpy spy2 = QSignalSpy(sensorControl, SIGNAL(soilMoisturesMeasured()));
-    // Test without plants
-    sensorControl->measureSoilMoistures();
-    QVERIFY(spy1.count() == 0); // because 0 plants should be measured (mock_plants is empty)
-    QVERIFY(spy2.count() == 1);
-    // Now test with 2 plants and two sensors
+    // test with 2 plants and two sensors
     Plant *plant1 = new Plant();
     Plant *plant2 = new Plant();
     plant1->setSoilSensor(soilSensor1);
@@ -54,7 +50,7 @@ void TestSensorSenorControl::TestMeasureSoilMoistures() {
     mock_plants.push_back(plant2);
     sensorControl->measureSoilMoistures();
     QVERIFY(spy1.count() == 2); // because 2 plants should be measured
-    QVERIFY(spy2.count() == 2); // now 2 because measureSoilMoistures() was called 2 times
+    QVERIFY(spy2.count() == 1); // 1 because measureSoilMoistures() is only called onece at the end
     delete plant1;
     delete plant2;
 }

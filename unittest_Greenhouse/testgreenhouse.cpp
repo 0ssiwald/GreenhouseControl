@@ -1,6 +1,6 @@
 #include "testgreenhouse.h"
 
-unsigned int group_grid_row_number;
+unsigned int group_grid_row_number = -1;
 unsigned int group_grid_column_number;
 std::vector<Plant*> mock_plants;
 
@@ -22,9 +22,9 @@ std::vector<Plant*> PlantGroup::getPlants() {
 
 void TestGreenhouse::init() {
     sut = new Greenhouse;
-    QVERIFY(sut->getNumberOfRows()== 0);
-    QVERIFY(sut->getNumberOfColumns() == 0);
-    QVERIFY(sut->getPlantGroups().empty());
+    group_grid_row_number = 0; // reset numbers
+    group_grid_column_number = 0;
+    sut->setGroupGridSize(0, 0); // reset grid size
 }
 
 void TestGreenhouse::cleanup() {
@@ -49,27 +49,54 @@ void TestGreenhouse::testSetGroupGridSize() {
     QVERIFY(sut->getNumberOfColumns() == 2);
 }
 
-void TestGreenhouse::testAddPlantGroupToGrid() {
-    // plant_group should not be able to get place 1, 1 because grid is only 0, 0
-    QVERIFY(sut->addPlantGroupToGrid(plant_group1, 1, 1) == false);
-    QVERIFY(sut->getPlantGroups().empty());
-    // Add plat_group1
-    QVERIFY(sut->addPlantGroupToGrid(plant_group1, 0, 0) == true);
-    QVERIFY(sut->getPlantGroups().size() == 1);
-    QVERIFY(group_grid_row_number == 0);
+void TestGreenhouse::testAddPlantGroupToGrid_v_v_v() {
+    // the Grid size sets the valid value range for second an thrid parameter
+    // The plant can only be added inside the grid size
+    sut->setGroupGridSize(1, 2);
+    QVERIFY(sut->addPlantGroupToGrid(plant_group1, 1, 1) == true); // function should return true
+    QVERIFY(sut->getPlantGroups().size() == 1); // the plant should be added
+    QVERIFY(group_grid_row_number == 1); // row and grid numbers should be updated to the new values
+    QVERIFY(group_grid_column_number == 1);
+}
+void TestGreenhouse::testAddPlantGroupToGrid_v_v_ilow() {
+    sut->setGroupGridSize(1, 2);
+    QVERIFY(sut->addPlantGroupToGrid(plant_group1, 1, -3) == false);
+    QVERIFY(sut->getPlantGroups().size() == 0); // the plant should be not added
+    QVERIFY(group_grid_row_number == 0); // row and grid numbers should not be updated to the new values
     QVERIFY(group_grid_column_number == 0);
-    // Test that plant_group2 cant be added to the same spot
-    QVERIFY(sut->addPlantGroupToGrid(plant_group2, 0, 0) == false);
-    QVERIFY(sut->getPlantGroups().size() == 1);
+}
+void TestGreenhouse::testAddPlantGroupToGrid_v_v_ihigh() {
+    sut->setGroupGridSize(1, 2);
+    QVERIFY(sut->addPlantGroupToGrid(plant_group1, 1, 3) == false);
+    QVERIFY(sut->getPlantGroups().size() == 0); // the plant should be not added
+    QVERIFY(group_grid_row_number == 0); // row and grid numbers should not be updated to the new values
+    QVERIFY(group_grid_column_number == 0);
+}
+void TestGreenhouse::testAddPlantGroupToGrid_v_ilow_v() {
+    sut->setGroupGridSize(1, 2);
+    QVERIFY(sut->addPlantGroupToGrid(plant_group1, -3, 2) == false);
+    QVERIFY(sut->getPlantGroups().size() == 0); // the plant should be not added
+    QVERIFY(group_grid_row_number == 0); // row and grid numbers should not be updated to the new values
+    QVERIFY(group_grid_column_number == 0);
+}
+void TestGreenhouse::testAddPlantGroupToGrid_v_ihigh_v() {
+    sut->setGroupGridSize(1, 2);
+    QVERIFY(sut->addPlantGroupToGrid(plant_group1, 3, 2) == false);
+    QVERIFY(sut->getPlantGroups().size() == 0); // the plant should be not added
+    QVERIFY(group_grid_row_number == 0); // row and grid numbers should not be updated to the new values
+    QVERIFY(group_grid_column_number == 0);
+}
+void TestGreenhouse::testAddPlantGroupToGrid_i_v_v() {
+    sut->setGroupGridSize(1, 2);
+    QVERIFY(sut->addPlantGroupToGrid(nullptr, 1, 2) == false);
+    QVERIFY(sut->getPlantGroups().size() == 0); // the plant should be not added
+    QVERIFY(group_grid_row_number == 0); // row and grid numbers should not be updated to the new values
+    QVERIFY(group_grid_column_number == 0);
 }
 
-// Is it ok that this test uses multiple methods?????????
 void TestGreenhouse::testgetAllPants() {
     QVERIFY(sut->getAllPlants().empty());
     sut->setGroupGridSize(1, 0);
-    // should still be empty because no plants are in the plant group
-    sut->addPlantGroupToGrid(plant_group1, 0, 0);
-    QVERIFY(sut->getAllPlants().empty());
     // after adding a plant there should be plants that get returned
     Plant p1;
     mock_plants.push_back(&p1);

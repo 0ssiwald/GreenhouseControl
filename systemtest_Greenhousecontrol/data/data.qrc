@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+		<file>greenhouse_systemtest.json</file>
+    </qresource>
+</RCC>

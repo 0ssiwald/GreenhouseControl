@@ -37,6 +37,7 @@ void PlantGroup::setPlantGridSize(unsigned int row_size,unsigned int column_size
 }
 
 bool PlantGroup::removeNote(size_t index) {
+    // if index is valid remove note
     if (index < notes_.size()) {
         notes_.erase(notes_.begin() + index);
         return true;

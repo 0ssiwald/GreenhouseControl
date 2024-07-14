@@ -100,9 +100,8 @@ Greenhouse* GreenhouseCreate::loadGreenhouseFromFile(const std::string& file_nam
     return greenhouse_;
 }
 
-
+// Alternitve for creating a greenhouse only used for testing
 Greenhouse* GreenhouseCreate::createGreenhouseFromCode() {
-
     Fertilizer* fertilizer_1 = new Fertilizer("Biobizz Bloom", "Organic");
     Fertilizer* fertilizer_2 = new Fertilizer("Biobizz Grow", "Organic");
     Fertilizer* fertilizer_3 = new Fertilizer("Biobizz TopMax", "Organic");

@@ -18,26 +18,26 @@
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    // Is it fine to access the jsons via qrc file ??????????????
     Q_INIT_RESOURCE(data);
+
     // Create Greenhouse
     GreenhouseCreate ghc;
     Greenhouse* greenhouse = ghc.loadGreenhouseFromFile(":/greenhouse.json");
-    // If there is a problem with the json file this is a alternative that should work
+    // If there is a problem with the json file this is a alternative that works
     //Greenhouse* greenhouse = ghc.createGreenhouseFromCode();
 
-    //Create Log
+    //Create Log for custom logging functionalities
     SystemLog log;
-    // Saves the log in file instead of the console output
+    // Saves the log in file instead of console output
     log.initLogging();
 
     //Create notifications
     NotificationControl notificationControl;
     notificationControl.loadNotificationsFromFile(":/notifications.json");
-    // This is also a alternative to reading the notifications from json for testing
+    // This is also a alternative to reading the notifications from json file
     //notificationControl.createAllNotificationsForAllPlants(greenhouse);
 
-    // Create Control Classes
+    // Create Control Classes with sensors and actors
     TemperatureSensor temperature_sensor;
     HumiditySensor humidity_sensor;
     SensorControl sensorControl(&temperature_sensor, &humidity_sensor, greenhouse);
@@ -53,8 +53,10 @@ int main(int argc, char *argv[]) {
     MainWindow window(greenhouse, &log, &notificationControl, &waterControl, &sensorControl);
     window.show();
 
+    // These two parameters control how fast things are updated in the program
     int seconds_between_notification_update = 5;
     int seconds_between_measurements = 1;
+
     // Init Clocks
     physics::Clock sensorClock(seconds_between_measurements);
     physics::Clock notificationClock(seconds_between_notification_update);
@@ -80,7 +82,7 @@ int main(int argc, char *argv[]) {
     QObject::connect(&waterControl, &WaterControl::updateFlow, &mockEnvironment, &MockEnvironment::generateNewFlow);
     QObject::connect(&waterControl, &WaterControl::moistureLevelsControled, &window, &MainWindow::changeWaterSlider);
     QObject::connect(&waterControl, &WaterControl::moistureLevelsControled, &window, &MainWindow::updatePlantLabels);
-    // Feueralarm
+    // Connect fire alarm signals
     QObject::connect(&fireAlarm, &FireAlarm::sendAlarm, &window, &MainWindow::fireAlarm);
     QObject::connect(&window, &MainWindow::fireAlarmTriggered, &fireAlarm, &FireAlarm::sendAlarm);
 
