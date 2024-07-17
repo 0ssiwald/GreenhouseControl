@@ -27,16 +27,27 @@ public:
     WaterValve* getWaterValve() override {return water_valve_;}
     Sensor* getSoilSensor() override {return mock_sensor_;}
 };
+class MockValve: public WaterValve {
+public:
+    MockValve() = default;
+    bool open_valve_ = false;
+    void openValve() override {open_valve_ = true;}
+    void closeValve()override {open_valve_ = false;}
+    bool getValveIsOpen() override {return open_valve_;}
+
+};
 
 class TestWaterControl : public QObject {
     Q_OBJECT
 
     WaterControl *sut;
-    WaterValve* mock_valve_;
+    WaterValve* mock_main_valve_;
     FlowSensor* mock_sensor_;
     Greenhouse* mock_greenhouse_;
 
     MockPlant* mock_plant1_;
+    WaterValve* mock_valve1_;
+    WaterValve* mock_valve2_;
     MockPlant* mock_plant2_;
     MockPlantProfile* mock_profile1_;
     MockPlantProfile* mock_profile2_;
@@ -53,6 +64,12 @@ private slots:
     //tests
     void testOpenMainValve();
     void testCloseMainValve();
-    void testControlMoistureLevels();
     void testControlUnreagularFlow();
+    // Tests with control flow method
+    void testControlMoistureLevels_no_plants();
+    void testControlMoistureLevels_one_dry_plant();
+    void testControlMoistureLevels_one_wet_plant();
+    void testControlMoistureLevels_one_watered_plant();
+    void testControlMoistureLevels_two_plants();
+
 };

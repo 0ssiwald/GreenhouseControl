@@ -20,27 +20,24 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     Q_INIT_RESOURCE(data);
 
-    // Create Greenhouse
+    // Load Greenhouse form file
     GreenhouseCreate ghc;
     Greenhouse* greenhouse = ghc.loadGreenhouseFromFile(":/greenhouse.json");
-    // If there is a problem with the json file this is a alternative that works
-    //Greenhouse* greenhouse = ghc.createGreenhouseFromCode();
 
     //Create Log for custom logging functionalities
     SystemLog log;
     // Saves the log in file instead of console output
     log.initLogging();
 
-    //Create notifications
+    //Load notifications from file
     NotificationControl notificationControl;
     notificationControl.loadNotificationsFromFile(":/notifications.json");
-    // This is also a alternative to reading the notifications from json file
-    //notificationControl.createAllNotificationsForAllPlants(greenhouse);
 
     // Create Control Classes with sensors and actors
     TemperatureSensor temperature_sensor;
     HumiditySensor humidity_sensor;
     SensorControl sensorControl(&temperature_sensor, &humidity_sensor, greenhouse);
+    // Pragram starts with open main valve
     WaterValve main_valve(true);
     FlowSensor flow_sensor;
     WaterControl waterControl(&main_valve, &flow_sensor, greenhouse);

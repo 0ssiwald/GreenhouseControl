@@ -29,15 +29,18 @@ void WaterControl::controlMoistureLevels() {
             emit updateFlow(plant->getWaterValve());
         }
     }
-    emit moistureLevelsControled();
-    // Afterwards always test if there is a unregular folw in the system
-    controlUnregularFlow();
+    // Only nessesary if there are plants in the greenhouse
+    if(!greenhouse_->getAllPlants().empty()) {
+        emit moistureLevelsControled();
+        // Afterwards always test if there is a unregular folw in the system
+        controlUnregularFlow();
+    }
 }
 
 // Test if a flow is detected when all valves should be off
 void WaterControl::controlUnregularFlow() {
     if(flow_sensor_->isFlowDetected() && number_of_open_valves_ == 0) {
-        qCritical().noquote() << "Unreagular water flow detected. Main Valve gets closed";
+        qDebug().noquote() << "Unreagular water flow detected. Main Valve gets closed";
         emit mainValveWasClosed();
         closeMainValve();  
     }

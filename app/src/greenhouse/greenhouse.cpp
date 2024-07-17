@@ -7,12 +7,12 @@ bool Greenhouse::addPlantGroupToGrid(PlantGroup* pg, unsigned int row_position, 
     }
     // Check viability of row and column numbers
     if (row_position > number_of_group_rows_ || column_position > number_of_group_columns_) {
-        qWarning() << "group cant be added to desired row";
+        qDebug() << "group cant be added to desired row";
         return false;
     }
     for(auto &it: plant_groups_) {
         if(it->getGridRowNumber() == row_position && it->getGridColumnNumber() == column_position) {
-            qWarning() << "group cant be added to desired column";
+            qDebug() << "group cant be added to desired column";
             return false;
         }
     }

@@ -32,5 +32,6 @@ Bedienung und Funktionen:
 
 Informationen zu den Tests:
 -	Für die Integrationstest wurde einmal das Zusammenspiel der Sensoren mit SensorControl und der Aktoren (Wasserventile) mit WaterControl getestet.
+-	Der Systemtest testet einmal den Standard Anwendungsfall im Gewächshaus bei dem die Sensoren ausgelesen und Pflanzen gegossen werden.
 -	Äquivalenzklassenbilung wurde im Unittest der Klasse Greenhouse mit der Methode addPlantGroupToGrid() implementiert. 
-
+- 	Die Tests zum Kontrollfluss sind im Unittest der Klasse WaterControl mit der Methode controlMoistureLevels() implementiert.
